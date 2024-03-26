@@ -24,16 +24,18 @@ namespace DogApp.xUnitTest
         [Theory]
         [InlineData("Bane 1", 15, 2, "Open")]
         [InlineData("Bane 2", 1, 55, "Champion")]
+        [InlineData("Bane 2", 1, 55, "Begynder")]
+
         public async Task CreateItem_ShouldCreate(string trackName, int height, int width, string category)
         {
-            // arrange
+            // Arrange
             var track = new DogApp.Data.EntityModels.Track { Name = trackName, Height = height, Width = width, Category = category };
 
-            // act
+            // Act
             await _trackRepository.AddAsync(track);
             await _context.SaveChangesAsync();
 
-            // assert
+            // Assert
             track.Should().NotBeNull();
             track.Name.Should().Be(trackName);
             track.Height.Should().BeGreaterThan(0);
@@ -41,6 +43,7 @@ namespace DogApp.xUnitTest
             track.Width.Should().BeGreaterThan(0);
             track.Width.Should().BePositive();
 
+            // Clean Up
             await _trackRepository.DeleteAsync(track);
         }
 
@@ -72,6 +75,7 @@ namespace DogApp.xUnitTest
                 await _trackRepository.DeleteAsync(track);
             }
         }
+
         [Theory]
         [InlineData("Bane 1", 15, 2, "Open")]
         [InlineData("Bane 2", 1, 55, "Champion")]

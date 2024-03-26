@@ -25,20 +25,21 @@ namespace DogAppTest
         [InlineData("Sign 3", "øvelse 3", "image", Item.Category.Sign)]
         public async Task CreateItem_ShouldCreate(string sign, string description, string image, Item.Category itemCategory)
         {
-            // arrange
+            // Arrange
             var item = new Item { Name = sign, Description = description, Image = image, ItemCategory = itemCategory };
 
-            // act
+            // Act
             await _itemRepository.AddAsync(item);
             await _context.SaveChangesAsync();
-            // assert
             
+            // Assert
             item.Should().NotBeNull();
             item.Name.Should().Contain("Sign");
             item.Description.Should().NotBeNull();
             item.Image.Should().NotBeNull();
             item.ItemCategory.Should().Be(Item.Category.Sign);
 
+            //Clean Up
             await _itemRepository.DeleteAsync(item);
         }
         [Theory]
@@ -48,16 +49,18 @@ namespace DogAppTest
         public async Task UpdateItem_ShouldUpdate(string name, string description, string image, Item.Category category)
         {
             //Arrange
-            var item = new Item { Name = name, Description = description, Image = image, ItemCategory = category };
+            var testItem = new Item { Name = name, Description = description, Image = image, ItemCategory = category };
+            
             //Act
-            await _itemRepository.AddAsync(item);
+            await _itemRepository.AddAsync(testItem);
+            testItem.Image = "Hund";
+            await _itemRepository.UpdateAsync(testItem);
 
-            item.Image = "Hund";
-            await _itemRepository.UpdateAsync(item);
+            //Assert
+            testItem.Image.Should().Be("Hund");
 
-            item.Image.Should().Be("Hund");
-
-            await _itemRepository.DeleteAsync(item);
+            //Clean Up
+            await _itemRepository.DeleteAsync(testItem);
 
         }
     }
