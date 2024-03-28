@@ -11,4 +11,9 @@ public class TrackService(ITrackRepo trackRepository) : ITrackService
         ArgumentNullException.ThrowIfNull(track);
         await _trackRepository.AddAsync(track);
     }
+
+    public async Task<IEnumerable<Track>> GetAllTracksAsync()
+    {
+        return await _trackRepository.GetAllAsync();
+    }
 }
