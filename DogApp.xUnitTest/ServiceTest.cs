@@ -16,7 +16,7 @@ namespace DogApp.xUnitTest
         private readonly ITrackRepo _trackRepository;
         private readonly TrackService _trackService;
         /// <summary>
-        /// Tests for the TrackService class.
+        /// Tests for TrackService-klassen.
         /// </summary>
         public TrackServiceTests()
         {
@@ -65,9 +65,11 @@ namespace DogApp.xUnitTest
         }
 
         /// <summary>
-        /// Tests the GetAllTracksAsync method of TrackService.
+        /// Tester om GetAllTracksAsync-metoden returnerer alt.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="name">Navnet på Rally banen.</param>
+        /// <returns>En task, der repræsenterer udførelsen af testen.</returns>
+
         [Theory]
         [InlineData("Bane 1")]
         [InlineData("Bane")]
