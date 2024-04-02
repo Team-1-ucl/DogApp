@@ -7,7 +7,7 @@ namespace DogApp.API.Dto
     {
         public MappingProfile()
         {
-            CreateMap<Track, TrackDTO>(); // Map Track to TrackDTO
+            CreateMap<Track, SimpleTrackDTO>(); 
         }
     }
 }

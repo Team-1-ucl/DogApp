@@ -35,16 +35,29 @@ namespace DogApp.xUnitTest
             await _trackRepository.AddAsync(track);
             await _context.SaveChangesAsync();
 
-            // Assert
-            track.Should().NotBeNull();
-            track.Name.Should().Be(trackName);
-            track.Height.Should().BeGreaterThan(0);
-            track.Height.Should().BePositive();
-            track.Width.Should().BeGreaterThan(0);
-            track.Width.Should().BePositive();
+            try
+            {
+                // Assert
+                track.Should().NotBeNull();
+                track.Name.Should().Be(trackName);
+                track.Height.Should().BeGreaterThan(0);
+                track.Height.Should().BePositive();
+                track.Width.Should().BeGreaterThan(0);
+                track.Width.Should().BePositive();
 
-            // Clean Up
-            await _trackRepository.DeleteAsync(track);
+                var createdTrack = await _context.Tracks.FirstOrDefaultAsync(t => t.Id == track.Id);
+                createdTrack.Should().NotBeNull();
+                createdTrack.Name.Should().Be(trackName);
+                createdTrack.Height.Should().Be(height);
+                createdTrack.Width.Should().Be(width);
+                createdTrack.Category.Should().Be(category);
+            }
+            finally
+            {
+                // Clean Up
+                await _trackRepository.DeleteAsync(track);
+                await _context.SaveChangesAsync();
+            }
         }
 
         [Theory]
@@ -55,12 +68,12 @@ namespace DogApp.xUnitTest
         {
             // Arrange
             var tracks = new List<Track>
-            {
-                new() { Name = name, Height = height, Width = width, Category = category },
-                // Add more tracks as needed
-            };
+    {
+        new Track { Name = name, Height = height, Width = width, Category = category },
+        // Add more tracks as needed
+    };
 
-            _context.Tracks.AddRange(tracks);
+            await _context.Tracks.AddRangeAsync(tracks);
             await _context.SaveChangesAsync();
 
             // Act
@@ -69,11 +82,14 @@ namespace DogApp.xUnitTest
             // Assert
             result.Should().NotBeEmpty();
 
-            //Clean up
+            // Clean up
             foreach (var track in tracks)
             {
-                await _trackRepository.DeleteAsync(track);
+                _context.Tracks.Remove(track);
             }
+            await _context.SaveChangesAsync(); // Save changes to the database to delete the tracks
+
+            
         }
 
         [Theory]
@@ -96,7 +112,7 @@ namespace DogApp.xUnitTest
 
             // Assert
             result.Should().NotBeNull();
-            result.Should().BeEquivalentTo(latestTrack);
+            result.Should().BeEquivalentTo(latestTrack, options => options.Excluding(e => e.Id));
 
             await _trackRepository.DeleteAsync(track);
         }

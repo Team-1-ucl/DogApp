@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DogApp.Data\DogApp.Data.csproj" />
     <ProjectReference Include="..\DogApp.Repository\DogApp.Repository.csproj" />
+    <ProjectReference Include="..\DogApp.Services\DogApp.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
