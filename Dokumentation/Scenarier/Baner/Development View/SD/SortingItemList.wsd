@@ -1,0 +1,48 @@
+@startuml ViewRally
+title ViewRally \nSD\n SSD Se_bane
+skinparam SequenceGroupBorderThickness 0.01
+skinparam SequenceDividerBorderColor MediumPurple
+skinparam SequenceDividerBackgroundColor MediumPurple
+skinparam SequenceGroupBodyBackgroundColor MOTIVATION
+skinparam SequenceGroupFontColor DarkOrchid
+skinparam SequenceGroupBackgroundColor Thistle
+skinparam SequenceLifeLineBackgroundColor Thistle
+skinparam SequenceLifeLineBorderColor Thistle
+skinparam Style strictUML
+
+actor User
+participant "View" as UI
+participant "Rally Controller" as RallyCon
+participant "Rally Repository" as RallyRepo
+participant "Item List\n Repository" as ItemListRepo
+
+database "Database" as DB
+
+User -> UI : View Rally
+activate UI
+UI -> RallyCon : **GetRally(**RallyID : int**)**
+activate RallyCon
+RallyCon -> RallyRepo : **GetRally(**RallyId : int**)**
+activate RallyRepo
+alt ID Request in DB
+RallyRepo -> DB : Request
+activate DB
+else No Id in Database
+DB --> RallyRepo : ID not found
+activate RallyRepo #PaleVioletRed
+RallyRepo --> RallyCon : Error
+deactivate RallyRepo 
+activate RallyCon #PaleVioletRed
+RallyCon --> UI : Error
+deactivate RallyCon
+else Id found
+RallyRepo <-- DB : Rally Data 
+destroy DB
+activate RallyRepo #PaleVioletRed
+end
+RallyRepo -> RallyRepo : Rally Object Generated
+RallyRepo --> RallyCon : Rally Object
+deactivate RallyRepo
+deactivate RallyRepo
+
+@enduml

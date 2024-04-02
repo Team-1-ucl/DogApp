@@ -1,0 +1,42 @@
+@startuml DomæneModel
+title Domæne Model
+
+
+class "Bane"{
+    Navn
+    Højde
+    Bredde
+    Kategori
+}
+class "Skilte"{
+    Nummer
+    Beskrivelse
+    Billede
+}
+class "Øvrige_Elementer"{
+    Navn
+    Billede
+}
+
+class "Dato"{
+    Dato
+}
+class "Rækkefølge"{
+    nummer
+}
+class "Placering"{
+    X_Koordinat
+    Y_Koordinat
+}
+
+
+
+Bane "1" -- "1..*" Skilte: > Indeholder
+Bane "1..*" -- "1" Dato
+Bane "1"-- "0..*" Øvrige_Elementer: > Kan indeholde
+Skilte "1" ---- "1" Rækkefølge
+Skilte "1" -- "1" Placering
+Øvrige_Elementer "1" -- "1" Placering
+Øvrige_Elementer "1" -- "1" Rækkefølge 
+
+@enduml

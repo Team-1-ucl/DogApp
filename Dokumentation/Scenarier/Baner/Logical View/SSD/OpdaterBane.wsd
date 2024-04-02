@@ -1,0 +1,14 @@
+@startuml Opdater 
+title Opdater Bane \n SDD
+skinparam style strictuml
+actor Bruger
+participant System as sys
+Bruger -> sys: Tilgår System
+sys --> Bruger: Viser inputside(Bane)
+Bruger ->sys: Vælg bane
+sys --> Bruger: Vis bane
+Bruger -> sys: Opdatere banen
+sys --> Bruger: Viser den opdaterede bane
+Bruger ->sys: Bekræft opdatering
+
+@enduml

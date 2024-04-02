@@ -1,0 +1,185 @@
+@startuml Overblik
+title **Baner Scenariet**
+left to right direction
+skinparam nodesep 5
+skinparam ranksep 250
+skinparam linetype polyline
+skinparam dpi 300
+skinparam ComponentBorderThickness 0
+skinparam BackgroundColor lightgrey
+skinparam ComponentBackgroundColor white
+skinparam ComponentBorderColor white
+skinparam PackageBackgroundColor white
+skinparam PackageBorderColor white
+ 
+!$Component = {"Valid" : "Valideret", 
+                "Verified" : "Verificeret", 
+                "Approved" : "Godkendt af PO", 
+                "NotApproved" : "Ikke Godkendt af PO",
+                "NotValidated" : "Ikke Valideret",
+                "NotVerified" : "Ikke Verificeret"}
+
+
+package "Logical View" {
+    package "Usecase Diagram"#LightBlue{
+        component UC_Diagram #LightGreen[ 
+            **UC_Diagram**
+            * $Component.Valid
+            * $Component.Verified
+            * $Component.Approved
+        ]
+    }
+
+    package "Use Cases" as UseCases #LightBlue{
+        component UC_OpdaterBane #LightGreen[
+            **UC_OpdaterBane**
+            * $Component.Valid
+            * $Component.Verified
+            * $Component.Approved
+        ]
+
+        component UC_OpretterBane#LightGreen[
+            **UC_OpretterBane**
+            * $Component.Valid
+            * $Component.Verified
+            * $Component.Approved
+        ]
+
+        component UC_SeBane #LightGreen[
+            **UC_SeBane**
+            * $Component.NotValidated
+            * $Component.NotVerified
+            * $Component.NotApproved
+        ]
+
+        component UC_SletBane#LightGreen[
+            **UC_SletBane**
+            * $Component.Valid
+            * $Component.Verified
+            * $Component.Approved
+        ]
+
+        component UC_DeleBane#LightGreen[
+            **UC_DeleBane**
+            * $Component.Valid
+            * $Component.Verified
+            * $Component.Approved
+        ]
+    }
+    
+    package Wireframes #LightBlue
+    package "System Sequence Diagram"#LightBlue{
+        component ssd_Delebane#Gold[
+            **ssd_Delebane**
+            * $Component.Valid
+            * $Component.Verified
+            * $Component.Approved
+        ]
+
+        component ssd_OpdaterBane #LightGreen[
+            **ssd_OpdaterBane**
+            * $Component.Valid
+            * $Component.Verified
+            * $Component.Approved
+        ]
+
+        component ssd_OpretterBane #LightGreen [
+            **ssd_OpretterBane**
+            * $Component.Valid
+            * $Component.Verified
+            * $Component.Approved
+        ]
+
+        component ssd_SletBane #LightGreen [
+            **ssd_SletBane**
+            * $Component.Valid
+            * $Component.Verified
+            * $Component.Approved
+        ]
+
+        component ssd_SeBane #LightGreen [
+            **ssd_SeBane**
+            * $Component.NotApproved
+            * $Component.NotValidated
+            * $Component.NotVerified
+        ]
+    }
+}
+
+package "Development View"{
+    package "Database" as DB#LightBlue{
+        [Entity Model] #Gold
+    }
+
+    package "Design class diagram" as DCDpackage#LightBlue{
+        [DCD] #LightGreen
+
+    }
+    package "Operation Contracts"#LightBlue{
+        component OC_OpdaterBane#LightGreen{
+            
+        }
+
+        component OC_Delerbane#Gold{
+            
+        }
+
+        component OC_OpretterBane#LightGreen{
+            
+
+        }
+
+        component OC_SletterBane#Gold{
+            
+        }
+        component OC_SeBane#LightGreen{
+            
+        }
+
+        
+    }
+
+    package "Domæne Model" as DM #LightBlue{
+        component Domænemodel#LightGreen
+    }
+
+    package "Object Model" as OM #LightBlue{
+        component ObjectModel#LightGreen
+    }
+
+    package "Sequence Diagram" as SD #LightBlue {
+        package "Se Bane SD'er" as OpdaterBaneSD #LightBlue{
+            component SD_ViewRally#Gold{
+            }
+        }
+    }
+}
+
+package "Physical View"{
+
+}
+package "Process View"{
+    
+}
+
+DCDpackage <-[thickness=3]- DB #Gold
+DCDpackage -[thickness=3]-> DM #green
+DM -[thickness=3]-> OM #green
+
+UC_Diagram <-[thickness=3]u- UseCases #green
+
+OC_OpdaterBane --[thickness=3]-> ssd_OpdaterBane #Gold
+OC_SeBane --[thickness=3]-> ssd_SeBane #green
+
+OC_Delerbane -[thickness=3]-> ssd_Delebane #Gold
+OC_OpretterBane --[thickness=3]-> ssd_OpretterBane #Gold
+OC_SletterBane --[thickness=3]u-> ssd_SletBane #Gold
+ssd_Delebane -[thickness=3]-> UC_DeleBane #Gold
+ssd_OpdaterBane --[thickness=3]-> UC_OpdaterBane #Gold
+ssd_SletBane -[thickness=3]-> UC_SletBane #Gold
+ssd_OpretterBane -[thickness=3]-> UC_OpretterBane #green
+ssd_SeBane -[thickness=3]-> UC_SeBane #green
+SD_ViewRally -[thickness=3]-> ssd_SeBane #green
+SD_ViewRally -[thickness=3]-> OC_SeBane #Green
+footer Overblik over projektet
+@enduml

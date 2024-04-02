@@ -1,0 +1,8 @@
+Use Case: Opretter bruger
+
+Brief:
+
+Lene åbner systemet og vil gerne oprette en bruger.
+Hun indtaster relevant bruger informationer som brugernavn, kodeord og email.
+Lene opretter brugeren, systemet viser hendes personlige startside.
+

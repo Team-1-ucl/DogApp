@@ -1,0 +1,16 @@
+@startuml Dele Bane (Brief)
+title Dele bane\n SSD
+skinparam style strictuml
+actor Bruger
+Bruger -> System: Tilgår System
+System --> Bruger: Viser inputside(Bane)
+Bruger ->System: Vælg bane
+loop indtil bruger afslutter 
+Bruger -> System: Vælg bruger
+System->System:Registrer valg
+end
+System-->Bruger:Oversigt over valg
+Bruger -> System:Del
+System --> Bruger: Bekræftelse
+
+@enduml

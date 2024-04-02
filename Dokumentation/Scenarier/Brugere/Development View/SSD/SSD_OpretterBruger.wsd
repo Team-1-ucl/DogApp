@@ -1,0 +1,16 @@
+@startuml Opretter bruger
+title Opret Bruger \n SSD
+skinparam style strictuml
+
+actor lene as lene
+participant system as sys
+
+lene -> sys : Tilgår system
+lene <-- sys : viser start side med login og oprette bruger
+lene -> sys : oprette bruger
+lene <-- sys : viser inputside for oprettelse af bruger
+lene -> sys : indtaster informationer
+lene -> sys : afslutter oprettelse af bruger
+lene <-- sys : viser startside for bruger
+
+@enduml

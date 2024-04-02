@@ -1,0 +1,23 @@
+@startuml bpmn
+title Business Process Model Notation
+|Instruktør og dommere|
+start
+#LightBlue:Ønske om en bane opstår<
+:PPT bliver lavet;
+|Facebook gruppe|
+:Banen bliver kommenteret af brugere;
+if (Ændringer?) is (Ændringer er påkrævet) then
+repeat
+|Instruktør og dommere|
+:Rettelser bliver lavet;
+|Facebook gruppe|
+repeatwhile ("Er der er flere ændringer")
+else (Den er brugbar)
+|Facebook gruppe|
+endif 
+|Facebook gruppe|
+#LightBlue:Bekræftelse<
+|Hunderally|
+:PPT bruges;
+stop
+@enduml

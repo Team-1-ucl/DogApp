@@ -1,0 +1,163 @@
+@startuml DCD
+title DCD
+skinparam nodesep 20
+skinparam ranksep 50
+skinparam linetype polyline
+skinparam dpi 300
+skinparam ComponentBorderThickness 0
+skinparam BackgroundColor lightgrey
+skinparam ComponentBackgroundColor white
+skinparam ComponentBorderColor white
+skinparam PackageBorderColor white
+
+
+package Model_layer #White {
+    package Data #LightBlue{
+        class "DbContext"{
+            --Properties--
+            + Rally : DbSet<Rally>
+            + Sign : DbSet<Sign>
+            + Extra : DbSet<Extra>
+            --Methods--
+            + OnConfiguring(DbContextOptionbuilder optionsBuilder)
+            + OnModelCreating(ModelBuilder modelbuilder)
+        }
+    }
+    package Repositories #LightBlue{  
+        note top of GenericRepository : Creating a Generic Repo reduces redundancy
+        class "GenericRepository"{
+            --Methods--
+            + Get(): IReadOnlyList<T>
+            + GetById(int id) <T>
+            + Create(T entity) : void
+            + Update(T entity) : void
+            + Delete(T entity) : void
+        }
+        note top of IGenericRepository : interface is used for loose coupling
+        interface "IGenericRepository"{
+            --Methods--
+            + Get(): IReadOnlyList<T>
+            + GetById(int id) <T>
+            + Create(T entity) : void
+            + Update(T entity) : void
+            + Delete(T entity) : void
+        }
+        
+        class "ItemRepo"{
+        }
+        class "ItemListRepo"{
+        
+        }
+        
+        circle "Model Connection" as ItemModelConnection{}
+        circle "Model Connection" as ItemListModelConnection{}
+ 
+    }
+    package Model #LightBlue {
+        
+        circle "Repo Connection" as RallyRepoConnection{}
+        class "Rally"{
+            --Properties--
+            + Id : int
+            + Name : string
+            + Height : int
+            + Width : int
+            + ItemList : ItemList
+            + DateCreate : date            
+            + Category : string
+            ==Constructor==
+            + Rally()
+            + Rally(Name, Height, Width, Level, ItemList, Date)
+        }
+        
+        class "DateCreate"{
+            --Properties--
+            + Id : int
+            + Date : DateTime
+        }
+
+        circle "Repo Connection" as ItemListConnection{}
+        
+        class "ItemList"{
+            --Properties--
+            + Id : int
+            + ItemNumber : int
+            + ItemItemList : ItemItemList
+        }
+
+        package items #LightSkyBlue {
+            
+            circle "Repo Connection" as ItemRepoConnection{}
+            class ItemItemList {
+                + Id : int
+                + ItemId : int
+                + Item : Item
+                + ItemListId : int
+                + ItemList : ItemList
+
+
+            }
+            class Item {
+                --Properties--
+                + Id : int
+                + Category : Category
+                + Name : string
+                + Description : string
+                + Image : string
+                + Placement : Placement
+                + Difficulty : string
+                + Itemlists : ItemItemList[0..*]
+            }
+            enum Categroy{
+                sign,
+                extra,
+            }
+              
+            class "Placement"{
+                --Properties--
+                + Id : int
+                + X_Koordinat
+                + Y_Koordinat
+            }
+        }  
+    }
+}
+
+package Controller_layer #white{
+    Class RallyController{
+        + CreateRally (Name : string, Height : int, Width : int,\n level : enum, ItemList : itemList, Date : DateTime)
+        + ReadRally (Name : string)
+        + UpdateRally (Id : int)
+        + DeleteRally(Id : int)
+        + GetItemListWithRallyId(RallyId : int)
+        + GetAll(): List<Rally>
+    }
+}
+package View #white{
+    class "Views"{
+    }
+}
+
+ItemListRepo --> GenericRepository
+ItemRepo --> GenericRepository
+GenericRepository --> IGenericRepository
+IGenericRepository--> DbContext
+ItemModelConnection -> ItemRepo
+ItemRepoConnection .. Item
+
+
+RallyRepoConnection . Rally
+ItemListModelConnection . ItemListRepo
+ItemListConnection . ItemList
+
+
+Rally --|>  DateCreate
+Rally --|> ItemList
+ItemItemList --|> Item
+ItemList -- ItemItemList
+
+Item --|> Placement
+Categroy .. Item
+
+
+@enduml

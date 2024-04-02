@@ -1,0 +1,140 @@
+@startuml DCDv2
+title DCD
+skinparam nodesep 20
+skinparam ranksep 50
+skinparam linetype polyline
+skinparam dpi 300
+skinparam ComponentBorderThickness 0
+skinparam BackgroundColor lightgrey
+skinparam ComponentBackgroundColor white
+skinparam ComponentBorderColor white
+skinparam PackageBorderColor white
+rectangle "MVC / SPA" as front{
+    class ItemController{
+        -- Fields --
+        - <<readonly>> _itemRepository : IItemRepo
+        --Constructor--
+        + ItemController(itemRepo : IItemRepo)
+        -- Methods --
+        + <<async>> GetAllItemsAsync() : Task<Item[1..*]>
+        + <<async>> DeleteItem(item : Item) : Task
+        + <<async>> GetByIdAsync(Id : int) : Task<Item>
+        + <<async>> UpdateAsync(item : Item) : Task
+        
+    }
+    class TrackController{
+        -- Fields --
+        - <<readonly>> _trackRepository : ITrackRepo
+        --Constructor--
+        + TrackController(trackRepo : ITrackRepo)
+        -- Methods --
+        + <<async>> GetAllTrackAsync() : Task<Track[1..*]>
+        + <<async>> DeleteTrack(track : Track) : Task
+        + <<async>> GetByIdAsync(Id : int) : Task<Track>
+        + <<async>> UpdateAsync(track : Track) : Task
+        
+    }   
+}
+
+
+
+rectangle "Data" as models{
+    package EntityModels{
+        abstract class BaseEntity{
+            -- Properties --
+            + {abstract}<<abstract>> Id : int
+            + {abstract}<<abstract>> Name : string
+        }
+        entity Track<Bane>{
+            -- Properties --
+            + <<get, set>> Height : float
+            + <<get, set>> Width : float
+            ==Navigation Properties==
+            + TrackItems : TrackItem[0..*]
+        }
+        entity TrackItem{
+            -- Fields --
+            + Id : int
+            + Item? : Item
+            + ItemId : int
+
+            + Track? :  track
+            + TrackId : int
+            -- Payload --
+            + <<get, set>> X : float
+            + <<get, set>> Y : float
+            + <<get, set>> Order : int
+        }
+        entity Item<Bane Element>{
+            -- Properties --
+            + <<get, set>> Category : Category
+            + <<get, set>> Description : string
+            + <<get, set>> Image : string
+            + <<get, set>> Placement : Placement
+            + <<get, set>> Difficulty : string
+            ==Navigation Properties==
+            + TrackItems : TrackItems[0..*]
+        }
+    }
+    package Data{
+        class "DbContext"{
+            --Properties--
+            + Tracks : DbSet<Track>
+            + Items : DbSet<Item>
+            + TrackItems : Dbset<TrackItems>
+            --Methods--
+            + OnConfiguring(DbContextOptionbuilder optionsBuilder)
+            + OnModelCreating(ModelBuilder modelbuilder)
+        }
+    }
+    package Repositories{
+        class "GenericRepository"{
+            --Methods--
+            + Get(): IReadOnlyList<T>
+            + GetById(int id) <T>
+            + Create(T entity) : void
+            + Update(T entity) : void
+            + Delete(T entity) : void
+        }
+
+        interface "IGenericRepository"{
+            --Methods--
+            + Get(): IReadOnlyList<T>
+            + GetById(int id) <T>
+            + Create(T entity) : void
+            + Update(T entity) : void
+            + Delete(T entity) : void
+        }
+        interface IItemRepo
+        interface ITrackRepo
+        class "ItemRepo"{
+
+        }
+        class "TrackRepo"{
+
+        }
+        
+    }
+    
+}
+
+
+IGenericRepository  <.. GenericRepository
+IGenericRepository --> DbContext
+GenericRepository <-- IItemRepo
+GenericRepository <-- ITrackRepo
+ITrackRepo <-- TrackRepo
+IItemRepo <-- ItemRepo
+
+ItemController -- IItemRepo
+TrackController -- ITrackRepo
+
+BaseEntity  <- Track
+BaseEntity <- Item
+Track <|--|> TrackItem
+TrackItem <|--|> Item
+DbContext -|> Track
+DbContext -|> TrackItem
+DbContext -|> Item
+
+@enduml

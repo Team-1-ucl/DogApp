@@ -1,0 +1,21 @@
+@startuml Slet Bane
+title Slet Bane \n SSD 
+skinparam style strictuml
+actor bruger as lene
+participant system as sys
+
+lene -> sys : Tilgår system
+lene <-- sys : Viser inputside
+loop indtil bruger afslutter
+lene -> sys : Vælger bane
+lene <-- sys: viser valgte bane(r)
+End
+lene -> sys : Sletter bane(r)
+lene <-- sys : bekræftelses besked
+opt fortydder
+lene -> sys : finder liste over slettede baner
+lene <-- sys: viser liste
+lene -> sys : gendanner valgte bane
+lene <-- sys: gendannede bane er nu synlig
+end
+@enduml

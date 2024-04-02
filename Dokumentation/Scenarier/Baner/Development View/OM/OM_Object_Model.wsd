@@ -1,0 +1,89 @@
+@startuml Objekt model
+top to bottom direction
+skinparam minClassWidth 125
+skinparam nodesep 10
+skinparam ranksep 10
+skinparam rectangle {
+  
+  BackgroundColor<<Apache>> LightCoral
+  BorderColor<<Apache>> #FF6655
+  FontName Courier
+  BorderColor black
+  BackgroundColor lightGrey
+  
+}
+
+
+
+rectangle "Øvrige Elementer" as Øvrige_Elementer{
+
+    map "**Ø_Element1**" as Ø1{
+        Type => Spand
+    }
+    map "**Ø_Element2**" as Ø2{
+        Type => kegle
+    }
+    
+}
+
+
+
+rectangle Skilt{
+    map "**Skilt**" as Skilt1{
+            Nummer => 3
+            Tekst =>højre sving
+            Billede =>  Jeps
+        }
+}
+rectangle Dato{
+    map "**Dato1**" as Dato1{
+            Dato => 20-05-2025
+        }
+}
+
+rectangle Bane{
+    map "**Bane1**" as Bane1{
+            Navn => Lenes Bane
+            Højde => 18 m
+            Bredde => 25 m
+            Kategori => Ekspert
+        }
+}
+rectangle Placering{
+    map "**Placering1**" as Placering1{
+            x => 5
+            y => 10
+        }
+        map "**Placering2**" as Placering2{
+            x => 25
+            y => 11
+        }
+        map "**Placering3**" as Placering3{
+            x => 35
+            y => 12
+        }
+}
+rectangle Rækkefølge{
+    map "**Rækkefølge1**" as Rækkefølge1{
+            Nummer => 1
+        }
+    map "**Rækkefølge2**" as Rækkefølge2{
+            Nummer => 2
+        }
+    map "**Rækkefølge3**" as Rækkefølge3{
+            Nummer => 3
+        }
+}
+
+Rækkefølge1 -- Skilt1
+Skilt1 -- Placering1
+Skilt1 -- Bane1
+Bane1 -- Dato1
+Ø2 -- Placering2
+Bane1 -- Ø1
+Bane1 -- Ø2
+Ø1 -- Placering3
+Ø1 -- Rækkefølge2
+Ø2 -- Rækkefølge1
+
+@enduml

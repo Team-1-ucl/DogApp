@@ -1,0 +1,12 @@
+@startuml Login
+title Login /n SSD
+skinparam style strictuml
+actor lene as lene
+participant system as system
+lene --> system: tilgår system
+lene <-- system: viser login/opret muligheder
+lene --> system: trykker på login
+lene <-- system: viser login side
+lene --> system: indtaster login oplysninger
+lene <-- system: system bekræfter oplysninger/logger ind
+@enduml

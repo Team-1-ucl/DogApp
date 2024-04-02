@@ -1,0 +1,18 @@
+@startuml UseCase Diagram
+skinparam actorStyle awesome
+left to right direction
+actor Lene as Lene
+rectangle use_cases{
+    usecase "Opretter bane" as UC1  
+    usecase "Deler bane" as UC2  
+    usecase "Slet Bane" as UC3
+    usecase "Opdater Bane" as UC4
+}
+
+Lene --> UC1
+Lene --> UC2
+Lene --> UC3
+Lene --> UC4
+
+@enduml
+

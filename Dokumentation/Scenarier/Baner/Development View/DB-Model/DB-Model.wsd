@@ -1,0 +1,52 @@
+@startuml DB_Model
+
+entity Sign{
+    Id : int
+    Number : int
+    Description : string
+    Image : string
+
+}
+
+entity Extra {
+    Id : int
+    Name : string
+    Description : string
+    Image : string
+    Placement : Placement
+
+
+}
+
+entity Rally{
+    Id : int
+    Height : int
+    Width : int
+    ItemList : ItemList
+    Date : date
+    Level : Level
+    --Navigational Properties--
+    RallySign : RallySign
+    Extras : ICollection<Extra>
+}
+
+entity ItemList{
+    --Navigational Properties--
+    Sign : Sign
+    Rally : Rally
+}
+
+entity Placement{
+    Id : int
+    X_Koordinat
+    Y_Koordinat
+
+}
+Rally ||--|{ ItemList 
+ItemList ||--||Sign
+Extra ||--|{ItemList
+Placement ||--|| Extra 
+Placement ||--|| Sign
+
+
+@enduml

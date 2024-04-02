@@ -1,0 +1,11 @@
+@startuml SeBane 
+title Se Bane \n SSD
+skinparam style strictuml
+actor Bruger
+participant System as sys
+Bruger -> sys: Tilgår System
+sys --> Bruger: Viser inputside(Bane)
+Bruger ->sys: Vælg bane
+sys --> Bruger: Viser bane
+
+@enduml
