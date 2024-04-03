@@ -4,7 +4,7 @@ namespace DogApp.UI1.Services
 {
     public interface ITrackService
     {
-        Task<TrackDto> GetTrackAsync(string? name);
+        Task<Root> GetTrackAsync(string? name);
         Task<List<TrackDto>> GetAllTracks();
     };
 }

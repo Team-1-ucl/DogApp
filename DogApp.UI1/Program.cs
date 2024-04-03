@@ -1,5 +1,6 @@
 using DogApp.UI1.Components;
 using DogApp.UI1.Services;
+using DogApp.UI1.TrackController;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddHttpClient("Track", x =>
 });
 
 builder.Services.AddScoped<ITrackService, TrackService>();
+builder.Services.AddScoped<TrackController>();
 
 var app = builder.Build();
 

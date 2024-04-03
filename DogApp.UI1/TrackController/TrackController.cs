@@ -11,13 +11,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DogApp.UI1.TrackController;
 
+[Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
+[ApiController]
 public class TrackController(ITrackService trackService) : Controller
 {
     private readonly ITrackService _trackService;
 
-    public async Task<IActionResult> Index(string name)
+    public async Task<IActionResult> Index()
     {
-        TrackDto? trackDTO= await _trackService.GetTrackAsync(name);
-        return View(trackDTO);
+        List<TrackDto> allTracks = await _trackService.GetAllTracks();
+        return View(allTracks);
     }
+    //[HttpGet]
+    //public async Task<List<TrackDto>> GetAllTracks()
+    //{
+        
+    //    var AllTracks = await _trackService.GetAllTracks();
+    //    return AllTracks;
+
+    //}
 }

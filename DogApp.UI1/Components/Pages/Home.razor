@@ -2,7 +2,6 @@
 @using DogApp.UI1.TrackController
 @attribute [StreamRendering(true)]
 @rendermode InteractiveServer
-@inject TrackController TrackController
 
 @page "/"
 
@@ -31,17 +30,18 @@
 <p>Loading...</p>
                 }
 @code {
-    List<DogApp.UI1.Dto.TrackDto> tracks;
+    List<TrackDto> tracks;
+    [Inject] private TrackController trackController { get; set; }
 
     [Inject]
     NavigationManager NavigationManager { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        tracks = await TrackController.Index(name);
+       await trackController.Index();
     }
-    // public async Task EditTrack(Track track)
-    // {
-    //     NavigationManager.NavigateTo($"/edittrack/{track.Id}");
-    // }
+    public async Task EditTrack(TrackDto track)
+    {
+        NavigationManager.NavigateTo($"/edittrack/{track.Id}");
+    }
 }

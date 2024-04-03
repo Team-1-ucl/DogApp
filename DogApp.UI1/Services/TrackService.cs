@@ -11,17 +11,18 @@ namespace DogApp.UI1.Services
         
         private readonly IHttpClientFactory? _httpClientFactory;
 
-        public Task<List<TrackDto>> GetAllTracks()
+        public async Task<List<TrackDto>> GetAllTracks()
         {
             HttpClient httpClient = _httpClientFactory.CreateClient("Track");
 
-            HttpResponseMessage response = await httpClient.GetAsync(httpClient.BaseAddress);
+            HttpResponseMessage response = await httpClient.GetAsync(httpClient.BaseAddress + "/tracks/GetAllTracks");
+            
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
-                TrackDto? track = JsonConvert.DeserializeObject<TrackDto>(responseBody);
+                List<TrackDto> tracks = JsonConvert.DeserializeObject<List<TrackDto>>(responseBody);
 
-                return List<track>;
+                return tracks;
             }
             else
             {
@@ -29,7 +30,7 @@ namespace DogApp.UI1.Services
             }
         }
 
-        public async Task<TrackDto?> GetTrackAsync(string? name)
+        public async Task<Root> GetTrackAsync(string? name)
         {
             HttpClient httpClient = _httpClientFactory.CreateClient("Track");
 
@@ -37,7 +38,7 @@ namespace DogApp.UI1.Services
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
-                TrackDto? track = JsonConvert.DeserializeObject<TrackDto>(responseBody);
+                Root track = JsonConvert.DeserializeObject<Root>(responseBody);
 
                 return track;
             }
