@@ -18,7 +18,7 @@ namespace DogApp.API.Controllers
         /// <param name="trackDto">TrackDTO'en indeholdende oplysninger om den nye bane.</param>
         /// <returns>En IActionResult, der repræsenterer resultatet af operationen.</returns>
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateTask(SimpleTrackDTO trackDto)
+        public async Task<IActionResult> CreateTask(TrackDto trackDto)
         {
             // Kontrollerer om trackService-parameteren er null
             if (_trackService == null)
@@ -77,12 +77,12 @@ namespace DogApp.API.Controllers
                 var tracks = await _trackService.GetAllTracksAsync();
 
                 // Opretter en ny liste til at gemme TrackDTO'er
-                var trackDtos = new List<SimpleTrackDTO>();
+                var trackDtos = new List<TrackDto>();
 
                 // Konverter hver bane til en TrackDTO og tilføjer den til trackDtos-listen
                 foreach (var track in tracks)
                 {
-                    trackDtos.Add(new SimpleTrackDTO(track.Name));
+                    trackDtos.Add(new TrackDto(track.Name));
                 }
 
                 // Returner et Ok-svar med den konverterede liste af TrackDTO'er
