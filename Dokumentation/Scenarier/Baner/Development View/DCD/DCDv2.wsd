@@ -9,34 +9,71 @@ skinparam BackgroundColor lightgrey
 skinparam ComponentBackgroundColor white
 skinparam ComponentBorderColor white
 skinparam PackageBorderColor white
-rectangle "MVC / SPA" as front{
-    class ItemController{
-        -- Fields --
-        - <<readonly>> _itemRepository : IItemRepo
-        --Constructor--
-        + ItemController(itemRepo : IItemRepo)
-        -- Methods --
-        + <<async>> GetAllItemsAsync() : Task<Item[1..*]>
-        + <<async>> DeleteItem(item : Item) : Task
-        + <<async>> GetByIdAsync(Id : int) : Task<Item>
-        + <<async>> UpdateAsync(item : Item) : Task
-        
-    }
+rectangle "Blazor" as front{
+
+}
+rectangle "Application Programming Interface" as API {
     class TrackController{
+        --Fields--
+        trackService : ITrackService 
+        --Methods--
+        + CreateTask(trackDto : SimpleTrackDTO) : Task<IActionResult> 
+        + GetAllTracks() : Task<IActionResult>
+        --Constructors--
+        + TrackController(trackService : ITrackService) 
+    }
+    class Controller
+    rectangle DTO{
+        class SimpleTrackDTO{
+            Name : string
+            }
+    }
+}
+rectangle "Services" as Service{
+    class ItrackService{
+        --Methods--
+        - CreateTrack(track :Track ) : Task
+        - GetAllTracksAsync() :Task<IEnumerable<Track>> 
+    }
+    class TrackService{
         -- Fields --
-        - <<readonly>> _trackRepository : ITrackRepo
-        --Constructor--
-        + TrackController(trackRepo : ITrackRepo)
+        - _trackRepository : ITrackRepo
         -- Methods --
-        + <<async>> GetAllTrackAsync() : Task<Track[1..*]>
-        + <<async>> DeleteTrack(track : Track) : Task
-        + <<async>> GetByIdAsync(Id : int) : Task<Track>
-        + <<async>> UpdateAsync(track : Track) : Task
+        + CreateTrack(track :Track ) : Task
+        + GetAllTracksAsync() :Task<IEnumerable<Track>> 
+        -- Contructor --
+        + TrackService(trackRepository: ITrackRepo )
         
     }   
 }
 
+rectangle "Repositories" as Repositories{
+    class "GenericRepository"{
+            --Methods--
+            + Get(): IReadOnlyList<T>
+            + GetById(int id) <T>
+            + Create(T entity) : void
+            + Update(T entity) : void
+            + Delete(T entity) : void
+        }
 
+        interface "IGenericRepository"{
+            --Methods--
+            + Get(): IReadOnlyList<T>
+            + GetById(int id) <T>
+            + Create(T entity) : void
+            + Update(T entity) : void
+            + Delete(T entity) : void
+        }
+        interface IItemRepo
+        interface ITrackRepo
+        class "ItemRepo"{
+
+        }
+        class "TrackRepo"{
+
+        }
+}
 
 rectangle "Data" as models{
     package EntityModels{
@@ -77,7 +114,7 @@ rectangle "Data" as models{
         }
     }
     package Data{
-        class "DbContext"{
+        class DataContext{
             --Properties--
             + Tracks : DbSet<Track>
             + Items : DbSet<Item>
@@ -87,54 +124,26 @@ rectangle "Data" as models{
             + OnModelCreating(ModelBuilder modelbuilder)
         }
     }
-    package Repositories{
-        class "GenericRepository"{
-            --Methods--
-            + Get(): IReadOnlyList<T>
-            + GetById(int id) <T>
-            + Create(T entity) : void
-            + Update(T entity) : void
-            + Delete(T entity) : void
-        }
 
-        interface "IGenericRepository"{
-            --Methods--
-            + Get(): IReadOnlyList<T>
-            + GetById(int id) <T>
-            + Create(T entity) : void
-            + Update(T entity) : void
-            + Delete(T entity) : void
-        }
-        interface IItemRepo
-        interface ITrackRepo
-        class "ItemRepo"{
-
-        }
-        class "TrackRepo"{
-
-        }
-        
-    }
-    
 }
-
-
-IGenericRepository  <.. GenericRepository
-IGenericRepository --> DbContext
-GenericRepository <-- IItemRepo
-GenericRepository <-- ITrackRepo
-ITrackRepo <-- TrackRepo
-IItemRepo <-- ItemRepo
-
-ItemController -- IItemRepo
-TrackController -- ITrackRepo
-
+front -- API
+TrackController --> ItrackService
+TrackController --|> Controller
+TrackController - SimpleTrackDTO
+IGenericRepository  <|-- GenericRepository
+IGenericRepository --> DataContext
+GenericRepository <|-- IItemRepo
+GenericRepository <|-- ITrackRepo
+ITrackRepo <|-- TrackRepo
+IItemRepo <|-- ItemRepo
+TrackService -> ITrackRepo
+ItrackService <|-- TrackService
 BaseEntity  <- Track
 BaseEntity <- Item
 Track <|--|> TrackItem
 TrackItem <|--|> Item
-DbContext -|> Track
-DbContext -|> TrackItem
-DbContext -|> Item
+DataContext -|> Track
+DataContext -|> TrackItem
+DataContext -|> Item
 
 @enduml
