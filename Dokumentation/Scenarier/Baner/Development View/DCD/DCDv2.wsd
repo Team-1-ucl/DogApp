@@ -9,6 +9,9 @@ skinparam BackgroundColor lightgrey
 skinparam ComponentBackgroundColor white
 skinparam ComponentBorderColor white
 skinparam PackageBorderColor white
+rectangle "Blazor" as front{
+
+}
 rectangle "Application Programming Interface" as API {
     class TrackController{
 
@@ -16,10 +19,17 @@ rectangle "Application Programming Interface" as API {
 }
 rectangle "Services" as Service{
     class ItrackService{
-        
+        - CreateTrack(track :Track ) : Task
+        - GetAllTracksAsync() :Task<IEnumerable<Track>> 
     }
     class TrackService{
-        
+        -- Fields --
+        - _trackRepository : ITrackRepo
+        -- Methods --
+        + CreateTrack(track :Track ) : Task
+        + GetAllTracksAsync() :Task<IEnumerable<Track>> 
+        -- Contructor --
+        + TrackService(trackRepository: ITrackRepo )
         
     }   
 }
@@ -103,7 +113,7 @@ rectangle "Data" as models{
     }
 
 }
-
+front -- API
 TrackController --> ItrackService
 IGenericRepository  <|-- GenericRepository
 IGenericRepository --> DataContext
