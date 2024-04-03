@@ -14,11 +14,24 @@ rectangle "Blazor" as front{
 }
 rectangle "Application Programming Interface" as API {
     class TrackController{
-
+        --Fields--
+        trackService : ITrackService 
+        --Methods--
+        + CreateTask(trackDto : SimpleTrackDTO) : Task<IActionResult> 
+        + GetAllTracks() : Task<IActionResult>
+        --Constructors--
+        + TrackController(trackService : ITrackService) 
+    }
+    class Controller
+    rectangle DTO{
+        class SimpleTrackDTO{
+            Name : string
+            }
     }
 }
 rectangle "Services" as Service{
     class ItrackService{
+        --Methods--
         - CreateTrack(track :Track ) : Task
         - GetAllTracksAsync() :Task<IEnumerable<Track>> 
     }
@@ -115,6 +128,8 @@ rectangle "Data" as models{
 }
 front -- API
 TrackController --> ItrackService
+TrackController --|> Controller
+TrackController - SimpleTrackDTO
 IGenericRepository  <|-- GenericRepository
 IGenericRepository --> DataContext
 GenericRepository <|-- IItemRepo
