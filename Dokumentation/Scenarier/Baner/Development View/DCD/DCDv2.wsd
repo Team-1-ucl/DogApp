@@ -14,7 +14,7 @@ rectangle "Application Programming Interface" as API {
 
     }
 }
-rectangle "Service" as Service{
+rectangle "Services" as Service{
     class ItrackService{
         
     }
@@ -105,12 +105,12 @@ rectangle "Data" as models{
 }
 
 TrackController --> ItrackService
-IGenericRepository  <.. GenericRepository
+IGenericRepository  <|-- GenericRepository
 IGenericRepository --> DataContext
-GenericRepository <-- IItemRepo
-GenericRepository <-- ITrackRepo
-ITrackRepo <-- TrackRepo
-IItemRepo <-- ItemRepo
+GenericRepository <|-- IItemRepo
+GenericRepository <|-- ITrackRepo
+ITrackRepo <|-- TrackRepo
+IItemRepo <|-- ItemRepo
 TrackService -> ITrackRepo
 ItrackService <|-- TrackService
 BaseEntity  <- Track
