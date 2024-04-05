@@ -25,12 +25,8 @@ public class Program
             options.AddPolicy(MyAllowSpecificOrigins,
                 policy =>
                 {
-                    policy.WithOrigins("https://localhost:7117")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                    policy.WithOrigins("https://localhost:7243")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
+                    policy.WithOrigins("https://localhost:7243").AllowAnyHeader().AllowAnyMethod();
+
                 }
                 );
         });
@@ -49,7 +45,7 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddAutoMapper(typeof(Program));
+        //builder.Services.AddAutoMapper(typeof(Program));
 
         var app = builder.Build();
 
