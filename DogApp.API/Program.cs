@@ -25,13 +25,13 @@ public class Program
             options.AddPolicy(MyAllowSpecificOrigins,
                 policy =>
                 {
-                    policy.WithOrigins("https://localhost:7284")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
+                    policy.WithOrigins("https://localhost:7243").AllowAnyHeader().AllowAnyMethod();
+
+                }
+                );
         });
         // Registrerer services i containeren.
-        builder.Services.AddScoped<ITrackRepo, TrackRepo>(); 
+        builder.Services.AddScoped<ITrackRepo, TrackRepo>();
         builder.Services.AddScoped<ITrackService, TrackService>();
 
         // Konfigurerer DbContext.
@@ -41,11 +41,11 @@ public class Program
         }
         );
         builder.Services.AddControllersWithViews();
-        
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddAutoMapper(typeof(Program));
+        //builder.Services.AddAutoMapper(typeof(Program));
 
         var app = builder.Build();
 

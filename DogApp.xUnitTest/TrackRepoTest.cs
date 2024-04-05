@@ -1,9 +1,8 @@
 using DogApp.Data;
-using DogApp.Repository;
-using Microsoft.EntityFrameworkCore;
-using FluentAssertions;
 using DogApp.Data.EntityModels;
-using static DogApp.Data.EntityModels.Item;
+using DogApp.Repository;
+using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 namespace DogApp.xUnitTest
 {
 
@@ -69,7 +68,7 @@ namespace DogApp.xUnitTest
             // Arrange
             var tracks = new List<Track>
     {
-        new Track { Name = name, Height = height, Width = width, Category = category },
+        new() { Name = name, Height = height, Width = width, Category = category },
         // Add more tracks as needed
     };
 
@@ -89,7 +88,7 @@ namespace DogApp.xUnitTest
             }
             await _context.SaveChangesAsync(); // Save changes to the database to delete the tracks
 
-            
+
         }
 
         [Theory]
@@ -100,7 +99,7 @@ namespace DogApp.xUnitTest
         {
             // Arrange
             var track = new Track { Name = name, Height = height, Width = width, Category = category };
-            
+
             await _trackRepository.AddAsync(track);
             // Retrieve the latest inserted entity from the database
             var latestTrack = await _context.Tracks.OrderByDescending(t => t.Id).FirstOrDefaultAsync();

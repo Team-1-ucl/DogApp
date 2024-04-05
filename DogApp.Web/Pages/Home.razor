@@ -1,0 +1,33 @@
+﻿@using DogApp.Web.Dto
+@using DogApp.Web.Services
+@inject ITrackService TrackService
+
+@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<button @onclick="HENTMINEDATA">Get Data</button>
+
+
+@foreach (var track in tracks)
+{
+    <div>
+        <h3>Title @track.Name</h3>
+    </div>
+
+}
+
+
+
+@code {
+    public List<TrackDto> tracks = new();
+
+    public async Task HENTMINEDATA()
+    {
+        tracks = await TrackService.GetAllTracks();
+    }
+}

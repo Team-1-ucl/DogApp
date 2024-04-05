@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogApp.Data", "DogApp.Data\DogApp.Data.csproj", "{9D1B9A81-0D65-4368-8D0A-8DCBEA3C5E67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogApp.Data", "DogApp.Data\DogApp.Data.csproj", "{9D1B9A81-0D65-4368-8D0A-8DCBEA3C5E67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogApp.Repository", "DogApp.Repository\DogApp.Repository.csproj", "{4CCA826A-2A38-44B0-A62E-DE304CFE7C0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogApp.Repository", "DogApp.Repository\DogApp.Repository.csproj", "{4CCA826A-2A38-44B0-A62E-DE304CFE7C0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogApp.Services", "DogApp.Services\DogApp.Services.csproj", "{00995BC4-3A01-4B82-A822-D31B05673992}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogApp.Services", "DogApp.Services\DogApp.Services.csproj", "{00995BC4-3A01-4B82-A822-D31B05673992}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogApp.API", "DogApp.API\DogApp.API.csproj", "{5D632D06-AF3D-4E8A-9CA5-11B932FE3DAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogApp.API", "DogApp.API\DogApp.API.csproj", "{5D632D06-AF3D-4E8A-9CA5-11B932FE3DAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogApp.xUnitTest", "DogApp.xUnitTest\DogApp.xUnitTest.csproj", "{D9342CD8-FBB9-498D-B211-E829BD86E936}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogApp.xUnitTest", "DogApp.xUnitTest\DogApp.xUnitTest.csproj", "{D9342CD8-FBB9-498D-B211-E829BD86E936}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogApp.Web", "DogApp.Web\DogApp.Web.csproj", "{159C7779-80E7-4378-ABFA-979926B8AF38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{D9342CD8-FBB9-498D-B211-E829BD86E936}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9342CD8-FBB9-498D-B211-E829BD86E936}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9342CD8-FBB9-498D-B211-E829BD86E936}.Release|Any CPU.Build.0 = Release|Any CPU
+		{159C7779-80E7-4378-ABFA-979926B8AF38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{159C7779-80E7-4378-ABFA-979926B8AF38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{159C7779-80E7-4378-ABFA-979926B8AF38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{159C7779-80E7-4378-ABFA-979926B8AF38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
