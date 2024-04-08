@@ -23,7 +23,7 @@ database "Database" as Db
 
 User -> UI : **CreateTrack**(**Height : int, Width : int, Collection<TrackItem>TrackItems, Category : string**)
 activate UI
-UI -> Ap : **CreateTrack()**
+UI -> Ap : **HttpPost(CreateTrack)**
 activate Ap
 Ap->Ap : **Create trackDto**
 Ap -> Ts :**CreateTrack(track)**
@@ -42,7 +42,7 @@ Db --> Dc : Error
 Dc --> Tr : Error
 Tr --> Ts : Error
 Ts --> Ap : Error
-Ap --> UI : Error
+Ap --> UI : Statuscode(500)
 UI --> User : "Der opstod en fejl under oprettelsen af banen."
 Db -->Dc : Track Created
 deactivate Db

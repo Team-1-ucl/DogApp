@@ -22,7 +22,7 @@ database "Database" as Db
 
 User -> UI : **GetTrack**(**TrackID : int**)
 activate UI
-UI -> Ap : **GetTrack**(**TrackID : int**)
+UI -> Ap : **HttpGet**(**GetTrack**)
 activate Ap
 Ap -> Ts : **GetTrackByIdAsync**(**TrackID : int**)
 activate Ts
