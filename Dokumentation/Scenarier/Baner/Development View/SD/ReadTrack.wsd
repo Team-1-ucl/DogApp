@@ -21,7 +21,7 @@ participant "DataContext" as Dc
 database "Database" as Db
 
 User -> UI : **GetTrack**(**TrackID : int**)
-activate UI
+activate UI 
 UI -> Ap : **HttpGet**(**GetTrack**)
 activate Ap
 Ap -> Ts : **GetTrackByIdAsync**(**TrackID : int**)
@@ -34,7 +34,7 @@ Dc -> Db
 activate Db
 Db --> Dc : ID not found
 Dc --> Tr : Error
-Tr --> Ts : Error
+Tr --> Ts : Error.
 Ts --> Ap : Error
 Ap --> UI : Error
 UI --> User : TrackID not found
