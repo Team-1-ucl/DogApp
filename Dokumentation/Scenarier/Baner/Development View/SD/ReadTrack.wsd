@@ -1,0 +1,55 @@
+@startuml SeBane
+
+title \nSD\n  Read_Track
+skinparam SequenceGroupBorderThickness 0.01
+skinparam SequenceDividerBorderColor MediumPurple
+skinparam SequenceDividerBackgroundColor MediumPurple
+skinparam SequenceGroupBodyBackgroundColor MOTIVATION
+skinparam SequenceGroupFontColor DarkOrchid
+skinparam SequenceGroupBackgroundColor Thistle
+skinparam SequenceLifeLineBackgroundColor Thistle
+skinparam SequenceLifeLineBorderColor Thistle
+skinparam Style strictUML
+
+actor User
+participant "View" as UI
+participant "API" as Ap
+participant "Track Service" as Ts
+participant "Track Repository" as Tr
+participant "DataContext" as Dc
+
+database "Database" as Db
+
+User -> UI : **GetTrack**(**TrackID : int**)
+activate UI
+UI -> Ap : **GetTrack**(**TrackID : int**)
+activate Ap
+Ap -> Ts : **GetTrackByIdAsync**(**TrackID : int**)
+activate Ts
+Ts -> Tr : **GetTrackByIdAsync**(**TrackID : int**)
+activate Tr
+Tr -> Dc : **GetByIdAsync**(**int id**)
+activate Dc
+Dc -> Db
+activate Db
+Db --> Dc : ID not found
+Dc --> Tr : Error
+Tr --> Ts : Error
+Ts --> Ap : Error
+Ap --> UI : Error
+UI --> User : TrackID not found
+Db -->Dc : Track Found
+deactivate Db
+Dc -->Tr : Track Found
+deactivate Dc
+Tr-->Ts : Track Found
+deactivate Tr
+Ts-->Ap : Track Found
+deactivate Ts
+Ap->Ap : Add(new SimpleTrackDTO(track.Name)
+Ap--> UI : Return Ok(trackDto)
+deactivate Ap
+
+UI --> User : Track
+
+@enduml
