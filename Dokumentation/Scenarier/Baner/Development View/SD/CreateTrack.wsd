@@ -1,0 +1,60 @@
+@startuml LavBane
+
+title \nSD\n  Create_Track
+skinparam SequenceGroupBorderThickness 0.01
+skinparam SequenceDividerBorderColor MediumPurple
+skinparam SequenceDividerBackgroundColor MediumPurple
+skinparam SequenceGroupBodyBackgroundColor MOTIVATION
+skinparam SequenceGroupFontColor DarkOrchid
+skinparam SequenceGroupBackgroundColor Thistle
+skinparam SequenceLifeLineBackgroundColor Thistle
+skinparam SequenceLifeLineBorderColor Thistle
+skinparam Style strictUML
+
+actor User
+participant "View" as UI
+participant "API" as Ap
+participant "Track Service" as Ts
+participant "Track Repository" as Tr
+participant "Track" as Track
+participant "DataContext" as Dc
+
+database "Database" as Db
+
+User -> UI : **CreateTrack**(**Height : int, Width : int, Collection<TrackItem>TrackItems, Category : string**)
+activate UI
+UI -> Ap : **HttpPost(CreateTrack)**
+activate Ap
+Ap->Ap : **Create trackDto**
+Ap -> Ts :**CreateTrack(track)**
+activate Ts
+Ts -> Tr : **CreateTrack(track)**
+activate Tr
+Tr -> Track :**CreateTrack(track)**
+activate Track 
+Track --> Tr : TrackObject
+deactivate Track
+Tr -> Dc : **Task AddAsync(T entity)**
+activate Dc
+Dc -> Db : **DbSet Track**
+activate Db
+Db --> Dc : Error
+Dc --> Tr : Error
+Tr --> Ts : Error
+Ts --> Ap : Error
+Ap --> UI : Statuscode(500)
+UI --> User : "Der opstod en fejl under oprettelsen af banen."
+Db -->Dc : Track Created
+deactivate Db
+Dc -->Tr : Track Created
+deactivate Dc
+Tr-->Ts : Track Created
+deactivate Tr
+Ts-->Ap : Track Created
+deactivate Ts
+Ap--> UI : Return Ok()
+deactivate Ap
+
+UI --> User : "Bane oprettet successfully."
+
+@enduml
