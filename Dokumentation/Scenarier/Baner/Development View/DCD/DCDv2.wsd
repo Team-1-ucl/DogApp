@@ -1,6 +1,6 @@
 @startuml DCDv2
 title DCD
-skinparam nodesep 20
+skinparam nodesep 30
 skinparam ranksep 50
 skinparam linetype polyline
 skinparam dpi 300
@@ -10,27 +10,108 @@ skinparam ComponentBackgroundColor white
 skinparam ComponentBorderColor white
 skinparam PackageBorderColor white
 rectangle "Blazor" as front{
+    
+    interface "ITrackService" as ITrackServiceBlazor{
+        --Methods--
+        - GetTrackAsync(string? name) : Task<Root> 
+        - GetAllTracks() : Task<List<TrackDto>> 
+    }
+    class "TrackService" as TrackServiceBlazor {
+        --Fields--
+        - <<readonly>> _httpClient : HttpClient
+        --Methods--
+        + GetTrackAsync(string? name) : Task<Root> 
+        + GetAllTracks() : Task<List<TrackDto>> 
+        --Constructors--
+        + TrackService(httpClient : HttpClient)
+    }
+    rectangle "DTO" as DTOBlazor{
+        class "Root" as RootDTOBlazor{
+            --Properties--
+            + List : List
+        }
+        class "List" as ListDtoBlazor{
+            -- Properties -- 
+            + Tracks : TrackDto[1..*]
+        }
+        class "ItemDto" as ItemDTOBlazor{
+            --Properties--
+            + Id : int
+            + Name : string
+            + Description : string
+            + Image : string
+            + Category : enum = Sign,Extra
+            + TrackItems : TrackItem[1..*]
+        }
+        class "TrackDto" as TrackDtoBlazor{
+            --Properties--
+            + Id : int
+            + Name : string
+            + Height : int
+            + Width : int
+            + TrackItems : TrackItem[1..*]
+            + Category : string
+        }
+        class "TrackItem" as TrackItemDtoBlazor{
+            + Id : int
+            + Item : ItemDto
+            + ItemId : int
+            + Track : TrackDto
+            + TrackId : int
+            + X : float
+            + Y : float
+            + Order : int
 
+        }
+
+    }
 }
 rectangle "Application Programming Interface" as API {
     class TrackController{
         --Fields--
-        trackService : ITrackService 
+        - <<readonly>> trackService : ITrackService 
         --Methods--
-        + CreateTask(trackDto : SimpleTrackDTO) : Task<IActionResult> 
+        + CreateTask(trackDto : TrackDTO) : Task<IActionResult> 
         + GetAllTracks() : Task<IActionResult>
         --Constructors--
         + TrackController(trackService : ITrackService) 
     }
     class Controller
     rectangle DTO{
-        class SimpleTrackDTO{
-            Name : string
-            }
+         class "ItemDto" as ItemDTOAPI{
+            --Properties--
+            + Id : int
+            + Name : string
+            + Description : string
+            + Image : string
+            + Category : enum = Sign,Extra
+            + TrackItems : TrackItem[1..*]
+        }
+        class "TrackDto" as TrackDtoAPI{
+            --Properties--
+            + Id : int
+            + Name : string
+            + Height : int
+            + Width : int
+            + TrackItems : TrackItem[1..*]
+            + Category : string
+        }
+        class "TrackItem" as TrackItemDtoAPI{
+            + Id : int
+            + Item : ItemDto
+            + ItemId : int
+            + Track : TrackDto
+            + TrackId : int
+            + X : float
+            + Y : float
+            + Order : int
+
+        }
+
     }
 }
 rectangle "Services" as Service{
-    class ItrackService{
+    interface ITrackService{
         --Methods--
         - CreateTrack(track :Track ) : Task
         - GetAllTracksAsync() :Task<IEnumerable<Track>> 
@@ -127,9 +208,18 @@ rectangle "Data" as models{
 
 }
 front -- API
-TrackController --> ItrackService
+RootDTOBlazor -> ListDtoBlazor
+ListDtoBlazor --> TrackDtoBlazor
+TrackDtoBlazor <-- TrackItemDtoBlazor
+TrackItemDtoBlazor -> ItemDTOBlazor
+
+TrackServiceBlazor --|> ITrackServiceBlazor
+TrackServiceBlazor --> DTOBlazor
+TrackController --> ITrackService
 TrackController --|> Controller
-TrackController - SimpleTrackDTO
+TrackController --> DTO
+ItemDTOAPI <- TrackItemDtoAPI
+TrackItemDtoAPI -> TrackDtoAPI
 IGenericRepository  <|-- GenericRepository
 IGenericRepository --> DataContext
 GenericRepository <|-- IItemRepo
@@ -137,7 +227,7 @@ GenericRepository <|-- ITrackRepo
 ITrackRepo <|-- TrackRepo
 IItemRepo <|-- ItemRepo
 TrackService -> ITrackRepo
-ItrackService <|-- TrackService
+ITrackService <|-- TrackService
 BaseEntity  <- Track
 BaseEntity <- Item
 Track <|--|> TrackItem

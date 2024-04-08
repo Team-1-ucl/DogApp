@@ -5,12 +5,22 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 namespace DogApp.xUnitTest
 {
-
+    /// <summary>
+    /// Test class for the TrackRepo class.
+    /// </summary>
     public class TrackRepoTest
     {
+        /// <summary>
+        /// The TrackRepo instance being tested.
+        /// </summary>
         private readonly TrackRepo _trackRepository;
+        /// <summary>
+        /// The DataContext instance used for testing.
+        /// </summary>
         private readonly DataContext _context;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TrackRepoTest"/> class.
+        /// </summary>
         public TrackRepoTest()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
@@ -20,11 +30,18 @@ namespace DogApp.xUnitTest
             _trackRepository = new TrackRepo(_context);
         }
 
+        /// <summary>
+        /// Represents a test method that creates an item and verifies its creation.
+        /// </summary>
+        /// <param name="trackName">The name of the track.</param>
+        /// <param name="height">The height of the track.</param>
+        /// <param name="width">The width of the track.</param>
+        /// <param name="category">The category of the track.</param>
+        /// <returns>A task that represents the asynchronous test method.</returns>
         [Theory]
         [InlineData("Bane 1", 15, 2, "Open")]
         [InlineData("Bane 2", 1, 55, "Champion")]
         [InlineData("Bane 2", 1, 55, "Begynder")]
-
         public async Task CreateItem_ShouldCreate(string trackName, int height, int width, string category)
         {
             // Arrange
@@ -59,6 +76,14 @@ namespace DogApp.xUnitTest
             }
         }
 
+        /// <summary>
+        /// Represents a test method that verifies the functionality of retrieving all entities.
+        /// </summary>
+        /// <param name="name">The name of the entity.</param>
+        /// <param name="height">The height of the entity.</param>
+        /// <param name="width">The width of the entity.</param>
+        /// <param name="category">The category of the entity.</param>
+        /// <returns>A task that represents the asynchronous test method.</returns>
         [Theory]
         [InlineData("Bane 1", 15, 2, "Open")]
         [InlineData("Bane 2", 1, 55, "Champion")]
@@ -90,7 +115,14 @@ namespace DogApp.xUnitTest
 
 
         }
-
+        /// <summary>
+        /// Represents a test method that verifies the functionality of retrieving an entity by its ID.
+        /// </summary>
+        /// <param name="name">The name of the entity.</param>
+        /// <param name="height">The height of the entity.</param>
+        /// <param name="width">The width of the entity.</param>
+        /// <param name="category">The category of the entity.</param>
+        /// <returns>A task that represents the asynchronous test method.</returns>
         [Theory]
         [InlineData("Bane 1", 15, 2, "Open")]
         [InlineData("Bane 2", 1, 55, "Champion")]
@@ -107,12 +139,11 @@ namespace DogApp.xUnitTest
             // Act
             var result = await _trackRepository.GetByIdAsync(latestTrack.Id);
 
-
-
             // Assert
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(latestTrack, options => options.Excluding(e => e.Id));
 
+            // Clean up
             await _trackRepository.DeleteAsync(track);
         }
     }
