@@ -1,7 +1,7 @@
 ﻿using DogApp.Data;
 using DogApp.Data.EntityModels;
 using DogApp.Repository;
-using DogApp.Services;
+using DogApp.Services.Services;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using static DogApp.Data.EntityModels.Item;
