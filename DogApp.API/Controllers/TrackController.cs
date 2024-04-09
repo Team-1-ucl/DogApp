@@ -96,5 +96,38 @@ public class TrackController(ITrackService trackService) : Controller
             return StatusCode(500, "Der opstod en fejl under hentning af baner.");
         }
     }
+    [HttpGet("GetTrackById/{id}")]
+    public async Task<IActionResult> GetTrackById(int id)
+    {
+        // Kontrollerer om trackService-parameteren er null
+        if (_trackService == null)
+        {
+            throw new InvalidOperationException("Track service is not initialized.");
+        }
 
+        try
+        {
+            // Forsøger at hente sporet fra tjenesten ved hjælp af id
+            var track = await _trackService.GetTrackById(id);
+
+            // Hvis track er null, betyder det, at der ikke blev fundet noget spor med det givne id
+            if (track == null)
+            {
+                return NotFound(); // Returner en 404 Not Found respons
+            }
+
+            // Konverter sporet til en TrackDTO
+            var trackDto = new TrackDto(track.Name);
+
+            // Returner et Ok-svar med den konverterede TrackDTO
+            return Ok(trackDto);
+        }
+        catch (Exception)
+        {
+            // Hvis der opstår en fejl, returner et 500 Internal Server Error-svar
+            return StatusCode(500, "Der opstod en fejl under hentning af spor.");
+        }
+    }
 }
+
+

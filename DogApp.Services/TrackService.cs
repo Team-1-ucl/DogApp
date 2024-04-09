@@ -31,4 +31,9 @@ public class TrackService(ITrackRepo trackRepository) : ITrackService
     {
         return await _trackRepository.GetAllAsync();
     }
+
+    public async Task<Track> GetTrackById(int id)
+    {
+        return await _trackRepository.GetByIdAsync(id);
+    }
 }
