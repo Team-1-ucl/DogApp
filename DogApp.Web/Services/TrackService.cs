@@ -20,7 +20,7 @@ public class TrackService : ITrackService
     public async Task<List<TrackDto>> GetAllTracks()
     {
 
-        HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + "/tracks/GetAllTracks");
+        HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + "track/GetAllTracks");
 
         string responseBody = await response.Content.ReadAsStringAsync();
 
