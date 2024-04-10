@@ -18,4 +18,6 @@ public interface ITrackService
     /// </summary>
     /// <returns>En <see cref="Task{TResult}"/> der indeholder en samling af baner.</returns>
     Task<IEnumerable<Track>> GetAllTracksAsync();
+
+    Task <Track> GetTrackById(int id);
 }
