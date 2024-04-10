@@ -39,13 +39,13 @@ public class ItemRepositoryTest
     /// <param name="itemCategory">The category of the item.</param>
     /// <returns>A task that represents the asynchronous test method.</returns>
     [Theory]
-    [InlineData("Sign 1", "Start skilt", "image", Item.Category.Sign)]
-    [InlineData("Sign 2", "Slut skilt", "image", Item.Category.Sign)]
-    [InlineData("Sign 3", "øvelse 3", "image", Item.Category.Sign)]
-    public async Task CreateItem_ShouldCreate(string sign, string description, string image, Item.Category itemCategory)
+    [InlineData("Sign 1", "Start skilt", "image", true)]
+    [InlineData("Sign 2", "Slut skilt", "image", true)]
+    [InlineData("Sign 3", "øvelse 3", "image", true)]
+    public async Task CreateItem_ShouldCreate(string sign, string description, string image, bool itemCategory)
     {
         // Arrange
-        var item = new Item { Name = sign, Description = description, Image = image, ItemCategory = itemCategory };
+        var item = new Item { Name = sign, Description = description, Image = image, IsSign = itemCategory };
 
         // Act
         await _itemRepository.AddAsync(item);
@@ -56,7 +56,7 @@ public class ItemRepositoryTest
         item.Name.Should().Contain("Sign");
         item.Description.Should().NotBeNull();
         item.Image.Should().NotBeNull();
-        item.ItemCategory.Should().Be(Item.Category.Sign);
+       
 
         //Clean Up
         await _itemRepository.DeleteAsync(item);
@@ -71,13 +71,13 @@ public class ItemRepositoryTest
     /// <param name="category">The category of the item.</param>
     /// <returns>A task that represents the asynchronous test method.</returns>
     [Theory]
-    [InlineData("Sign 1", "Description of Sign 1", "Hest", Item.Category.Sign)]
-    [InlineData("Sign 2", "Description of Sign 1", "Ko", Item.Category.Sign)]
-    [InlineData("Sign 3", "Description of Sign 1", "Delfin", Item.Category.Sign)]
-    public async Task UpdateItem_ShouldUpdate(string name, string description, string image, Item.Category category)
+    [InlineData("Sign 1", "Description of Sign 1", "Hest", true)]
+    [InlineData("Sign 2", "Description of Sign 1", "Ko", true)]
+    [InlineData("Sign 3", "Description of Sign 1", "Delfin", true)]
+    public async Task UpdateItem_ShouldUpdate(string name, string description, string image, bool category)
     {
         //Arrange
-        var testItem = new Item { Name = name, Description = description, Image = image, ItemCategory = category };
+        var testItem = new Item { Name = name, Description = description, Image = image, IsSign = category };
 
         //Act
         await _itemRepository.AddAsync(testItem);

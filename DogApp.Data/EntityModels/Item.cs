@@ -8,8 +8,8 @@ public class Item : BaseEntity
    
     public string? Image { get; set; }
     
-    public enum Category { Sign, Extra }
-    public Category? ItemCategory { get; set; }
+    public bool IsSign { get; set; }
+   
 
    
     public ICollection<TrackItem>? TrackItems { get; set; }
