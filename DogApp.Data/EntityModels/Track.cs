@@ -12,5 +12,8 @@ public class Track : BaseEntity
     {
 
     }
-
+    public Track(string name) : this()
+    {
+        Name = name;
+    }
 }
