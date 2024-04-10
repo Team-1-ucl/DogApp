@@ -99,7 +99,7 @@ public class TrackController(ITrackService trackService) : Controller
     [HttpGet("GetTrackById/{id}")]
     public async Task<IActionResult> GetTrackById(int id)
     {
-        // Kontrollerer om trackService-parameteren er null
+        // Kontrollerer om trackService-parameteren er null.
         if (_trackService == null)
         {
             throw new InvalidOperationException("Track service is not initialized.");
