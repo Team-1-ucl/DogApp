@@ -1,42 +1,44 @@
 ﻿using DogApp.API.Dto;
 using DogApp.Data.EntityModels;
-using DogApp.Services.InterfaceService;
+using DogApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogApp.API.Controllers;
 
+[ApiController]
+[Route("[controller]")]
 public class ItemController(IItemService itemService) : Controller
 {
     private readonly IItemService _itemService = itemService;
-    
-    
-    
-    
+
+
+
+
     [HttpGet("GetAllItems")]
     public async Task<IActionResult> GetAllItems()
     {
-        if(_itemService == null)
-        {
-            throw new InvalidOperationException();
-        }
         try
         {
             var items = await _itemService.GetAllItems();
 
-            var itemDtos = new List<ItemDto>();
-
-            foreach (var item in items)
+            // Map the items to ItemDto objects
+            var itemDtos = items.Select(item => new ItemDto
             {
-                itemDtos.Add(new ItemDto(item.Id, item.Name,  item.Description, item.Image));
-            }
+                Id = item.Id,
+                Name = item.Name,
+                // Map other properties as needed
+            }).ToList();
+
+            // Return the list of ItemDto objects
             return Ok(itemDtos);
         }
         catch (Exception)
         {
-            // Hvis der opstår en fejl, returner et 500 Internal Server Error-svar
-            return StatusCode(500, "Der opstod en fejl under hentning af Elementer.");           
+            // If an error occurs, return a 500 Internal Server Error response
+            return StatusCode(500, "An error occurred while fetching items.");
         }
     }
+
     [HttpGet("GetItemById")]
     public async Task<IActionResult> GetItemByIdAsync(int id)
     {

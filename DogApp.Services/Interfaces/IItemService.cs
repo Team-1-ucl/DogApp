@@ -1,6 +1,6 @@
 ﻿using DogApp.Data.EntityModels;
 
-namespace DogApp.Services.InterfaceService;
+namespace DogApp.Services.Interfaces;
 
 public interface IItemService
 {

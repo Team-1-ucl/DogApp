@@ -35,6 +35,9 @@ public class Program
         builder.Services.AddScoped<ITrackRepo, TrackRepo>();
         builder.Services.AddScoped<ITrackService, TrackService>();
 
+        builder.Services.AddScoped<IItemRepo, ItemRepo>();
+        builder.Services.AddScoped<IItemService, ItemService>();
+
         // Konfigurerer DbContext.
         builder.Services.AddDbContext<DataContext>(options =>
         {

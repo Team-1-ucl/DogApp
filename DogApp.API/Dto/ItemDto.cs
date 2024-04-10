@@ -6,8 +6,7 @@
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Image { get; set; }
-        public enum Category { Sign, Extra }
-        public Category ItemCategory { get; set; }
+        public bool IsSign { get; set; }
         public ICollection<TrackItem> TrackItems { get; set; }
 
         public ItemDto(int id, string? name, string? description, string? image)
@@ -17,10 +16,13 @@
             Description = description;
             Image = image;
         }
-        public ItemDto()
+        public ItemDto(int id, string? name)
         {
 
         }
 
+        public ItemDto()
+        {
+        }
     }
 }

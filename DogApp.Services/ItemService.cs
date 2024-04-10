@@ -1,6 +1,6 @@
 ﻿using DogApp.Data.EntityModels;
 using DogApp.Repository;
-using DogApp.Services.InterfaceService;
+using DogApp.Services.Interfaces;
 
 
 namespace DogApp.Services;
@@ -26,15 +26,20 @@ public class ItemService(IItemRepo itemRepo) : IItemService
 
     public async Task UpdateItemById(Item item)
     {
+        // Get the item to update from the repository
         var itemToUpdate = await _itemrepo.GetByIdAsync(item.Id);
 
+        // Check if the item to update exists
         if (itemToUpdate != null)
         {
+            itemToUpdate.Name = item.Name; 
+
             await _itemrepo.UpdateAsync(itemToUpdate);
         }
         else
         {
-            ArgumentNullException.ThrowIfNull(item);
+            throw new ArgumentException("Item not found.");
         }
     }
+
 }
