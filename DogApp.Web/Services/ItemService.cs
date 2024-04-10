@@ -22,6 +22,7 @@ namespace DogApp.Web.Services
 
             return items;
 
+
         }
 
         public Task<ItemDto> GetItemAsync(int id)
