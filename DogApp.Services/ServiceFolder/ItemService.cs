@@ -22,5 +22,24 @@ namespace DogApp.Services.Services
         {
             return await _itemrepo.GetAllAsync();
         }
+        public async Task<Item?> GetItemById(int id)
+        {
+            ArgumentNullException.ThrowIfNull(id);
+            return await _itemrepo.GetByIdAsync(id);
+        }
+
+        public async Task UpdateItemById(Item item)
+        {
+            var itemToUpdate = await _itemrepo.GetByIdAsync(item.Id);
+
+            if (itemToUpdate != null)
+            {
+                await _itemrepo.UpdateAsync(itemToUpdate);
+            }
+            else
+            {
+                ArgumentNullException.ThrowIfNull(item);
+            }
+        }
     }
 }

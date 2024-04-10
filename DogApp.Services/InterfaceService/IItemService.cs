@@ -7,5 +7,7 @@ namespace DogApp.Services.InterfaceService
         Task CreateItem(Item item);
 
         Task<List<Item>> GetAllItems();
+        Task<Item> GetItemById(int id);
+        Task UpdateItemById(Item item);
     }
 }

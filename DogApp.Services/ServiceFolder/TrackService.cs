@@ -1,7 +1,8 @@
 ﻿using DogApp.Data.EntityModels;
 using DogApp.Repository;
+using DogApp.Services.InterfaceService;
 
-namespace DogApp.Services;
+namespace DogApp.Services.ServiceFolder;
 /// <summary>
 /// Service til håndtering af baner.
 /// </summary>

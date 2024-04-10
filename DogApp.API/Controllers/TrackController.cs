@@ -1,6 +1,6 @@
 ﻿using DogApp.API.Dto;
 using DogApp.Data.EntityModels;
-using DogApp.Services;
+using DogApp.Services.InterfaceService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogApp.API.Controllers;
