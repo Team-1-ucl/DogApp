@@ -1,4 +1,5 @@
 using DogApp.Web.Services;
+using DogApp.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -14,6 +15,7 @@ public class Program
         builder.RootComponents.Add<HeadOutlet>("head::after");
 
         builder.Services.AddScoped<ITrackService, TrackService>();
+        builder.Services.AddScoped<IItemService, ItemService>();
 
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7117") });
 

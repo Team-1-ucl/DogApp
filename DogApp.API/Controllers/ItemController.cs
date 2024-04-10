@@ -26,10 +26,8 @@ public class ItemController(IItemService itemService) : Controller
             {
                 Id = item.Id,
                 Name = item.Name,
-                // Map other properties as needed
             }).ToList();
 
-            // Return the list of ItemDto objects
             return Ok(itemDtos);
         }
         catch (Exception)
