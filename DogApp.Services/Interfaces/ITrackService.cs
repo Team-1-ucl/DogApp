@@ -1,6 +1,6 @@
 ﻿using DogApp.Data.EntityModels;
 
-namespace DogApp.Services;
+namespace DogApp.Services.Interfaces;
 
 /// <summary>
 /// Interface til tjenesten til håndtering af baner.
@@ -19,5 +19,5 @@ public interface ITrackService
     /// <returns>En <see cref="Task{TResult}"/> der indeholder en samling af baner.</returns>
     Task<IEnumerable<Track>> GetAllTracksAsync();
 
-    Task <Track> GetTrackById(int id);
+    Task<Track> GetTrackById(int id);
 }

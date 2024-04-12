@@ -1,4 +1,5 @@
 ﻿using DogApp.Web.Dto;
+using DogApp.Web.Services.Interfaces;
 using Newtonsoft.Json;
 
 namespace DogApp.Web.Services;

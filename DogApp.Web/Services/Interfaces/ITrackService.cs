@@ -1,6 +1,6 @@
 ﻿using DogApp.Web.Dto;
 
-namespace DogApp.Web.Services;
+namespace DogApp.Web.Services.Interfaces;
 
 public interface ITrackService
 {

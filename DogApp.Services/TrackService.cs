@@ -1,5 +1,6 @@
 ﻿using DogApp.Data.EntityModels;
 using DogApp.Repository;
+using DogApp.Services.Interfaces;
 
 namespace DogApp.Services;
 /// <summary>

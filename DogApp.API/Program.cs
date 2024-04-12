@@ -2,6 +2,7 @@
 using DogApp.Data;
 using DogApp.Repository;
 using DogApp.Services;
+using DogApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace DogApp.API;
@@ -33,6 +34,9 @@ public class Program
         // Registrerer services i containeren.
         builder.Services.AddScoped<ITrackRepo, TrackRepo>();
         builder.Services.AddScoped<ITrackService, TrackService>();
+
+        builder.Services.AddScoped<IItemRepo, ItemRepo>();
+        builder.Services.AddScoped<IItemService, ItemService>();
 
         // Konfigurerer DbContext.
         builder.Services.AddDbContext<DataContext>(options =>
