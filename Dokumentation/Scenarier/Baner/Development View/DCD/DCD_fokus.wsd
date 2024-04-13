@@ -244,37 +244,35 @@ rectangle "Data" as models{
             $Property(+, , TrackItems, TrackItem[0..*])
         }
         entity TrackItem{
-            -- Fields --
-            + Id : int
-            + Item? : Item
-            + ItemId : int
-
-            + Track? :  track
-            + TrackId : int
+            -- Properties --
+            $Property(+, , Id, int)
+            $Property(+, , Item, Item?)
+            $Property(+, , ItemId, int)
+            $Property(+, , track, Track?)
+            $Property(+, , TrackId, int)
             -- Payload --
-            + X : float?
-            + Y : float?
-            + Order : int?
+            $Property(+, , X, float?)
+            $Property(+, , Y, float?)
+            $Property(+, , Order, int?)
         }
         entity Item<Bane Element>{
             -- Properties --
-            + Description : string
-            + bool : IsSign
-            + Image : string
-            
+            $Property(+, , Description, string?)
+            $Property(+, , IsSign, bool)
+            $Property(+, , Image, string)
             ==Navigation Properties==
-            + TrackItems : TrackItems[0..*]
+            $Property(+, , TrackItems, TrackItems[0..*])
         }
     }
     package Data{
         class DataContext{
             --Properties--
-            + Tracks : DbSet<Track>
-            + Items : DbSet<Item>
-            + TrackItems : Dbset<TrackItems>
+            $Property(+, , Tracks, DbSet<Track>)
+            $Property(+, , Items, DbSet<Item>)
+            $Property(+, , TrackItems, Dbset<TrackItems>)          
             --Methods--
-            # OnConfiguring(DbContextOptionbuilder optionsBuilder)
-            # OnModelCreating(ModelBuilder modelbuilder)
+            $Method(#, OnConfiguring,optionsBuilder : DbContextOptionbuilder, )
+            $Method(#, OnModelCreating,modelbuilder : ModelBuilder, )
         }
     }
 
