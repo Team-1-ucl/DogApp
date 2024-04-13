@@ -25,40 +25,37 @@ skinparam ClassAttributeIconSize 10
 skinparam ClassStereotypeFontColor #ff5555 
 skinparam ClassBorderThickness 2
 
+skinparam ArrowColor #8be9fd 
+
 skinparam RectangleFontColor #f8f8f2 
 skinparam RectangleBackgroundColor #44475a
-
+' Field procedures
 !unquoted procedure $ReadonlyPrivateField($AccessModifier, $Restriction, $Field)
-
-$AccessModifier <<$Restriction>> <color:#f8f8f2>$Field</color>
-
+$AccessModifier <color:#ffb86c><<$Restriction>></color> <color:#f8f8f2>$Field</color>
 !endprocedure
 
+' Method Procedures
 !unquoted procedure $Method($AccessModifier, $MethodName, $Parameter, $ReturnValue)
-
-$AccessModifier <color:#ff79c6>$MethodName(<color:#f8f8f2>$Parameter</color><color:#ff79c6>)</color><color:#f8f8f2> : </color><color:#f1fa8c > $ReturnValue</color>
-
+$AccessModifier <color:#ff79c6>$MethodName(<color:#f8f8f2>$Parameter</color><color:#ff79c6>)</color><color:#f8f8f2> : </color><color:#f1fa8c>$ReturnValue</color>
 !endprocedure
-
+' Constructor Procedures
 !unquoted procedure $PublicConstructor($AccessModifier, $MethodName, $Parameter)
-
 $AccessModifier <color:#ff79c6>$MethodName(<color:#f8f8f2>$Parameter</color><color:#ff79c6>)</color>
-
 !endprocedure
 
 rectangle "Blazor" as front{
     
     interface "ITrackService" as ITrackServiceBlazor{
         --Methods--
-        $Method(-, GetTrackAsync, string? name, Task<Root>)
-        $Method(-, GetAllTracks, , List<TrackDto>)
+        $Method(-,GetTrackAsync,string? name,Task<Root>)
+        $Method(-,GetAllTracks, ,List<TrackDto>)
     }
     class "TrackService" as TrackServiceBlazor {
         --Fields--
-        $ReadonlyPrivateField(-, readonly, _httpClient : HttpClient)
+        $ReadonlyPrivateField(-, readonly,_httpClient : HttpClient)
         --Methods--
         $Method(+,GetTrackAsync,string? name ,Task<Root>) 
-        $Method(+, GetAllTracks, , Task<List<TrackDto>)
+        $Method(+,GetAllTracks, ,Task<List<TrackDto>)
         --Constructors--
         $PublicConstructor(+,TrackService, httpClient : HttpClient)
     }
