@@ -1,3 +1,4 @@
+
 @startuml DCDv2
 title DCD
 skinparam nodesep 30
@@ -7,12 +8,10 @@ skinparam ComponentBorderThickness 0
 skinparam BackgroundColor #282a36
 skinparam ComponentBackgroundColor #44475a
 skinparam ComponentBorderColor #f8f8f2
-
 skinparam PackageBorderColor #ff5555 
 skinparam PackageFontColor #f8f8f2 
 skinparam PackageStereotypeFontColor #f8f8f2 
 skinparam PackageBorderThickness 3
-
 skinparam ClassBackgroundColor #44475a
 skinparam ClassHeaderBackgroundColor #bd93f9 
 skinparam ClassFontSize 16
@@ -24,122 +23,142 @@ skinparam ClassAttributeFontColor #f8f8f2
 skinparam ClassAttributeIconSize 10
 skinparam ClassStereotypeFontColor #ff5555 
 skinparam ClassBorderThickness 2
-
 skinparam ArrowColor #8be9fd 
-
 skinparam RectangleFontColor #f8f8f2 
 skinparam RectangleBackgroundColor #44475a
+
 ' Field procedures
-!unquoted procedure $ReadonlyPrivateField($AccessModifier, $Restriction, $Field)
-$AccessModifier <color:#ffb86c><<$Restriction>></color> <color:#f8f8f2>$Field</color>
+!unquoted procedure $Property($AccessModifier, $Restriction, $Name, $Type)
+!if ($Restriction!="")
+$AccessModifier <color:#ffb86c>$Restriction</color> <color:#f8f8f2>$Name</color> : <color:#bd93f9>$Type</color>
+!else
+$AccessModifier  <color:#f8f8f2>$Name</color> : <color:#bd93f9>$Type</color>
+!endif
 !endprocedure
 
 ' Method Procedures
 !unquoted procedure $Method($AccessModifier, $MethodName, $Parameter, $ReturnValue)
+!if ($ReturnValue != "")
 $AccessModifier <color:#ff79c6>$MethodName(<color:#f8f8f2>$Parameter</color><color:#ff79c6>)</color><color:#f8f8f2> : </color><color:#f1fa8c>$ReturnValue</color>
+!else
+$AccessModifier <color:#ff79c6>$MethodName(<color:#f8f8f2>$Parameter</color><color:#ff79c6>)</color> 
+!endif
 !endprocedure
+
 ' Constructor Procedures
-!unquoted procedure $PublicConstructor($AccessModifier, $MethodName, $Parameter)
+!unquoted procedure $Constructor($AccessModifier, $MethodName, $Parameter)
 $AccessModifier <color:#ff79c6>$MethodName(<color:#f8f8f2>$Parameter</color><color:#ff79c6>)</color>
+!endprocedure
+
+!unquoted procedure $InherritsFromAbstraction($Concrete,$Interface)
+$Concrete ..|> $Interface
+!endprocedure
+!unquoted procedure $InherritsFromConcrete($ObjectA,$ObjectB)
+$ObjectA --|> $ObjectB
+!endprocedure
+!unquoted procedure $ObjectRelation($ObjectA,$ObjectB)
+$ObjectA -- $ObjectB
+!endprocedure
+!unquoted procedure $ObjectDependency($ObjectA,$ObjectB)
+$ObjectA ..> $ObjectB
 !endprocedure
 
 rectangle "Blazor" as front{
     
     interface "ITrackService" as ITrackServiceBlazor{
         --Methods--
-        $Method(-,GetTrackAsync,string? name,Task<Root>)
+        $Method(-,GetTrackAsync,string? : name,Task<Root>)
         $Method(-,GetAllTracks, ,List<TrackDto>)
     }
     class "TrackService" as TrackServiceBlazor {
-        --Fields--
-        $ReadonlyPrivateField(-, readonly,_httpClient : HttpClient)
+        --Properties--
+        $Property(-, <<readonly>>, _httpClient, HttpClient)
         --Methods--
-        $Method(+,GetTrackAsync,string? name ,Task<Root>) 
+        $Method(+,GetTrackAsync,string? : name ,Task<Root>) 
         $Method(+,GetAllTracks, ,Task<List<TrackDto>)
         --Constructors--
-        $PublicConstructor(+,TrackService, httpClient : HttpClient)
+        $Constructor(+,TrackService, httpClient : HttpClient)
     }
     package "DTO" as DTOBlazor{
         class "ItemDto" as ItemDTOBlazor{
             --Properties--
-            + Id : int 
-            + Name : string
-            + Description : string
-            + Image : string
-            + Category : enum = Sign,Extra
-            + TrackItems : TrackItem[1..*]
+            $Property(+, , Id, int)
+            $Property(+, , Name, string)
+            $Property(+, , Description, string)
+            $Property(+, , Image, string)
+            $Property(+, , TrackItems, TrackItem[1..*])
         }
         class "TrackDto" as TrackDtoBlazor{
             --Properties--
-            + Id : int
-            + Name : string
-            + Height : int
-            + Width : int
-            + TrackItems : TrackItem[1..*]
-            + Category : string
+            $Property(+, , Id, int)
+            $Property(+, , Name, string)
+            $Property(+, , Height, int)
+            $Property(+, , Width, int)
+            $Property(+, , TrackItems, TrackItem[1..*])
+            $Property(+, , Category, string)
         }
-        class "TrackItem" as TrackItemDtoBlazor{
-            + Id : int
-            + Item : ItemDto
-            + ItemId : int
-            + Track : TrackDto
-            + TrackId : int
-            + X : float
-            + Y : float
-            + Order : int
-
+        class "TrackItemDto" as TrackItemDtoBlazor{
+            --Properties--
+            $Property(+, , Id, int)
+            $Property(+, , Item, ItemDto)
+            $Property(+, , ItemId, int)
+            $Property(+, , Track, TrackDto)
+            $Property(+, , TrackId, int)
+            $Property(+, , X, float)
+            $Property(+, , Y, float)
+            $Property(+, , Order, int)
         }
 
     }
 }
 rectangle "Application Programming Interface" as API {
     class TrackController{
-        --Fields--
+        --Properties--
         - trackService : ITrackService 
         --Methods--
-        + CreateTask(trackDto : TrackDTO) : Task<IActionResult> 
-        + GetAllTracks() : Task<IActionResult>
+        $Method(+,CreateTrack, trackDto : TrackDTO, Task<IActionResult)
+        $Method(+,GetAllTracks, , Task<IActionResult)
         --Constructors--
-        + TrackController(trackService : ITrackService) 
+        $Constructor(+, TrackController, trackService : ITrackService )
     }
     class ItemController{
         --Fields--
-        - _itemService: IItemService  
+        $Property(-, ,_itemService, IItemService)        
         --Methods--
-        + ItemController(itemService: IItemService) 
-        + GetAllItems(): Task<IActionResult>
-        + GetItemByIdAsync(id: int): Task<IActionResult>
-        + UpdateItemByAsync(itemDto: ItemDto): Task
+        $Method(+, GetAllItems, , Task<IActionResult>)
+        $Method(+,GetItemByIdAsync, id : int, Task<IActionResult>)
+        $Method(+,UpdateItemByAsync, itemDto: ItemDto, Task)
+        --Constructor--
+        $Constructor(+, ItemController,itemSerivce : IItemSerice)
     }
     
     package DTO{
          class "ItemDto" as ItemDTOAPI{
             --Properties--
-            + Id : int
-            + Name : string
-            + Description : string
-            + Image : string
-            + Category : enum = Sign,Extra
-            + TrackItems : TrackItem[1..*]
+            $Property(+, , Id, int)
+            $Property(+, , Name, string)
+            $Property(+, , Description, string)
+            $Property(+, , Image, string)
+            $Property(+, , TrackItems, TrackItem[1..*])
         }
         class "TrackDto" as TrackDtoAPI{
             --Properties--
-            + Id : int
-            + Name : string
-            + Height : int
-            + Width : int
-            + TrackItems : TrackItem[1..*]
-            + Category : string
+            $Property(+, , Id, int)
+            $Property(+, , Name, string)
+            $Property(+, , Height, int)
+            $Property(+, , Width, int)
+            $Property(+, , TrackItems, TrackItem[1..*])
+            $Property(+, , Category, string)
         }
-        class "TrackItem" as TrackItemDtoAPI{
-            + Id : int
-            + Item : ItemDto
-            + ItemId : int
-            + Track : TrackDto
-            + TrackId : int
-            + X : float
-            + Y : float
-            + Order : int
+        class "TrackItemDto" as TrackItemDtoAPI{
+            $Property(+, , Id, int)
+            $Property(+, , Item, ItemDto)
+            $Property(+, , ItemId, int)
+            $Property(+, , Track, TrackDto)
+            $Property(+, , TrackId, int)
+            $Property(+, , X, float)
+            $Property(+, , Y, float)
+            $Property(+, , Order, int)
 
         }
 
@@ -148,56 +167,57 @@ rectangle "Application Programming Interface" as API {
 rectangle "Services" as Service{
     interface ITrackService{
         --Methods--
-        - TrackService(trackRepository: ITrackRepo) 
-        - CreateTrack(track: Track): Task       
-        - GetAllTracksAsync(): Task<IEnumerable<Track>>  
+        $Method(-,CreateTrack, track : Track, Task)
+        $Method(-,GetAllTracksAsync, ,Task<IEnumerable<Track>>)
+        
     }
     interface IItemService{
-        - CreateItem(item: Item): Task
-        - GetAllItems(): Task<List<Item>>
-        - GetItemById(id: int): Task<Item>
-        - UpdateItemById(item: Item): Task
+        --Methods--
+        $Method(-, CreateItem, item: Item, Task)
+        $Method(-, GetAllItems, , Task<List<Item>>)
+        $Method(-, GetItemById,id: int, Task<Item>)
+        $Method(-, UpdateItemById,item: Item, Task)
+       
     }
     class TrackService{
-        -- Fields --
-        - _trackRepository : ITrackRepo
+        --Properties--     
+        $Property(-, , _trackRepository, ITrackRepo)
         -- Methods --
-        + TrackService(trackRepository: ITrackRepo) 
-        + CreateTrack(track: Track): Task       
-        + GetAllTracksAsync(): Task<IEnumerable<Track>> 
+        $Method(+,CreateTrack, track : Track, Task)
+        $Method(+,GetAllTracksAsync, ,Task<IEnumerable<Track>>) 
         -- Contructor --
-        + TrackService(trackRepository: ITrackRepo )
-        
+        $Constructor(+,TrackService, trackRepository: ITrackRepo)
     }   
     class ItemService{
-        --Fields--
-        - _itemrepo: IItemRepo 
+        --Properties--
+        $Property(-, , _itemrepo, IItemRepo)
         -- Methods --
-        + CreateItem(item: Item): Task  
-        + GetAllItems(): Task<List<Item>>
-        + GetItemById(id: int): Task<Item?>
-        + UpdateItemById(item: Item): Task
+        $Method(+, CreateItem, item: Item, Task)
+        $Method(+, GetAllItems, , Task<List<Item>>)
+        $Method(+, GetItemById,id: int, Task<Item>)
+        $Method(+, UpdateItemById,item: Item, Task)
         -- Constructors --
-        + ItemService(itemRepo: IItemRepo)
+        $Constructor(+,ItemService, itemRepo: IItemRepo)
     }
 }
 rectangle "Repositories" as Repositories{
     class "GenericRepository"{
             --Methods--
-            + Get(): IReadOnlyList<T>
-            + GetById(int id) <T>
-            + Create(T entity) : void
-            + Update(T entity) : void
-            + Delete(T entity) : void
+            $Method(+, Get, , IReadOnlyList<T>)
+            $Method(+, GetById,int : id, <T>)
+            $Method(+, Create,T : entity, )
+            $Method(+, Update,T : entity, )
+            $Method(+, Delete,T : entity, )
         }
 
         interface "IGenericRepository"{
             --Methods--
-            + Get(): IReadOnlyList<T>
-            + GetById(int id) <T>
-            + Create(T entity) : void
-            + Update(T entity) : void
-            + Delete(T entity) : void
+            $Method(-, Get, , IReadOnlyList<T>)
+            $Method(-, GetById,int : id, <T>)
+            $Method(-, Create,T : entity, )
+            $Method(-, Update,T : entity, )
+            $Method(-, Delete,T : entity, )
+
         }
         interface IItemRepo
         interface ITrackRepo
@@ -212,16 +232,16 @@ rectangle "Data" as models{
     package EntityModels{
         abstract class BaseEntity{
             -- Properties --
-            + {abstract} Id : int
-            + {abstract} Name : string?
+            $Property(+, , Id, int)
+            $Property(+, , Name, string)
         }
         entity Track<Bane>{
             -- Properties --
-            + Height : int?
-            + Width : int?
-            + Category : string?
+            $Property(+, , Height, int?)
+            $Property(+, , Width, int?)
+            $Property(+, , Category, string?)
             ==Navigation Properties==
-            + TrackItems : TrackItem[0..*]
+            $Property(+, , TrackItems, TrackItem[0..*])
         }
         entity TrackItem{
             -- Fields --
@@ -259,34 +279,37 @@ rectangle "Data" as models{
     }
 
 }
-front -- API
+$ObjectDependency(ItemController,IItemService)
+$ObjectDependency(ItemService,IItemRepo)
+$ObjectDependency(TrackController,ITrackService)
+$ObjectDependency(IGenericRepository,DataContext)
+$ObjectDependency(TrackService,ITrackRepo)
+$InherritsFromConcrete(IItemRepo,GenericRepository)
+$InherritsFromConcrete(ITrackRepo,GenericRepository)
 
+$InherritsFromAbstraction(ItemService, IItemService)
+$InherritsFromAbstraction(TrackServiceBlazor,ITrackServiceBlazor)
+$InherritsFromAbstraction(GenericRepository,IGenericRepository)
+$InherritsFromAbstraction(TrackRepo,ITrackRepo)
+$InherritsFromAbstraction(ItemRepo,IItemRepo)
+$InherritsFromAbstraction(Item, BaseEntity)
+$InherritsFromAbstraction(Track, BaseEntity)
+$InherritsFromAbstraction(TrackService, ITrackService)
 
-TrackDtoBlazor <-- TrackItemDtoBlazor
-TrackItemDtoBlazor -> ItemDTOBlazor
-TrackServiceBlazor --|> ITrackServiceBlazor
-TrackServiceBlazor --> DTOBlazor
-TrackController --> ITrackService
-TrackController --> TrackDtoAPI
-ItemDTOAPI <- TrackItemDtoAPI
-TrackItemDtoAPI -> TrackDtoAPI
-IGenericRepository  <|-- GenericRepository
-IGenericRepository --> DataContext
-GenericRepository <|-- IItemRepo
-GenericRepository <|-- ITrackRepo
-ITrackRepo <|-- TrackRepo
-IItemRepo <|-- ItemRepo
-TrackService -> ITrackRepo
-ITrackService <|-- TrackService
-BaseEntity  <|- Track
-BaseEntity <|- Item
+$ObjectRelation(front,API)
+$ObjectRelation(TrackDtoBlazor,TrackItemDtoBlazor)
+$ObjectRelation(TrackItemDtoBlazor,ItemDTOBlazor)
+$ObjectRelation(TrackController,TrackDtoAPI)
+$ObjectRelation(ItemDTOAPI,TrackItemDtoAPI)
+$ObjectRelation(TrackServiceBlazor,DTOBlazor)
+$ObjectRelation(TrackItemDtoAPI,TrackDtoAPI)
+$ObjectRelation(ItemController,ItemDTOAPI)
+
 Track "1" <--> "1..*" TrackItem
 TrackItem "1..*" <--> "1" Item
 DataContext "1" -> "1..*" Track 
 DataContext "1" -> "1..*" TrackItem
 DataContext "1" -> "1..*" Item
-ItemController --> IItemService
-IItemService <|-- ItemService
-ItemService -> IItemRepo
-ItemController --> ItemDTOAPI
+
+
 @enduml
