@@ -50,15 +50,19 @@ $AccessModifier <color:#ff79c6>$MethodName(<color:#f8f8f2>$Parameter</color><col
 $AccessModifier <color:#ff79c6>$MethodName(<color:#f8f8f2>$Parameter</color><color:#ff79c6>)</color>
 !endprocedure
 
+' Arrows in UML
 !unquoted procedure $InherritsFromAbstraction($Concrete,$Interface)
 $Concrete ..|> $Interface
 !endprocedure
+
 !unquoted procedure $InherritsFromConcrete($ObjectA,$ObjectB)
 $ObjectA --|> $ObjectB
 !endprocedure
+
 !unquoted procedure $ObjectRelation($ObjectA,$ObjectB)
 $ObjectA -- $ObjectB
 !endprocedure
+
 !unquoted procedure $ObjectDependency($ObjectA,$ObjectB)
 $ObjectA ..> $ObjectB
 !endprocedure
@@ -302,12 +306,12 @@ $ObjectRelation(ItemDTOAPI,TrackItemDtoAPI)
 $ObjectRelation(TrackServiceBlazor,DTOBlazor)
 $ObjectRelation(TrackItemDtoAPI,TrackDtoAPI)
 $ObjectRelation(ItemController,ItemDTOAPI)
+$ObjectRelation(Track,TrackItem)
+$ObjectRelation(TrackItem,Item)
+$ObjectRelation(DataContext,Track)
+$ObjectRelation(DataContext,TrackItem)
+$ObjectRelation(DataContext,Item)
 
-Track "1" <--> "1..*" TrackItem
-TrackItem "1..*" <--> "1" Item
-DataContext "1" -> "1..*" Track 
-DataContext "1" -> "1..*" TrackItem
-DataContext "1" -> "1..*" Item
 
 
 @enduml
