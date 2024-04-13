@@ -4,39 +4,68 @@ skinparam nodesep 30
 skinparam ranksep 100
 skinparam dpi 300
 skinparam ComponentBorderThickness 0
-skinparam BackgroundColor lightgrey
-skinparam ComponentBackgroundColor white
-skinparam ComponentBorderColor white
-skinparam PackageBorderColor white
+skinparam BackgroundColor #282a36
+skinparam ComponentBackgroundColor #44475a
+skinparam ComponentBorderColor #f8f8f2
+
+skinparam PackageBorderColor #ff5555 
+skinparam PackageFontColor #f8f8f2 
+skinparam PackageStereotypeFontColor #f8f8f2 
+skinparam PackageBorderThickness 3
+
+skinparam ClassBackgroundColor #44475a
+skinparam ClassHeaderBackgroundColor #bd93f9 
+skinparam ClassFontSize 16
+skinparam ClassFontStyle Regular
+skinparam ClassFontName Space Mono
+skinparam ClassFontColor #f8f8f2 
+skinparam ClassBorderColor #bd93f9 
+skinparam ClassAttributeFontColor #f8f8f2 
+skinparam ClassAttributeIconSize 10
+skinparam ClassStereotypeFontColor #ff5555 
+skinparam ClassBorderThickness 2
+
+skinparam RectangleFontColor #f8f8f2 
+skinparam RectangleBackgroundColor #44475a
+
+!unquoted procedure $ReadonlyPrivateField($AccessModifier, $Restriction, $Field)
+
+$AccessModifier <<$Restriction>> <color:#f8f8f2>$Field</color>
+
+!endprocedure
+
+!unquoted procedure $Method($AccessModifier, $MethodName, $Parameter, $ReturnValue)
+
+$AccessModifier <color:#ff79c6>$MethodName(<color:#f8f8f2>$Parameter</color><color:#ff79c6>)</color><color:#f8f8f2> : </color><color:#f1fa8c > $ReturnValue</color>
+
+!endprocedure
+
+!unquoted procedure $PublicConstructor($AccessModifier, $MethodName, $Parameter)
+
+$AccessModifier <color:#ff79c6>$MethodName(<color:#f8f8f2>$Parameter</color><color:#ff79c6>)</color>
+
+!endprocedure
 
 rectangle "Blazor" as front{
     
     interface "ITrackService" as ITrackServiceBlazor{
         --Methods--
-        - GetTrackAsync(string? name) : Task<Root> 
-        - GetAllTracks() : Task<List<TrackDto>> 
+        $Method(-, GetTrackAsync, string? name, Task<Root>)
+        $Method(-, GetAllTracks, , List<TrackDto>)
     }
     class "TrackService" as TrackServiceBlazor {
         --Fields--
-        - <<readonly>> _httpClient : HttpClient
+        $ReadonlyPrivateField(-, readonly, _httpClient : HttpClient)
         --Methods--
-        + GetTrackAsync(string? name) : Task<Root> 
-        + GetAllTracks() : Task<List<TrackDto>> 
+        $Method(+,GetTrackAsync,string? name ,Task<Root>) 
+        $Method(+, GetAllTracks, , Task<List<TrackDto>)
         --Constructors--
-        + TrackService(httpClient : HttpClient)
+        $PublicConstructor(+,TrackService, httpClient : HttpClient)
     }
-    rectangle "DTO" as DTOBlazor{
-        class "Root" as RootDTOBlazor{
-            --Properties--
-            + List : List
-        }
-        class "List" as ListDtoBlazor{
-            -- Properties -- 
-            + Tracks : TrackDto[1..*]
-        }
+    package "DTO" as DTOBlazor{
         class "ItemDto" as ItemDTOBlazor{
             --Properties--
-            + Id : int
+            + Id : int 
             + Name : string
             + Description : string
             + Image : string
@@ -234,8 +263,8 @@ rectangle "Data" as models{
 
 }
 front -- API
-RootDTOBlazor -> ListDtoBlazor
-ListDtoBlazor --> TrackDtoBlazor
+
+
 TrackDtoBlazor <-- TrackItemDtoBlazor
 TrackItemDtoBlazor -> ItemDTOBlazor
 TrackServiceBlazor --|> ITrackServiceBlazor
