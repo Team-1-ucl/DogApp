@@ -50,9 +50,9 @@ $AccessModifier <color:#ff79c6>$MethodName(<color:#f8f8f2>$Parameter</color><col
 $AccessModifier <color:#ff79c6>$MethodName(<color:#f8f8f2>$Parameter</color><color:#ff79c6>)</color>
 !endprocedure
 
-' Arrows in UML
-!unquoted procedure $InherritsFromAbstraction($Concrete,$Interface)
-$Concrete ..|> $Interface
+' Relations in UML
+!unquoted procedure $InherritsFromAbstraction($Concrete,$Abstraction)
+$Concrete ..|> $Abstraction
 !endprocedure
 
 !unquoted procedure $InherritsFromConcrete($ObjectA,$ObjectB)

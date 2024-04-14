@@ -1,15 +1,54 @@
 @startuml SeBane
 
 title \nSD\n  Read_Track
-skinparam SequenceGroupBorderThickness 0.01
-skinparam SequenceDividerBorderColor MediumPurple
-skinparam SequenceDividerBackgroundColor MediumPurple
-skinparam SequenceGroupBodyBackgroundColor MOTIVATION
-skinparam SequenceGroupFontColor DarkOrchid
-skinparam SequenceGroupBackgroundColor Thistle
-skinparam SequenceLifeLineBackgroundColor Thistle
-skinparam SequenceLifeLineBorderColor Thistle
 skinparam Style strictUML
+skinparam TitleFontColor #ffb86c
+skinparam BackgroundColor #282a36 
+skinparam SequenceGroupBorderThickness 0.01
+skinparam SequenceDividerBackgroundColor #ff79c6 
+
+skinparam SequenceGroupBodyBackgroundColor #44475a  
+skinparam SequenceGroupFontColor #f8f8f2  
+skinparam SequenceGroupBackgroundColor #ff5555  
+skinparam SequenceGroupBorderThickness 2
+skinparam SequenceGroupBorderColor #ff5555 
+
+skinparam SequenceLifeLineBackgroundColor #f8f8f2  
+skinparam SequenceLifeLineBorderColor #f8f8f2 
+skinparam SequenceArrowThickness 2
+
+skinparam ParticipantBackgroundColor #ffb86c 
+skinparam ParticipantBorderColor #ffb86c 
+skinparam DatabaseBackgroundColor #ffb86c
+skinparam DatabaseFontColor #ffb86c
+
+skinparam ActorBackgroundColor #ffb86c 
+skinparam ActorBorderThickness 3
+skinparam ActorBorderColor #ffb86c
+skinparam ActorFontColor #ffb86c 
+
+
+!unquoted procedure $SynchronousMessage($SMSObjectA, $SMSObjectB, $SMSMethod, $SMS_Parameters)
+!if ($SMSMethod!="")
+$SMSObjectA -[#ffb86c]> $SMSObjectB : <color:#ff79c6>$SMSMethod(</color><color:#f8f8f2>$SMS_Parameters</color><color:#ff79c6>)</color>
+!else
+$SMSObjectA -[#ffb86c]> $SMSObjectB 
+!endif
+!endprocedure
+
+!unquoted procedure $SynchronousReturnMessage($SMSObjectA, $SMSObjectB, $SMSMethod, $SMS_Parameters)
+$SMSObjectA <[#ffb86c]- $SMSObjectB : <color:#ff79c6>$SMSMethod(</color><color:#f8f8f2>$SMS_Parameters</color><color:#ff79c6>)</color>
+!endprocedure
+
+!unquoted procedure $ASynchronousMessage($AMSObjectA, $AMSObjectB, $AMSMethod, $AMS_Parameters)
+$AMSObjectA -[#ffb86c]->> $AMSObjectB : <color:#ff79c6>$AMSMethod(</color><color:#f8f8f2>$AMS_Parameters</color><color:#ff79c6>)</color>
+!endprocedure
+
+!unquoted procedure $ASynchronousReturnMessage($AMSObjectA, $AMSObjectB, $AMSMethod, $AMS_Parameters)
+$AMSObjectA <-[#ffb86c]- $AMSObjectB : <color:#ff79c6>$AMSMethod(</color><color:#f8f8f2>$AMS_Parameters</color><color:#ff79c6>)</color>
+!endprocedure
+
+
 
 actor User
 participant "View" as UI
@@ -20,36 +59,48 @@ participant "DataContext" as Dc
 
 database "Database" as Db
 
-User -> UI : **GetTrack**(**TrackID : int**)
-activate UI 
-UI -> Ap : **HttpGet**(**GetTrack**)
-activate Ap
-Ap -> Ts : **GetTrackByIdAsync**(**TrackID : int**)
-activate Ts
-Ts -> Tr : **GetTrackByIdAsync**(**TrackID : int**)
-activate Tr
-Tr -> Dc : **GetByIdAsync**(**int id**)
-activate Dc
-Dc -> Db
-activate Db
-Db --> Dc : ID not found
-Dc --> Tr : Error
-Tr --> Ts : Error.
-Ts --> Ap : Error
-Ap --> UI : Error
-UI --> User : TrackID not found
-Db -->Dc : Track Found
-deactivate Db
-Dc -->Tr : Track Found
-deactivate Dc
-Tr-->Ts : Track Found
-deactivate Tr
-Ts-->Ap : Track Found
-deactivate Ts
-Ap->Ap : Add(new SimpleTrackDTO(track.Name)
-Ap--> UI : Return Ok(trackDto)
-deactivate Ap
+$SynchronousMessage(User, UI, GetTrack, TrackID : int )
 
-UI --> User : Track
+activate UI 
+$SynchronousMessage(UI,Ap, HttpGet, GetTrack)
+activate Ap
+$SynchronousMessage(Ap,Ts, GetByIdAsync, TrackID : int)
+
+activate Ts
+$SynchronousMessage(Ts,Tr, GetTrackByIdAsync, TrackID : int)
+
+activate Tr
+$SynchronousMessage(Tr,Dc, GetByIdAsync, Id : int)
+activate Dc
+
+$SynchronousMessage(Dc,Db, , )
+
+activate Db
+$ASynchronousReturnMessage(Dc,Db,ID not found, )
+$ASynchronousReturnMessage(Tr,Dc,Error, )
+$ASynchronousReturnMessage(Ts,Tr,Error, )
+$ASynchronousReturnMessage(Ap,Ts,Error, )
+$ASynchronousReturnMessage(UI,Ap,Error, )
+$ASynchronousReturnMessage(User,UI,Error,TrackID not found)
+
+$ASynchronousReturnMessage(Dc,Db,Confirmation,Track found)
+
+deactivate Db
+$ASynchronousReturnMessage(Tr,Dc,Confirmation,Track found)
+
+deactivate Dc
+$ASynchronousReturnMessage(Ts,Tr,Confirmation,Track found)
+
+deactivate Tr
+
+$ASynchronousReturnMessage(Ap,Ts,Confirmation,Track found)
+
+deactivate Ts
+$SynchronousMessage(Ap,Ap, Add, new SimpleTrackDTO(track.Name))
+$ASynchronousReturnMessage(UI,Ap,Ok,trackDto)
+
+deactivate Ap
+$ASynchronousReturnMessage(User,UI,Ok,Track)
+
 
 @enduml
