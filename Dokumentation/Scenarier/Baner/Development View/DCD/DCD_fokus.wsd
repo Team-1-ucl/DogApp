@@ -1,6 +1,8 @@
 
 @startuml DCDv2
-title DCD
+title Design Class Diagram
+skinparam TitleBackgroundColor #f8f8f2 
+skinparam TitleFontColor #f8f8f2 
 skinparam nodesep 30
 skinparam ranksep 100
 skinparam dpi 300
@@ -26,6 +28,7 @@ skinparam ClassBorderThickness 2
 skinparam ArrowColor #8be9fd 
 skinparam RectangleFontColor #f8f8f2 
 skinparam RectangleBackgroundColor #44475a
+skinparam NoteBackgroundColor #50fa7b 
 
 ' Field procedures
 !unquoted procedure $Property($AccessModifier, $Restriction, $Name, $Type)
@@ -59,12 +62,20 @@ $Concrete ..|> $Abstraction
 $ObjectA --|> $ObjectB
 !endprocedure
 
-!unquoted procedure $ObjectRelation($ObjectA,$ObjectB)
+!unquoted procedure $ObjectAssociation($ObjectA,$ObjectB)
 $ObjectA -- $ObjectB
 !endprocedure
 
 !unquoted procedure $ObjectDependency($ObjectA,$ObjectB)
 $ObjectA ..> $ObjectB
+!endprocedure
+
+!unquoted procedure $ObjectComposition($ObjectA,$ObjectB)
+$ObjectA *-- $ObjectB
+!endprocedure
+
+!unquoted procedure $ObjectAggregation($ObjectA,$ObjectB)
+$ObjectA o-- $ObjectB
 !endprocedure
 
 rectangle "Blazor" as front{
@@ -74,6 +85,7 @@ rectangle "Blazor" as front{
         $Method(-,GetTrackAsync,string? : name,Task<Root>)
         $Method(-,GetAllTracks, ,List<TrackDto>)
     }
+    
     class "TrackService" as TrackServiceBlazor {
         --Properties--
         $Property(-, <<readonly>>, _httpClient, HttpClient)
@@ -155,6 +167,7 @@ rectangle "Application Programming Interface" as API {
             $Property(+, , Category, string)
         }
         class "TrackItemDto" as TrackItemDtoAPI{
+            --Properties--
             $Property(+, , Id, int)
             $Property(+, , Item, ItemDto)
             $Property(+, , ItemId, int)
@@ -163,9 +176,7 @@ rectangle "Application Programming Interface" as API {
             $Property(+, , X, float)
             $Property(+, , Y, float)
             $Property(+, , Order, int)
-
         }
-
     }
 }
 rectangle "Services" as Service{
@@ -184,7 +195,7 @@ rectangle "Services" as Service{
        
     }
     class TrackService{
-        --Properties--     
+        --Properties--
         $Property(-, , _trackRepository, ITrackRepo)
         -- Methods --
         $Method(+,CreateTrack, track : Track, Task)
@@ -298,19 +309,19 @@ $InherritsFromAbstraction(Item, BaseEntity)
 $InherritsFromAbstraction(Track, BaseEntity)
 $InherritsFromAbstraction(TrackService, ITrackService)
 
-$ObjectRelation(front,API)
-$ObjectRelation(TrackDtoBlazor,TrackItemDtoBlazor)
-$ObjectRelation(TrackItemDtoBlazor,ItemDTOBlazor)
-$ObjectRelation(TrackController,TrackDtoAPI)
-$ObjectRelation(ItemDTOAPI,TrackItemDtoAPI)
-$ObjectRelation(TrackServiceBlazor,DTOBlazor)
-$ObjectRelation(TrackItemDtoAPI,TrackDtoAPI)
-$ObjectRelation(ItemController,ItemDTOAPI)
-$ObjectRelation(Track,TrackItem)
-$ObjectRelation(TrackItem,Item)
-$ObjectRelation(DataContext,Track)
-$ObjectRelation(DataContext,TrackItem)
-$ObjectRelation(DataContext,Item)
+$ObjectAssociation(front,API)
+$ObjectAssociation(TrackDtoBlazor,TrackItemDtoBlazor)
+$ObjectAssociation(TrackItemDtoBlazor,ItemDTOBlazor)
+$ObjectAssociation(TrackController,TrackDtoAPI)
+$ObjectAssociation(ItemDTOAPI,TrackItemDtoAPI)
+$ObjectAssociation(TrackServiceBlazor,DTOBlazor)
+$ObjectAssociation(TrackItemDtoAPI,TrackDtoAPI)
+$ObjectAssociation(ItemController,ItemDTOAPI)
+$ObjectAssociation(Track,TrackItem)
+$ObjectAssociation(TrackItem,Item)
+$ObjectAssociation(DataContext,Track)
+$ObjectAssociation(DataContext,TrackItem)
+$ObjectAssociation(DataContext,Item)
 
 
 
