@@ -24,7 +24,7 @@ public class TrackController(ITrackService trackService) : Controller
     /// <param name="trackDto"><see cref="TrackDTO"/>'en indeholdende oplysninger om den nye bane.</param>
     /// <returns>En IActionResult, der repræsenterer resultatet af operationen.</returns>
     [HttpPost("[action]")]
-    public async Task<IActionResult> CreateTask(TrackDto trackDto)
+    public async Task<IActionResult> CreateTrack(TrackDtoOnlyName trackDto)
     {
         // Kontrollerer om trackService-parameteren er null
         if (_trackService == null)
@@ -79,12 +79,12 @@ public class TrackController(ITrackService trackService) : Controller
             var tracks = await _trackService.GetAllTracksAsync();
 
             // Opretter en ny liste til at gemme TrackDTO'er
-            var trackDtos = new List<TrackDto>();
+            var trackDtos = new List<TrackDtoOnlyName>();
 
             // Konverter hver bane til en TrackDTO og tilføjer den til trackDtos-listen
             foreach (var track in tracks)
             {
-                trackDtos.Add(new TrackDto(track.Name));
+                trackDtos.Add(new TrackDtoOnlyName(track.Name));
             }
 
             // Returner et Ok-svar med den konverterede liste af TrackDTO'er
@@ -117,7 +117,7 @@ public class TrackController(ITrackService trackService) : Controller
             }
 
             // Konverter sporet til en TrackDTO
-            var trackDto = new TrackDto(track.Name);
+            var trackDto = new TrackDtoOnlyName(track.Name);
 
             // Returner et Ok-svar med den konverterede TrackDTO
             return Ok(trackDto);

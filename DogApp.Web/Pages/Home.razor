@@ -13,23 +13,42 @@ Welcome to your new app.
 
 <button @onclick="HENTMINEDATA">Get Data</button>
 
-
-@foreach (var track in tracks)
+@if (tracks != null)
 {
-    <div>
-        <h3>Title @track.Name</h3>
-    </div>
-
+    <h2>Tracks</h2>
+    @foreach (var track in tracks)
+    {
+        <div>
+            <h3>Title @track.Name</h3>
+        </div>
+    }
 }
 
 
 
+<h2>Create New Track</h2>
+<form @onsubmit="CreateTrack">
+    <input type="text" @bind="newTrack.Name" placeholder="Track Name" />
+    <button type="submit">Create</button>
+</form>
 
 @code {
+
     public List<TrackDto> tracks = new();
+    public List<TrackDtoOnlyName> tracks = new();
+    public TrackDtoOnlyName newTrack = new TrackDtoOnlyName("");
 
     public async Task HENTMINEDATA()
     {
         tracks = await TrackService.GetAllTracks();
+    }
+
+    public async Task CreateTrack()
+    {
+        
+        
+        await TrackService.CreateTrackAsync(newTrack);
+        await HENTMINEDATA(); // Opdater listen over spor efter oprettelse
+        //newTrack = new TrackDto(); // Nulstil formularen
     }
 }
