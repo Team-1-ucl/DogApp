@@ -1,14 +1,14 @@
 @startuml DCDv2
 title DCD
 skinparam nodesep 30
-skinparam ranksep 50
-skinparam linetype polyline
+skinparam ranksep 100
 skinparam dpi 300
 skinparam ComponentBorderThickness 0
 skinparam BackgroundColor lightgrey
 skinparam ComponentBackgroundColor white
 skinparam ComponentBorderColor white
 skinparam PackageBorderColor white
+
 rectangle "Blazor" as front{
     
     interface "ITrackService" as ITrackServiceBlazor{
@@ -69,15 +69,24 @@ rectangle "Blazor" as front{
 rectangle "Application Programming Interface" as API {
     class TrackController{
         --Fields--
-        - <<readonly>> trackService : ITrackService 
+        - trackService : ITrackService 
         --Methods--
         + CreateTask(trackDto : TrackDTO) : Task<IActionResult> 
         + GetAllTracks() : Task<IActionResult>
         --Constructors--
         + TrackController(trackService : ITrackService) 
     }
-    class Controller
-    rectangle DTO{
+    class ItemController{
+        --Fields--
+        - _itemService: IItemService  
+        --Methods--
+        + ItemController(itemService: IItemService) 
+        + GetAllItems(): Task<IActionResult>
+        + GetItemByIdAsync(id: int): Task<IActionResult>
+        + UpdateItemByAsync(itemDto: ItemDto): Task
+    }
+    
+    package DTO{
          class "ItemDto" as ItemDTOAPI{
             --Properties--
             + Id : int
@@ -113,21 +122,39 @@ rectangle "Application Programming Interface" as API {
 rectangle "Services" as Service{
     interface ITrackService{
         --Methods--
-        - CreateTrack(track :Track ) : Task
-        - GetAllTracksAsync() :Task<IEnumerable<Track>> 
+        - TrackService(trackRepository: ITrackRepo) 
+        - CreateTrack(track: Track): Task       
+        - GetAllTracksAsync(): Task<IEnumerable<Track>>  
+    }
+    interface IItemService{
+        - CreateItem(item: Item): Task
+        - GetAllItems(): Task<List<Item>>
+        - GetItemById(id: int): Task<Item>
+        - UpdateItemById(item: Item): Task
     }
     class TrackService{
         -- Fields --
         - _trackRepository : ITrackRepo
         -- Methods --
-        + CreateTrack(track :Track ) : Task
-        + GetAllTracksAsync() :Task<IEnumerable<Track>> 
+        + TrackService(trackRepository: ITrackRepo) 
+        + CreateTrack(track: Track): Task       
+        + GetAllTracksAsync(): Task<IEnumerable<Track>> 
         -- Contructor --
         + TrackService(trackRepository: ITrackRepo )
         
     }   
+    class ItemService{
+        --Fields--
+        - _itemrepo: IItemRepo 
+        -- Methods --
+        + CreateItem(item: Item): Task  
+        + GetAllItems(): Task<List<Item>>
+        + GetItemById(id: int): Task<Item?>
+        + UpdateItemById(item: Item): Task
+        -- Constructors --
+        + ItemService(itemRepo: IItemRepo)
+    }
 }
-
 rectangle "Repositories" as Repositories{
     class "GenericRepository"{
             --Methods--
@@ -155,18 +182,18 @@ rectangle "Repositories" as Repositories{
 
         }
 }
-
 rectangle "Data" as models{
     package EntityModels{
         abstract class BaseEntity{
             -- Properties --
-            + {abstract}<<abstract>> Id : int
-            + {abstract}<<abstract>> Name : string
+            + {abstract} Id : int
+            + {abstract} Name : string?
         }
         entity Track<Bane>{
             -- Properties --
-            + <<get, set>> Height : float
-            + <<get, set>> Width : float
+            + Height : int?
+            + Width : int?
+            + Category : string?
             ==Navigation Properties==
             + TrackItems : TrackItem[0..*]
         }
@@ -179,17 +206,16 @@ rectangle "Data" as models{
             + Track? :  track
             + TrackId : int
             -- Payload --
-            + <<get, set>> X : float
-            + <<get, set>> Y : float
-            + <<get, set>> Order : int
+            + X : float?
+            + Y : float?
+            + Order : int?
         }
         entity Item<Bane Element>{
             -- Properties --
-            + <<get, set>> Category : Category
-            + <<get, set>> Description : string
-            + <<get, set>> Image : string
-            + <<get, set>> Placement : Placement
-            + <<get, set>> Difficulty : string
+            + Description : string
+            + bool : IsSign
+            + Image : string
+            
             ==Navigation Properties==
             + TrackItems : TrackItems[0..*]
         }
@@ -201,8 +227,8 @@ rectangle "Data" as models{
             + Items : DbSet<Item>
             + TrackItems : Dbset<TrackItems>
             --Methods--
-            + OnConfiguring(DbContextOptionbuilder optionsBuilder)
-            + OnModelCreating(ModelBuilder modelbuilder)
+            # OnConfiguring(DbContextOptionbuilder optionsBuilder)
+            # OnModelCreating(ModelBuilder modelbuilder)
         }
     }
 
@@ -212,12 +238,10 @@ RootDTOBlazor -> ListDtoBlazor
 ListDtoBlazor --> TrackDtoBlazor
 TrackDtoBlazor <-- TrackItemDtoBlazor
 TrackItemDtoBlazor -> ItemDTOBlazor
-
 TrackServiceBlazor --|> ITrackServiceBlazor
 TrackServiceBlazor --> DTOBlazor
 TrackController --> ITrackService
-TrackController --|> Controller
-TrackController --> DTO
+TrackController --> TrackDtoAPI
 ItemDTOAPI <- TrackItemDtoAPI
 TrackItemDtoAPI -> TrackDtoAPI
 IGenericRepository  <|-- GenericRepository
@@ -228,12 +252,15 @@ ITrackRepo <|-- TrackRepo
 IItemRepo <|-- ItemRepo
 TrackService -> ITrackRepo
 ITrackService <|-- TrackService
-BaseEntity  <- Track
-BaseEntity <- Item
-Track <|--|> TrackItem
-TrackItem <|--|> Item
-DataContext -|> Track
-DataContext -|> TrackItem
-DataContext -|> Item
-
+BaseEntity  <|- Track
+BaseEntity <|- Item
+Track "1" <--> "1..*" TrackItem
+TrackItem "1..*" <--> "1" Item
+DataContext "1" -> "1..*" Track 
+DataContext "1" -> "1..*" TrackItem
+DataContext "1" -> "1..*" Item
+ItemController --> IItemService
+IItemService <|-- ItemService
+ItemService -> IItemRepo
+ItemController --> ItemDTOAPI
 @enduml

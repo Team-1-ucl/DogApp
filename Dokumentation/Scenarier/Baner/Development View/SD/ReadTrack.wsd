@@ -1,55 +1,71 @@
 @startuml SeBane
 
-title \nSD\n  Read_Track
-skinparam SequenceGroupBorderThickness 0.01
-skinparam SequenceDividerBorderColor MediumPurple
-skinparam SequenceDividerBackgroundColor MediumPurple
-skinparam SequenceGroupBodyBackgroundColor MOTIVATION
-skinparam SequenceGroupFontColor DarkOrchid
-skinparam SequenceGroupBackgroundColor Thistle
-skinparam SequenceLifeLineBackgroundColor Thistle
-skinparam SequenceLifeLineBorderColor Thistle
-skinparam Style strictUML
+title SD\n  Read_Track
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+
 
 actor User
+box "DogApp.Web"
 participant "View" as UI
-participant "API" as Ap
-participant "Track Service" as Ts
-participant "Track Repository" as Tr
-participant "DataContext" as Dc
-
+end box
+box "DogApp.Api"
+participant "Track Controller" as TrackController
+end box
+box "DogApp.Services" 
+participant "Track Service" as TrackService
+end box
+box "DogApp.Repositories"
+participant "Track Repository" as TrackRepo
+end box
+box "DogApp.Data"
+participant "DataContext" as DataContext
+end box
 database "Database" as Db
 
-User -> UI : **GetTrack**(**TrackID : int**)
-activate UI 
-UI -> Ap : **HttpGet**(**GetTrack**)
-activate Ap
-Ap -> Ts : **GetTrackByIdAsync**(**TrackID : int**)
-activate Ts
-Ts -> Tr : **GetTrackByIdAsync**(**TrackID : int**)
-activate Tr
-Tr -> Dc : **GetByIdAsync**(**int id**)
-activate Dc
-Dc -> Db
-activate Db
-Db --> Dc : ID not found
-Dc --> Tr : Error
-Tr --> Ts : Error.
-Ts --> Ap : Error
-Ap --> UI : Error
-UI --> User : TrackID not found
-Db -->Dc : Track Found
-deactivate Db
-Dc -->Tr : Track Found
-deactivate Dc
-Tr-->Ts : Track Found
-deactivate Tr
-Ts-->Ap : Track Found
-deactivate Ts
-Ap->Ap : Add(new SimpleTrackDTO(track.Name)
-Ap--> UI : Return Ok(trackDto)
-deactivate Ap
 
-UI --> User : Track
+$Message(User, UI, GetTrack, TrackID : int )
+activate UI 
+$Message(UI, TrackController , GetTrackById, Id : int)
+opt if track service is null
+$ReturnMessage(UI,TrackController,InvalidOperationException, ErrorMSG)
+end
+
+alt Try Block Success
+activate TrackController 
+$Message(TrackController ,TrackService, GetTrackById, id)
+activate TrackService
+$Message(TrackService, TrackRepo, GetTrackById, id : int)
+deactivate TrackService 
+activate TrackRepo
+$Message(TrackRepo, DataContext, GetTrackById, id : int)
+deactivate TrackRepo
+activate DataContext
+$PlainMessage(DataContext, Db, Database Call)
+deactivate DataContext
+activate Db
+$PlainReturnMessage(DataContext, Db, return specific track)
+deactivate Db
+activate DataContext
+$PlainReturnMessage(TrackRepo, DataContext, return specific track)
+deactivate DataContext
+activate TrackRepo
+$PlainReturnMessage(TrackService, TrackRepo, return specific track)
+deactivate TrackRepo
+activate TrackService
+$PlainReturnMessage(TrackController, TrackService, return specific track)
+deactivate TrackService
+opt if track is null
+$PlainReturnMessage(UI, TrackController, NotFound)
+end
+$PlainMessage(TrackController, TrackController, Create TrackDto)
+$ReturnMessage(UI, TrackController, OK, TrackDto)
+$PlainReturnMessage(User, UI, A Track)
+
+else
+$ReturnMessage(UI, TrackController, StatusCode, 500)
+$PlainReturnMessage(User, UI, ErrorMSG)
+
+
+end
 
 @enduml

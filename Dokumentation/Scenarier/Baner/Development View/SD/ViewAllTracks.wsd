@@ -1,0 +1,68 @@
+@startuml View All Tracks
+title View All Tracks \nSD\n SSD Se_bane
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+
+actor User
+box "DogApp.Web"
+participant "UI" as UI
+end box
+box "DogApp.API"
+participant "Track Controller" as TrackController
+end box
+box "DogApp.Services"
+Participant "Track Serivce" as TrackService
+end box
+box "DogApp.Repository"
+participant "Track Repository" as TrackRepo
+end box
+box "DogApp.Data"
+Participant "DataContext" as DataContext
+box "Database"
+database "Database" as DB
+end box
+
+
+$PlainMessage(User, UI, View Track)
+activate UI
+$Message(UI, TrackController, GetAllTracks, )
+opt if Trackservice is null
+$ReturnMessage(UI,TrackController, InvalidOperationException, Track service is not initialized.)
+end
+activate TrackController
+alt Try Block Success
+$Message(TrackController,TrackService, GetAllTracksAsync,)
+deactivate TrackController
+activate TrackService
+$Message(TrackService, TrackRepo, GetAllAsync, )
+deactivate TrackService
+activate TrackRepo
+$Message(TrackRepo, DataContext, GetAllAsync, )
+deactivate TrackRepo
+activate DataContext
+$PlainMessage(DataContext, DB, Database Call)
+deactivate DataContext
+activate DB
+$PlainReturnMessage(DataContext, DB, All Tracks)
+deactivate DB
+activate DataContext
+$PlainReturnMessage(TrackRepo, DataContext, All Tracks)
+deactivate DataContext
+activate TrackRepo
+$PlainReturnMessage(TrackService, TrackRepo, A list of tracks)
+deactivate TrackRepo
+activate TrackService
+$PlainReturnMessage(TrackController, TrackService, A list of tracks)
+deactivate TrackService
+activate TrackController
+$PlainMessage(TrackController, TrackController, Create trackDto object)
+loop for each track in tracks
+$Message(TrackController, TrackController, Add, TrackDto)
+end
+$ReturnMessage(UI,TrackController, OK, trackDtos)
+else Try Block Failed
+$ReturnMessage(UI,TrackController, StatusCode, 500)
+deactivate TrackController
+end
+
+
+@enduml
