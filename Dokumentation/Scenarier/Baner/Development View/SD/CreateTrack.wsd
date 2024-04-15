@@ -1,60 +1,78 @@
 @startuml LavBane
 
 title \nSD\n  Create_Track
-skinparam SequenceGroupBorderThickness 0.01
-skinparam SequenceDividerBorderColor MediumPurple
-skinparam SequenceDividerBackgroundColor MediumPurple
-skinparam SequenceGroupBodyBackgroundColor MOTIVATION
-skinparam SequenceGroupFontColor DarkOrchid
-skinparam SequenceGroupBackgroundColor Thistle
-skinparam SequenceLifeLineBackgroundColor Thistle
-skinparam SequenceLifeLineBorderColor Thistle
-skinparam Style strictUML
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
 actor User
+box "DogApp.Web"
 participant "View" as UI
+end box
+box "DogApp.API"
 participant "API" as Ap
+end box
+box "DogApp.Serivces"
 participant "Track Service" as Ts
+end box
+box "DogApp.Repositories"
 participant "Track Repository" as Tr
+end box
+box "DogApp.Data"
 participant "Track" as Track
 participant "DataContext" as Dc
-
+end box
+box "Database"
 database "Database" as Db
+end box
 
-User -> UI : **CreateTrack**(**Height : int, Width : int, Collection<TrackItem>TrackItems, Category : string**)
+$Message(User, UI, CreateTrack, Height : int; Width : int; Collection<TrackItem>TrackItems; Category : string)
 activate UI
-UI -> Ap : **HttpPost(CreateTrack)**
+$Message(UI, Ap, CreateTask, TrackDto)
 activate Ap
-Ap->Ap : **Create trackDto**
-Ap -> Ts :**CreateTrack(track)**
-activate Ts
-Ts -> Tr : **CreateTrack(track)**
-activate Tr
-Tr -> Track :**CreateTrack(track)**
-activate Track 
-Track --> Tr : TrackObject
-deactivate Track
-Tr -> Dc : **Task AddAsync(T entity)**
-activate Dc
-Dc -> Db : **DbSet Track**
-activate Db
-Db --> Dc : Error
-Dc --> Tr : Error
-Tr --> Ts : Error
-Ts --> Ap : Error
-Ap --> UI : Statuscode(500)
-UI --> User : "Der opstod en fejl under oprettelsen af banen."
-Db -->Dc : Track Created
-deactivate Db
-Dc -->Tr : Track Created
-deactivate Dc
-Tr-->Ts : Track Created
-deactivate Tr
-Ts-->Ap : Track Created
-deactivate Ts
-Ap--> UI : Return Ok()
+opt if Trackserice is null
+$ReturnMessage(UI,Ap, InvalidOperationException, Error Message)
+end
+opt if TrackDto is null
+$ReturnMessage(UI,Ap, BadRequest, Error Message)
+end
+$PlainMessage(Ap, Ap, Create TrackDto object)
+alt if Trackserice exists
+$Message(Ap, Ts, CreateTrack, track)
 deactivate Ap
+activate Ts
+$Message(Ts, Tr, AddAsync, track)
+deactivate Ts
+activate Tr
+$PlainMessage(Tr, Track, Creates Track Object)
 
-UI --> User : "Bane oprettet successfully."
+activate Track 
+$PlainReturnMessage(Tr, Track, return Track Object)
+deactivate Track
 
+$PlainMessage(Tr,Dc,Database call)
+deactivate Tr
+activate Dc
+$PlainMessage(Dc,Db,DbSet Track)
+deactivate Dc
+activate Db
+$PlainReturnMessage(Dc,Db, Track Created)
+deactivate Db
+activate Dc
+$PlainReturnMessage(Tr,Dc, Track Created)
+deactivate Dc
+activate Tr
+$PlainReturnMessage(Ts,Tr, Track Created)
+deactivate Tr
+activate Ts
+$PlainReturnMessage(Ap,Ts, Track Created)
+deactivate Ts
+activate Ap
+$ReturnMessage(UI,Ap, Ok, Bane oprettet)
+$PlainReturnMessage(User,UI, Bane oprettet successfully.)
+else if trackService is Null
+$ReturnMessage(UI,Ap, Statuscode, 500)
+deactivate Ap
+$PlainReturnMessage(User,UI, No track was created)
+
+
+end
 @enduml
