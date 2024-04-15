@@ -1,13 +1,20 @@
 ﻿using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace DogApp.Web.Dto;
 
-public class TrackDto
+
+
+public class TrackDtoOnlyName 
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public int height { get; set; }
-    public int width { get; set; }
-    public Collection<TrackItem> trackItems { get; set; }
-    public string Category { get; set; }
+    public string? Name { get; set; }
+    public TrackDtoOnlyName(string? name)
+    {
+        Name = name;
+    }
+
+    
+
+    
+
 }

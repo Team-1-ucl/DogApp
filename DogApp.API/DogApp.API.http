@@ -1,6 +1,15 @@
-@DogApp.API_HostAddress = http://localhost:5120
+@DogApp.API_HostAddress = https://localhost:7117
 
 GET {{DogApp.API_HostAddress}}/weatherforecast/
 Accept: application/json
+
+###
+
+POST {{DogApp.API_HostAddress}}/track/CreateTrack
+Content-Type: application/json
+
+{
+  
+}
 
 ###
