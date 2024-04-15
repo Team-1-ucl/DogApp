@@ -18,14 +18,14 @@ public class TrackService : ITrackService
         _httpClient = httpClient;
     }
 
-    public async Task<List<TrackDto>> GetAllTracks()
+    public async Task<List<TrackDtoOnlyName>> GetAllTracks()
     {
 
         HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + "track/GetAllTracks");
 
         string responseBody = await response.Content.ReadAsStringAsync();
 
-        List<TrackDto>? tracks = JsonConvert.DeserializeObject<List<TrackDto>>(responseBody);
+        List<TrackDtoOnlyName >? tracks = JsonConvert.DeserializeObject<List<TrackDtoOnlyName>>(responseBody);
 
         return tracks;
 
@@ -48,6 +48,14 @@ public class TrackService : ITrackService
             return null;
         }
 
+    }
+
+    public async Task CreateTrackAsync(TrackDtoOnlyName trackDto)
+    {
+        string json = JsonConvert.SerializeObject(trackDto);
+        HttpContent content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+        HttpResponseMessage response = await _httpClient.PostAsync(_httpClient.BaseAddress + "Track/CreateTrack", content);
+        //response.EnsureSuccessStatusCode();
     }
 
 

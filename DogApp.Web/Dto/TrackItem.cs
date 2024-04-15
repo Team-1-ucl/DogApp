@@ -7,7 +7,7 @@ public class TrackItem
     public ItemDto? Item;
     public int Itemid { get; set; }
 
-    public TrackDto? Track;
+    public TrackDtoOnlyName? Track;
     public int Trackid { get; set; }
 
     public float X { get; set; }

@@ -5,6 +5,6 @@ namespace DogApp.Web.Dto;
 public class List
 {
     [JsonProperty("track")]
-    public List<TrackDto> Tracks { get; set; }
+    public List<TrackDtoOnlyName> Tracks { get; set; }
 }
 
