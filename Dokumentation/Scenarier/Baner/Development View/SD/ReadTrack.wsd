@@ -1,58 +1,71 @@
 @startuml SeBane
 
-title \nSD\n  Read_Track
+title SD\n  Read_Track
 !theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
 
 actor User
-box "front"
+box "DogApp.Web"
 participant "View" as UI
 end box
-box "backend"
-participant "API" as Ap
-participant "Track Service" as Ts
-participant "Track Repository" as Tr
-participant "DataContext" as Dc
+box "DogApp.Api"
+participant "Track Controller" as TrackController
+end box
+box "DogApp.Services" 
+participant "Track Service" as TrackService
+end box
+box "DogApp.Repositories"
+participant "Track Repository" as TrackRepo
+end box
+box "DogApp.Data"
+participant "DataContext" as DataContext
 end box
 database "Database" as Db
 
+
 $Message(User, UI, GetTrack, TrackID : int )
-
 activate UI 
-$Message(UI,Ap, HttpGet, GetTrack)
-activate Ap
-$Message(Ap,Ts, GetByIdAsync, TrackID : int)
-activate Ts
-$Message(Ts,Tr, GetTrackByIdAsync, TrackID : int)
-activate Tr
-$Message(Tr,Dc, GetByIdAsync, Id : int)
-activate Dc
-$Message(Dc,Db, , )
+$Message(UI, TrackController , GetTrackById, Id : int)
+opt if track service is null
+$ReturnMessage(UI,TrackController,InvalidOperationException, ErrorMSG)
+end
+
+alt Try Block Success
+activate TrackController 
+$Message(TrackController ,TrackService, GetTrackById, id)
+activate TrackService
+$Message(TrackService, TrackRepo, GetTrackById, id : int)
+deactivate TrackService 
+activate TrackRepo
+$Message(TrackRepo, DataContext, GetTrackById, id : int)
+deactivate TrackRepo
+activate DataContext
+$PlainMessage(DataContext, Db, Database Call)
+deactivate DataContext
 activate Db
-$ReturnMessage(Dc,Db,ID not found, )
-$ReturnMessage(Tr,Dc,Error, )
-$ReturnMessage(Ts,Tr,Error, )
-$ReturnMessage(Ap,Ts,Error, )
-$ReturnMessage(UI,Ap,Error, )
-$ReturnMessage(User,UI,Error,TrackID not found)
-$ReturnMessage(Dc,Db,Confirmation,Track found)
-
+$PlainReturnMessage(DataContext, Db, return specific track)
 deactivate Db
-$ReturnMessage(Tr,Dc,Confirmation,Track found)
+activate DataContext
+$PlainReturnMessage(TrackRepo, DataContext, return specific track)
+deactivate DataContext
+activate TrackRepo
+$PlainReturnMessage(TrackService, TrackRepo, return specific track)
+deactivate TrackRepo
+activate TrackService
+$PlainReturnMessage(TrackController, TrackService, return specific track)
+deactivate TrackService
+opt if track is null
+$PlainReturnMessage(UI, TrackController, NotFound)
+end
+$PlainMessage(TrackController, TrackController, Create TrackDto)
+$ReturnMessage(UI, TrackController, OK, TrackDto)
+$PlainReturnMessage(User, UI, A Track)
 
-deactivate Dc
-$ReturnMessage(Ts,Tr,Confirmation,Track found)
+else
+$ReturnMessage(UI, TrackController, StatusCode, 500)
+$PlainReturnMessage(User, UI, ErrorMSG)
 
-deactivate Tr
 
-$ReturnMessage(Ap,Ts,Confirmation,Track found)
-
-deactivate Ts
-$Message(Ap,Ap, Add, new SimpleTrackDTO(track.Name))
-$ReturnMessage(UI,Ap,Ok,trackDto)
-
-deactivate Ap
-$ReturnMessage(User,UI,Ok,Track)
-
+end
 
 @enduml

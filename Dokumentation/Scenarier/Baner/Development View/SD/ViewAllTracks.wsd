@@ -21,6 +21,7 @@ box "Database"
 database "Database" as DB
 end box
 
+
 $PlainMessage(User, UI, View Track)
 activate UI
 $Message(UI, TrackController, GetAllTracks, )

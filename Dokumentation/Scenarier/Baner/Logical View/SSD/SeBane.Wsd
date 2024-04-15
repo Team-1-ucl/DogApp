@@ -1,11 +1,13 @@
 @startuml SeBane 
-title Se Bane \n SSD
-skinparam style strictuml
+title Se Bane\nSSD
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+
 actor Bruger
-participant System as sys
-Bruger -> sys: Tilgår System
-sys --> Bruger: Viser inputside(Bane)
-Bruger ->sys: Vælg bane
-sys --> Bruger: Viser bane
+participant System 
+$PlainMessage(Bruger, System,Tilgår System)
+$PlainReturnMessage(Bruger, System,Viser inputside(Bane))
+$PlainMessage(Bruger, System, Vælg bane)
+$PlainReturnMessage(Bruger, System,Viser bane)
+
 
 @enduml

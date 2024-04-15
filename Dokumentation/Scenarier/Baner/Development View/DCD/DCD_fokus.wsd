@@ -54,7 +54,6 @@ rectangle "Blazor" as front{
             $Property(+, , Y, float)
             $Property(+, , Order, int)
         }
-
     }
 }
 rectangle "Application Programming Interface" as API {

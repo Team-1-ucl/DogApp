@@ -1,6 +1,6 @@
 @startuml LavBane
 
-title \nSD\n  Create_Track
+title SD\n  Create_Track
 !theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
 actor User
