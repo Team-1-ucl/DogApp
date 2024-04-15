@@ -14,5 +14,6 @@ public class TrackDto
     public TrackDto(string name)
     {
         this.Name = name;
+        this.height = 0;
     }
 }
