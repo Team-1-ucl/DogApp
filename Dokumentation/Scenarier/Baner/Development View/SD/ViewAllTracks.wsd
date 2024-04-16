@@ -1,5 +1,10 @@
 @startuml View All Tracks
-title View All Tracks \nSD\n SSD Se_bane
+title SD: View All Tracks 
+legend top
+**Sporbarhed**
+SSD: Se Alle Baner
+OC: Se Alle Baner
+end legend 
 !theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
 actor User

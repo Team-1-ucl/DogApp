@@ -3,11 +3,13 @@ title Design Class Diagram
 !theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
 
-legend top right
-    |Color| Type |
-    |<$Purple>| Class|
+legend top 
+    |Color| what is it? |
+    |<$Purple>| type|
     |<$Red>| Folder |
-endlegend
+    |<$Pink>| Methods/Constructors |
+    |<$Yellow>| Return Value |
+end legend
 
 rectangle "Blazor" as front{
     interface "ITrackService" as ITrackServiceBlazor{
@@ -66,7 +68,7 @@ rectangle "Application Programming Interface" as API {
         --Constructors--
         $Constructor(+, TrackController, trackService : ITrackService )
     }
-    class ItemController{
+    class ItemController $Tag_Item{
         --Fields--
         $Property(-, ,_itemService, IItemService)        
         --Methods--
@@ -115,7 +117,7 @@ rectangle "Services" as Service{
         $Method(-,GetAllTracksAsync, ,Task<IEnumerable<Track>>)
         
     }
-    interface IItemService{
+    interface IItemService $Tag_Item{
         --Methods--
         $Method(-, CreateItem, item: Item, Task)
         $Method(-, GetAllItems, , Task<List<Item>>)
@@ -132,7 +134,7 @@ rectangle "Services" as Service{
         -- Contructor --
         $Constructor(+,TrackService, trackRepository: ITrackRepo)
     }   
-    class ItemService{
+    class ItemService $Tag_Item{
         --Properties--
         $Property(-, , _itemrepo, IItemRepo)
         -- Methods --
@@ -163,9 +165,9 @@ rectangle "Repositories" as Repositories{
             $Method(-, Delete,T : entity, )
 
         }
-        interface IItemRepo
-        interface ITrackRepo
-        class "ItemRepo"{
+        interface IItemRepo $Tag_Item
+        interface ITrackRepo 
+        class "ItemRepo" $Tag_Item{
 
         }
         class "TrackRepo"{
