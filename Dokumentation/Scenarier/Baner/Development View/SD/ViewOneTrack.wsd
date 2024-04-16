@@ -1,6 +1,15 @@
 @startuml SeBane
 
-title SD\n  Read_Track
+title SD:  ViewOneTrack 
+legend top
+**Sporbarhed**
+
+|Artefakt| Navn |
+|UC| Se Bane|
+|SSD| Se Bane |
+|OC| SeBane|
+|**SD**| **ViewOneTrack** |
+end legend
 !theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
 

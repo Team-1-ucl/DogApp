@@ -1,17 +1,9 @@
 @startuml Objekt model
+title Objekt Model
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+
 top to bottom direction
-skinparam minClassWidth 125
-skinparam nodesep 10
-skinparam ranksep 10
-skinparam rectangle {
-  
-  BackgroundColor<<Apache>> LightCoral
-  BorderColor<<Apache>> #FF6655
-  FontName Courier
-  BorderColor black
-  BackgroundColor lightGrey
-  
-}
+
 
 
 

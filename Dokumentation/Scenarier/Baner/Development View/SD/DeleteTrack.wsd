@@ -1,0 +1,73 @@
+@startuml Delete Track
+Title Delete Track
+legend top
+|Artefakt| Navn |
+|UC| Slet Bane|
+|SSD| Slet Bane |
+|OC| Sletbane|
+|**SD**| **DeleteTrack** |
+end legend
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+
+actor User
+box "DogApp.Web"
+participant "UI" as UI
+end box
+box "DogApp.API"
+participant "Track Controller" as TrackController
+end box
+box "DogApp.Services"
+Participant "Track Serivce" as TrackService
+end box
+box "DogApp.Repository"
+participant "Track Repository" as TrackRepo
+end box
+box "DogApp.Data"
+Participant "DataContext" as DataContext
+box "Database"
+database "Database" as DB
+end box
+
+
+$Message(User, UI, DeleteTrack,TrackId : int)
+activate UI 
+$Message(UI, TrackController , DeleteTrack, Id : int)
+activate TrackController
+opt if track service is null
+$ReturnMessage(UI,TrackController,InvalidOperationException, ErrorMSG)
+end
+alt try block success 
+$Message(TrackController, TrackService, DeleteTrack, Id : int)
+deactivate TrackController
+activate TrackService
+$Message(TrackService, TrackRepo, DeleteTrack, Id : int)
+deactivate TrackService
+activate TrackRepo
+$Message(TrackRepo, DataContext, DeleteTrack, Id : int)
+deactivate TrackRepo
+activate DataContext
+$PlainMessage(DataContext, DB, Database call)
+deactivate DataContext
+activate DB
+$PlainReturnMessage(DataContext, DB, Track Deleted)
+deactivate DB
+activate DataContext
+$PlainReturnMessage(TrackRepo, DataContext, Track Deleted)
+deactivate DataContext
+activate TrackRepo
+$PlainReturnMessage(TrackService, TrackRepo, Track Deleted)
+deactivate TrackRepo
+activate TrackService
+$PlainReturnMessage(TrackController, TrackService, Track Deleted)
+deactivate TrackService
+activate TrackController
+$ReturnMessage(UI, TrackController, OK, )
+$PlainReturnMessage(User, UI, Track Deleted)
+else
+$ReturnMessage(UI, TrackController, StatusCode, 500)
+deactivate TrackController
+$PlainReturnMessage(User, UI, "No track was deleted")
+deactivate UI
+end
+
+@enduml

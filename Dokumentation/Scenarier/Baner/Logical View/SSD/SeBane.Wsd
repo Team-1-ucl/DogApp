@@ -1,12 +1,21 @@
 @startuml SeBane 
-title Se Bane\nSSD
+title Se Bane\nSystem Sequence Diagram
+legend top
+**Sporbarhed**
+
+|Artefakt| Navn |
+|UC| Se Bane|
+|**SSD**| **Se Bane** |
+|OC| SeBane|
+|SD| ViewOneTrack |
+end legend
 !theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
 actor Bruger
 participant System 
 $PlainMessage(Bruger, System,Tilgår System)
 $PlainReturnMessage(Bruger, System,Viser inputside(Bane))
-$PlainMessage(Bruger, System, Vælg bane)
+$PlainMessage(Bruger, System, Vælger bane)
 $PlainReturnMessage(Bruger, System,Viser bane)
 
 

@@ -2,7 +2,15 @@
 ## UC Se Bane
 |OC|OC_SeBane
 |----|----|
-|Operation|GetRally( RallyID : int ).
+|Operation|GetTrackById( TrackID : int ).
 Cross-Reference| SSD_SeBane.
-Preconditions| RallyItem exists.
-Post-Conditions| A rally track was retrieved and read.
+Preconditions| Track exists.
+Post-Conditions| A track was retrieved and read.
+#### Sporbarhed
+
+|Artefakt| Navn |
+| - |-  |
+|UC| Se Bane|
+|SSD| Se Bane |
+|**OC**| **SeBane**|
+|SD| ViewOneTrack |

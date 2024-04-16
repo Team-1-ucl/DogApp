@@ -1,5 +1,6 @@
 @startuml DomæneModel
 title Domæne Model
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
 
 class "Bane"{
