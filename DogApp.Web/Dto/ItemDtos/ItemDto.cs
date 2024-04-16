@@ -1,4 +1,6 @@
-﻿namespace DogApp.Web.Dto;
+﻿using DogApp.Web.Dto.TrackDtos;
+
+namespace DogApp.Web.Dto.ItemDtos;
 
 public class ItemDto
 {

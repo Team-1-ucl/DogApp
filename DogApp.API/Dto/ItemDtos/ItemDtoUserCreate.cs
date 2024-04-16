@@ -1,8 +1,7 @@
-﻿namespace DogApp.API.Dto
+﻿namespace DogApp.API.Dto.ItemDtos
 {
-    public class ItemDto
+    public class ItemDtoUserCreate
     {
-        public int Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Image { get; set; }
@@ -10,20 +9,13 @@
         public string? Category { get; set; }
         public ICollection<TrackItem> TrackItems { get; set; }
 
-        public ItemDto(int id, string? name, string? description, string? image)
+        public ItemDtoUserCreate(string? name, string? description, string? image, bool? isSign, string? category)
         {
-            Id = id;
             Name = name;
             Description = description;
             Image = image;
-        }
-        public ItemDto(int id, string? name)
-        {
-
-        }
-
-        public ItemDto()
-        {
+            IsSign = IsSign;
+            Category = category;
         }
     }
 }

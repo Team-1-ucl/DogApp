@@ -1,6 +1,6 @@
 ﻿@page "/createitem"
 
-@using DogApp.Web.Dto
+@using DogApp.Web.Dto.ItemDtos
 @using DogApp.Web.Services.Interfaces
 @inject IItemService ItemService
 @inject NavigationManager NavigationManager
@@ -24,20 +24,19 @@
 </div>
 
 @code {
-    private string itemName;
-    private string itemDescription;
-    private string itemCategory;
+    public ItemDtoUserCreate newItem = new ItemDtoUserCreate("", "", "", true, "");
+
+    private string? itemName;
+    private string? itemDescription;
+    private string? itemImage;
+    private bool itemIsSign;
+
+
+    private string? itemCategory;
 
     private async Task CreateItem()
     {
-        // Create an ItemDto object using the provided inputs
-        var newItem = new ItemDto
-            {
-                Name = itemName,
-                Description = itemDescription,
-                Category = itemCategory
-            };
-
+       
         await ItemService.CreateItemAsync(newItem);
 
         // Navigate back to the items page after creating the item
