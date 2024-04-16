@@ -26,6 +26,9 @@ public class ItemController(IItemService itemService) : Controller
             {
                 Id = item.Id,
                 Name = item.Name,
+                Description = item.Description,
+                Category = item.Category,
+                IsSign = item.IsSign
             }).ToList();
 
             return Ok(itemDtos);
@@ -75,5 +78,27 @@ public class ItemController(IItemService itemService) : Controller
         {
             Console.WriteLine("kunne ikk finde det element");
         }
-    }       
+    }
+    [HttpPost("[action]")]
+    public async Task<IActionResult> CreateItemAsync(ItemDto itemDto)
+    {
+        var item = new Item
+        {
+            Name = itemDto.Name,
+            Description = itemDto.Description,
+            Image = itemDto.Image
+        };
+        try
+        {
+
+            await _itemService.CreateItem(item);
+            return Ok("Element oprettet succesfuldt");
+        }
+        catch (Exception)
+        {
+            // Hvis der opstår en fejl, logges den eller håndteres på anden vis
+            // Returner et 500 Internal Server Error-svar, hvis der opstår en fejl
+            return StatusCode(500, "Der opstod en fejl under oprettelsen af elementet.");
+        }
+    }
 }

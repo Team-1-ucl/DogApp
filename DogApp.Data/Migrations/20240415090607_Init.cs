@@ -2,7 +2,7 @@
 
 #nullable disable
 
-
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace DogApp.Data.Migrations
 {
@@ -20,7 +20,8 @@ namespace DogApp.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ItemCategory = table.Column<int>(type: "int", nullable: true),
+                    IsSign = table.Column<bool>(type: "bit", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -75,19 +76,19 @@ namespace DogApp.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Items",
-                columns: new[] { "Id", "Description", "Image", "ItemCategory", "Name" },
+                columns: new[] { "Id", "Category", "Description", "Image", "IsSign", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Description of Sign 1", "hest", 0, "Sign 1" },
-                    { 2, "Description of Sign 2", "hest", 0, "Sign 2" },
-                    { 3, "Description of Sign 3", "hest", 0, "Sign 3" },
-                    { 4, "Description of Sign 4", "hest", 0, "Sign 4" },
-                    { 5, "Description of Sign 5", "hest", 0, "Sign 5" },
-                    { 6, "Description of Extra 1", "hest", 1, "Extra 1" },
-                    { 7, "Description of Extra 2", "hest", 1, "Extra 2" },
-                    { 8, "Description of Extra 3", "hest", 1, "Extra 3" },
-                    { 9, "Description of Extra 4", "hest", 1, "Extra 4" },
-                    { 10, "Description of Extra 5", "hest", 1, "Extra 5" }
+                    { 1, "Open", "", "/images/hojresving", true, "højre sving" },
+                    { 2, "Open", "", "/images/venstresving", true, "venstre sving" },
+                    { 3, "Open", "", "/images/hojrerundt", true, "højre rundt" },
+                    { 4, "Open", "", "/images/venstrerundt", true, "venstre rundt" },
+                    { 5, "Open", "", "/images/diagonalthojre", true, "diagonalt højre" },
+                    { 6, null, "Description of Extra 1", "hest", false, "Extra 1" },
+                    { 7, null, "Description of Extra 2", "hest", false, "Extra 2" },
+                    { 8, null, "Description of Extra 3", "hest", false, "Extra 3" },
+                    { 9, null, "Description of Extra 4", "hest", false, "Extra 4" },
+                    { 10, null, "Description of Extra 5", "hest", false, "Extra 5" }
                 });
 
             migrationBuilder.InsertData(
@@ -95,9 +96,9 @@ namespace DogApp.Data.Migrations
                 columns: new[] { "Id", "Category", "Height", "Name", "Width" },
                 values: new object[,]
                 {
-                    { 1, "Category A", 100, "Rally 1", 200 },
-                    { 2, "Category B", 150, "Rally 2", 250 },
-                    { 3, "Category C", 120, "Rally 3", 180 }
+                    { 1, " Champion", 100, "Rallybane 1", 200 },
+                    { 2, "Open ", 150, "Rallybane 2", 250 },
+                    { 3, "Beginder", 120, "Rallybane 3", 180 }
                 });
 
             migrationBuilder.CreateIndex(

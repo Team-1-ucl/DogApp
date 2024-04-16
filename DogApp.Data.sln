@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogApp.API", "DogApp.API\Do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogApp.xUnitTest", "DogApp.xUnitTest\DogApp.xUnitTest.csproj", "{D9342CD8-FBB9-498D-B211-E829BD86E936}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogApp.Web", "DogApp.Web\DogApp.Web.csproj", "{159C7779-80E7-4378-ABFA-979926B8AF38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogApp.Web", "DogApp.Web\DogApp.Web.csproj", "{159C7779-80E7-4378-ABFA-979926B8AF38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

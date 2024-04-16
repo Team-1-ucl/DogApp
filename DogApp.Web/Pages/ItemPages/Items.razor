@@ -1,0 +1,55 @@
+﻿@page "/items"
+
+@using DogApp.Web.Dto
+@using DogApp.Web.Services.Interfaces
+@inject ITrackService TrackService
+@inject IItemService ItemService
+
+<h3>Items</h3>
+
+<div style="display: flex;">
+    @foreach (var category in new[] { "Beginner", "champion", "Expert" })
+    {
+        <div style="margin-right: 20px;">
+            <h4>@category</h4>
+            <div>
+                @foreach (var item in items.Where(i => i.Category == category))
+                {
+                    <div style="margin-bottom: 10px;">
+                        <img src="@ItemService.GetImageForItem(item.Name)" alt="Item Image" width="50" height="50" />
+                        <button @onclick="()=>EditItem(item)">Edit</button>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<div style="margin-top: 20px;">
+    <button @onclick="CreateNewItem">Create New Item</button>
+</div>
+
+@code {
+    [Inject]
+    NavigationManager? navigationManager { get; set; }
+    public List<ItemDto> items = new();
+    public ItemDto item = new ItemDto();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        items = await ItemService.GetAllItems();
+        StateHasChanged();
+    }
+
+    private void EditItem(ItemDto item)
+    {
+        navigationManager.NavigateTo($"/edititem/{item.Id}");
+    }
+
+    private void CreateNewItem()
+    {
+        navigationManager.NavigateTo($"/createitem");
+    }
+}
+

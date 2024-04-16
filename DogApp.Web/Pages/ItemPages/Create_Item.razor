@@ -1,0 +1,46 @@
+﻿@page "/createitem"
+
+@using DogApp.Web.Dto
+@using DogApp.Web.Services.Interfaces
+@inject IItemService ItemService
+@inject NavigationManager NavigationManager
+
+<h3>Create Item</h3>
+
+<div>
+    <label for="name">Name:</label>
+    <input id="name" @bind="itemName" />
+</div>
+<div>
+    <label for="description">Description:</label>
+    <input id="description" @bind="itemDescription" />
+</div>
+<div>
+    <label for="category">Category:</label>
+    <input id="category" @bind="itemCategory" />
+</div>
+<div>
+    <button @onclick="CreateItem">Create</button>
+</div>
+
+@code {
+    private string itemName;
+    private string itemDescription;
+    private string itemCategory;
+
+    private async Task CreateItem()
+    {
+        // Create an ItemDto object using the provided inputs
+        var newItem = new ItemDto
+            {
+                Name = itemName,
+                Description = itemDescription,
+                Category = itemCategory
+            };
+
+        await ItemService.CreateItemAsync(newItem);
+
+        // Navigate back to the items page after creating the item
+        NavigationManager.NavigateTo("/items");
+    }
+}

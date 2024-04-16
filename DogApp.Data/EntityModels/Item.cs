@@ -10,7 +10,7 @@ public class Item : BaseEntity
     
     public bool IsSign { get; set; }
    
-
+    public string? Category { get; set; }
    
     public ICollection<TrackItem>? TrackItems { get; set; }
 

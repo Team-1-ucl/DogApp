@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DogApp.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240410093226_opdate")]
-    partial class opdate
+    [Migration("20240415090607_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace DogApp.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -53,42 +56,47 @@ namespace DogApp.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Description of Sign 1",
-                            Image = "hest",
+                            Category = "Open",
+                            Description = "",
+                            Image = "/images/hojresving",
                             IsSign = true,
-                            Name = "Sign 1"
+                            Name = "højre sving"
                         },
                         new
                         {
                             Id = 2,
-                            Description = "Description of Sign 2",
-                            Image = "hest",
+                            Category = "Open",
+                            Description = "",
+                            Image = "/images/venstresving",
                             IsSign = true,
-                            Name = "Sign 2"
+                            Name = "venstre sving"
                         },
                         new
                         {
                             Id = 3,
-                            Description = "Description of Sign 3",
-                            Image = "hest",
+                            Category = "Open",
+                            Description = "",
+                            Image = "/images/hojrerundt",
                             IsSign = true,
-                            Name = "Sign 3"
+                            Name = "højre rundt"
                         },
                         new
                         {
                             Id = 4,
-                            Description = "Description of Sign 4",
-                            Image = "hest",
+                            Category = "Open",
+                            Description = "",
+                            Image = "/images/venstrerundt",
                             IsSign = true,
-                            Name = "Sign 4"
+                            Name = "venstre rundt"
                         },
                         new
                         {
                             Id = 5,
-                            Description = "Description of Sign 5",
-                            Image = "hest",
+                            Category = "Open",
+                            Description = "",
+                            Image = "/images/diagonalthojre",
                             IsSign = true,
-                            Name = "Sign 5"
+                            Name = "diagonalt højre"
                         },
                         new
                         {

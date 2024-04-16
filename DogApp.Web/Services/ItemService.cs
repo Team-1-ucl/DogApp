@@ -29,5 +29,22 @@ namespace DogApp.Web.Services
         {
             throw new NotImplementedException();
         }
+        public string GetImageForItem(string itemName)
+        {
+            string imageName = itemName.Replace(" ", ""); // Remove spaces from item name
+
+            string imagePath = $"/images/{imageName}.png"; // Assuming image filenames follow the format "{ItemName}.png"
+
+            return imagePath;
+        }
+
+        public async Task CreateItemAsync(ItemDto item)
+        {
+            string json = JsonConvert.SerializeObject(item);
+            HttpContent content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync(_httpClient.BaseAddress + "Item/CreateItem", content);
+            //response.EnsureSuccessStatusCode();
+        }
+
     }
 }

@@ -24,16 +24,7 @@ Welcome to your new app.
     }
 }
 
-@if (items != null)
-{
-    <h2>Items</h2>
-    @foreach (var item in items)
-    {
-        <div>
-            <h3>Title @item.Name</h3>
-        </div>
-    }
-}
+
 
 <h2>Create New Track</h2>
 <form @onsubmit="CreateTrack">
@@ -42,14 +33,14 @@ Welcome to your new app.
 </form>
 
 @code {
+
+    public List<TrackDto> tracks = new();
     public List<TrackDtoOnlyName> tracks = new();
-    public List<ItemDto> items = new();
     public TrackDtoOnlyName newTrack = new TrackDtoOnlyName("");
 
     public async Task HENTMINEDATA()
     {
         tracks = await TrackService.GetAllTracks();
-        items = await ItemService.GetAllItems();
     }
 
     public async Task CreateTrack()
