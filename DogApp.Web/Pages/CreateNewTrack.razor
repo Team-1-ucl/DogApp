@@ -1,0 +1,41 @@
+﻿@using DogApp.Web.Dto
+@using DogApp.Web.Services.Interfaces
+@inject ITrackService TrackService
+@inject IItemService ItemService
+
+@page "/createNewtrack"
+
+<h1>Create New Track</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <label for="name">Name:</label>
+        <input type="text" @bind="NewTrack.Name" id="name" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label for="height">Height:</label>
+        <input type="number" @bind="NewTrack.Heigth" id="height" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label for="width">Width:</label>
+        <input type="number" @bind="NewTrack.Width" id="width" class="form-control" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <label for="category">Category:</label>
+        <input type="text" @bind="NewTrack.Category" id="category" class="form-control" />
+    </div>
+</div>
+
+<button @onclick="CreateTrack">Create Track</button>
+@code {
+    private TrackDtoBasic NewTrack = new TrackDtoBasic();
+
+    public async Task CreateTrack()
+    {
+        await TrackService.CreateTrackAsync(NewTrack);
+      
+    }
+}
