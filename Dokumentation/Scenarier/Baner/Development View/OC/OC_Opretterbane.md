@@ -2,7 +2,14 @@
 ## UC Opretter Bane
 |OC|OC_OpretterBane
 |----|----|
-|Operation|CreateRally(List< RallyItem >).
-Cross-Reference| SD_OpretterBane.
-Preconditions| RallyItem exists, RallyTrackItem exists.
-Post-Conditions| A rally track instance was created and associated with RallyItems. A difficulty attribute was associated. 
+|Operation|Create Track(Name : string: Height : int; Width : int; Collection<TrackItem>TrackItems; Category : string).
+Cross-Reference| SSD_OpretterBane.
+Preconditions| TrackItem exists.
+Post-Conditions| A track instance was created and associated with TrackItems. A difficulty attribute was associated. 
+
+|Artefakt| Navn |
+| - |-  |
+|UC| Opretter Bane|
+|SSD| Opretter Bane |
+|**OC**| **Opretter Bane**|
+|SD|  Create Track|
