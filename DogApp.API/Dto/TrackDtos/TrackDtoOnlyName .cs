@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 
-namespace DogApp.Web.Dto;
+namespace DogApp.Web.Dto.TrackDtos;
 
 
 
-public class TrackDtoOnlyName 
+public class TrackDtoOnlyName
 {
     public string? Name { get; set; }
     public TrackDtoOnlyName(string? name)
@@ -13,8 +13,8 @@ public class TrackDtoOnlyName
         Name = name;
     }
 
-    
 
-    
+
+
 
 }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DogApp.Web.Dto.TrackDtos;
+using Newtonsoft.Json;
 
 namespace DogApp.Web.Dto;
 

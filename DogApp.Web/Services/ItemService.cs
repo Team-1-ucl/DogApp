@@ -1,4 +1,5 @@
 ﻿using DogApp.Web.Dto;
+using DogApp.Web.Dto.ItemDtos;
 using DogApp.Web.Services.Interfaces;
 using Newtonsoft.Json;
 
@@ -29,22 +30,21 @@ namespace DogApp.Web.Services
         {
             throw new NotImplementedException();
         }
+
         public string GetImageForItem(string itemName)
         {
-            string imageName = itemName.Replace(" ", ""); // Remove spaces from item name
+            string imageName = itemName.Replace(" ", ""); 
 
-            string imagePath = $"/images/{imageName}.png"; // Assuming image filenames follow the format "{ItemName}.png"
-
+            string imagePath = $"/images/{imageName}.png";
             return imagePath;
         }
 
-        public async Task CreateItemAsync(ItemDto item)
+        public async Task CreateItemAsync(ItemDtoUserCreate item)
         {
             string json = JsonConvert.SerializeObject(item);
             HttpContent content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = await _httpClient.PostAsync(_httpClient.BaseAddress + "Item/CreateItem", content);
             //response.EnsureSuccessStatusCode();
         }
-
     }
 }

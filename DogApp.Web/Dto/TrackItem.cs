@@ -1,4 +1,6 @@
-﻿namespace DogApp.Web.Dto;
+﻿using DogApp.Web.Dto.ItemDtos;
+
+namespace DogApp.Web.Dto.TrackDtos;
 
 public class TrackItem
 {
@@ -7,7 +9,7 @@ public class TrackItem
     public ItemDto? Item;
     public int Itemid { get; set; }
 
-    public TrackDtoOnlyName? Track;
+    public TrackDto? Track;
     public int Trackid { get; set; }
 
     public float X { get; set; }
