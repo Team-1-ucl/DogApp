@@ -110,6 +110,7 @@ rectangle "Application Programming Interface" as API {
         }
     }
 }
+
 rectangle "Services" as Service{
     interface ITrackService{
         --Methods--
@@ -174,42 +175,9 @@ rectangle "Repositories" as Repositories{
 
         }
 }
+
 rectangle "Data" as models{
-    package EntityModels{
-        abstract class BaseEntity <<Abstract>>{
-            -- Properties --
-            $Property(+, , Id, int)
-            $Property(+, , Name, string)
-        }
-        entity Track<Bane>{
-            -- Properties --
-            $Property(+, , Height, int?)
-            $Property(+, , Width, int?)
-            $Property(+, , Category, string?)
-            ==Navigation Properties==
-            $Property(+, , TrackItems, TrackItem[0..*])
-        }
-        entity TrackItem{
-            -- Properties --
-            $Property(+, , Id, int)
-            $Property(+, , Item, Item?)
-            $Property(+, , ItemId, int)
-            $Property(+, , track, Track?)
-            $Property(+, , TrackId, int)
-            -- Payload --
-            $Property(+, , X, float?)
-            $Property(+, , Y, float?)
-            $Property(+, , Order, int?)
-        }
-        entity Item<Bane Element>{
-            -- Properties --
-            $Property(+, , Description, string?)
-            $Property(+, , IsSign, bool)
-            $Property(+, , Image, string)
-            ==Navigation Properties==
-            $Property(+, , TrackItems, TrackItems[0..*])
-        }
-    }
+    
     package Data{
         class DataContext{
             --Properties--
@@ -222,6 +190,43 @@ rectangle "Data" as models{
         }
     }
 
+}
+rectangle "Shared" as Shared{
+    package EntityModels{
+            abstract class BaseEntity <<Abstract>>{
+                -- Properties --
+                $Property(+, , Id, int)
+                $Property(+, , Name, string)
+            }
+            entity Track<Bane>{
+                -- Properties --
+                $Property(+, , Height, int?)
+                $Property(+, , Width, int?)
+                $Property(+, , Category, string?)
+                ==Navigation Properties==
+                $Property(+, , TrackItems, TrackItem[0..*])
+            }
+            entity TrackItem{
+                -- Properties --
+                $Property(+, , Id, int)
+                $Property(+, , Item, Item?)
+                $Property(+, , ItemId, int)
+                $Property(+, , track, Track?)
+                $Property(+, , TrackId, int)
+                -- Payload --
+                $Property(+, , X, float?)
+                $Property(+, , Y, float?)
+                $Property(+, , Order, int?)
+            }
+            entity Item<Bane Element>{
+                -- Properties --
+                $Property(+, , Description, string?)
+                $Property(+, , IsSign, bool)
+                $Property(+, , Image, string)
+                ==Navigation Properties==
+                $Property(+, , TrackItems, TrackItems[0..*])
+            }
+        }
 }
 $ObjectDependency(ItemController,IItemService)
 $ObjectDependency(ItemService,IItemRepo)
@@ -250,10 +255,10 @@ $ObjectAssociation(TrackItemDtoAPI,TrackDtoAPI)
 $ObjectAssociation(ItemController,ItemDTOAPI)
 $ObjectAssociation(Track,TrackItem)
 $ObjectAssociation(TrackItem,Item)
-$ObjectAssociation(DataContext,Track)
-$ObjectAssociation(DataContext,TrackItem)
-$ObjectAssociation(DataContext,Item)
-$ObjectAssociation(ItemController,EntityModels)
+$ObjectAssociation(DataContext,Shared)
+$ObjectAssociation(API,Shared)
+$ObjectAssociation(Service,Shared)
+$ObjectAssociation(Repositories,Shared)
 
 
 

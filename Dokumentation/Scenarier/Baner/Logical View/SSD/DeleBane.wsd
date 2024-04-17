@@ -3,7 +3,7 @@ title Dele bane\n SSD
 
 !theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
-actor Bruger
+actor "Auth. Bruger" as Bruger
 participant System
 $PlainMessage(Bruger, System, Tilgår System)
 $PlainReturnMessage(Bruger,System,Viser inputside(Bane))

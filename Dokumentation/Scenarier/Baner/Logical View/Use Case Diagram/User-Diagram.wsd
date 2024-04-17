@@ -1,18 +1,28 @@
 @startuml UseCase Diagram
+Title UseCase Diagram
+
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+
 skinparam actorStyle awesome
 left to right direction
 actor Lene as Lene
 rectangle use_cases{
-    usecase "Opretter bane" as UC1  
-    usecase "Deler bane" as UC2  
-    usecase "Slet Bane" as UC3
-    usecase "Opdater Bane" as UC4
+    usecase "Opretter bane" as UC1 
+    usecase "Se en enkelt bane" as UC2 
+    usecase "Deler bane" as UC3  
+    usecase "Slet Bane" as UC4
+    usecase "Opdater Bane" as UC5
+    usecase "Se Alle Baner" as UC6
 }
 
 Lene --> UC1
 Lene --> UC2
 Lene --> UC3
 Lene --> UC4
+Lene --> UC5
+Lene --> UC6
+
+
 
 @enduml
 

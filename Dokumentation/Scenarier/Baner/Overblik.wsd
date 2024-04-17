@@ -12,38 +12,38 @@ title **Baner Scenariet**
 
 package "Logical View" {
     package "Usecase Diagram"{
-        component UC_Diagram        $Yellow
+        component UC_Diagram        $Green
     }
 
     package "Use Cases" as UseCases{
-        component UC_OpdaterBane    $Yellow
-        component UC_OpretterBane   $Yellow
-        component UC_SeBane         $Yellow
-        component UC_SletBane       $Yellow
-        component UC_DeleBane       $Yellow
+        component UC_OpdaterBane    $Green
+        component UC_OpretterBane   $Green
+        component UC_SeBane         $Green
+        component UC_SletBane       $Green
+        component UC_DeleBane       $Green
         component UC_SeAlleBaner    $Red
     }
     package Wireframes 
     package "System Sequence Diagram"{
-        component ssd_Delebane      $Yellow
-        component ssd_OpdaterBane   $Yellow
-        component ssd_OpretterBane  $Yellow
-        component ssd_SletBane      $Yellow
-        component ssd_SeBane        $Yellow 
-        component ssd_SeAlleBaner   $Red
+        component ssd_Delebane      $Green
+        component ssd_OpdaterBane   $Green
+        component ssd_OpretterBane  $Green
+        component ssd_SletBane      $Green
+        component ssd_SeBane        $Green 
+        component ssd_SeAlleBaner   $Green
     }
 }
 
 package "Development View"{
     package "Database" as DB {
-        [Entity Model] $Yellow
+        [Entity Model] $Green
     }
     package "Design class diagram" as DCDpackage{
         [DCD] $Yellow
     }
     package "Operation Contracts"{
         component OC_OpdaterBane    $Yellow
-        component OC_Delerbane      $Yellow
+        component OC_Delerbane      $Green
         component OC_OpretterBane   $Yellow
         component OC_SletterBane    $Yellow
         component OC_SeBane         $Yellow
@@ -51,21 +51,21 @@ package "Development View"{
     }
 
     package "Domæne Model" as DM {
-        component Domænemodel           $Yellow
+        component Domænemodel           $Green
     }
 
     package "Object Model" as OM {
-        component ObjectModel           $Yellow
+        component ObjectModel           $Green
     }
 
     package "Sequence Diagram" as SD  {
         package "Se Bane SD'er" as OpdaterBaneSD {
-            component SD_ViewOneTrack   $Yellow
+            component SD_ViewOneTrack   $Green
             component SD_ViewAllTracks  $Green
             component SD_CreateTrack    $Green
-            component SD_DeleteTrack    $Red
+            component SD_DeleteTrack    $Green
             component SD_ShareTrack     $Red
-            component SD_UpdateTrack    $Red
+            component SD_UpdateTrack    $Green
         }
     }
 }
@@ -77,34 +77,34 @@ package "Process View"{
     
 }
 
-DCDpackage          <-[thickness=3]-    DB                  $Yellow
-DCDpackage          -[thickness=3]->    DM                  $Yellow
-DM                  -[thickness=3]->    OM                  $Yellow
-UC_Diagram          <-[thickness=3]u-   UseCases            $Yellow
+DCDpackage          <-[thickness=3]-    DB                  $Green
+DCDpackage          -[thickness=3]->    DM                  $Green
+DM                  -[thickness=3]->    OM                  $Green
+UC_Diagram          <-[thickness=3]u-   UseCases            $Green
 OC_OpdaterBane      --[thickness=3]->   ssd_OpdaterBane     $Yellow
 OC_SeBane           --[thickness=3]->   ssd_SeBane          $Yellow
-OC_Delerbane        -[thickness=3]->    ssd_Delebane        $Yellow
+OC_Delerbane        -[thickness=3]->    ssd_Delebane        $Green
 OC_OpretterBane     --[thickness=3]->   ssd_OpretterBane    $Yellow
 OC_SletterBane      --[thickness=3]u->  ssd_SletBane        $Yellow
-ssd_Delebane        -[thickness=3]->    UC_DeleBane         $Yellow
-ssd_OpdaterBane     --[thickness=3]->   UC_OpdaterBane      $Yellow
+ssd_Delebane        -[thickness=3]->    UC_DeleBane         $Green
+ssd_OpdaterBane     --[thickness=3]->   UC_OpdaterBane      $Green
 ssd_SletBane        -[thickness=3]->    UC_SletBane         $Yellow
-ssd_OpretterBane    -[thickness=3]->    UC_OpretterBane     $Yellow
-ssd_SeBane          -[thickness=3]->    UC_SeBane           $Yellow
+ssd_OpretterBane    -[thickness=3]->    UC_OpretterBane     $Green
+ssd_SeBane          -[thickness=3]->    UC_SeBane           $Green
 SD_ViewOneTrack     -[thickness=3]->    ssd_SeBane          $Green
 SD_ViewOneTrack     -[thickness=3]->    OC_SeBane           $Green
 SD_ViewAllTracks    -[thickness=3]->    OC_SeAlleBaner      $Red
-SD_ViewAllTracks    -[thickness=3]->    ssd_SeAlleBaner     $Red
+SD_ViewAllTracks    -[thickness=3]->    ssd_SeAlleBaner     $Green
 OC_SeAlleBaner      -[thickness=3]->    ssd_SeAlleBaner     $Red
 ssd_SeAlleBaner     -[thickness=3]->    UC_SeAlleBaner      $Red
-SD_CreateTrack      -[thickness=3]->    OC_OpretterBane     $Yellow
-SD_CreateTrack      -[thickness=3]->    ssd_OpretterBane    $Yellow
+SD_CreateTrack      -[thickness=3]->    OC_OpretterBane     $Green
+SD_CreateTrack      -[thickness=3]->    ssd_OpretterBane    $Green
 SD_ShareTrack       -[thickness=3]->    OC_Delerbane        $Red
-SD_UpdateTrack      -[thickness=3]->    OC_OpdaterBane      $Red
-SD_DeleteTrack      -[thickness=3]->    OC_SletterBane      $Red
+SD_UpdateTrack      -[thickness=3]->    OC_OpdaterBane      $Green
+SD_DeleteTrack      -[thickness=3]->    OC_SletterBane      $Green
 SD_ShareTrack       -[thickness=3]->    ssd_Delebane        $Red
-SD_UpdateTrack      -[thickness=3]->    ssd_OpdaterBane     $Red
-SD_DeleteTrack      -[thickness=3]->    ssd_SletBane        $Red
+SD_UpdateTrack      -[thickness=3]->    ssd_OpdaterBane     $Green
+SD_DeleteTrack      -[thickness=3]->    ssd_SletBane        $Green
 
 footer Overblik over projektet
 @enduml

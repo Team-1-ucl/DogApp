@@ -1,9 +1,13 @@
 @startuml View All Tracks
-title SD: View All Tracks 
+title View All Tracks 
 legend top
 **Sporbarhed**
-SSD: Se Alle Baner
-OC: Se Alle Baner
+
+|Artefakt| Navn |
+|UC| Ser alle baner|
+|SSD| Se Alle Baner|
+|OC| Se alle baner|
+|**SD**| **View All Tracks** |
 end legend 
 !theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
@@ -27,7 +31,7 @@ database "Database" as DB
 end box
 
 
-$PlainMessage(User, UI, View Track)
+$PlainMessage(User, UI, View Tracks)
 activate UI
 $Message(UI, TrackController, GetAllTracks, )
 opt if Trackservice is null

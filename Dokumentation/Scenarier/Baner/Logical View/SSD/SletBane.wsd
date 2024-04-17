@@ -1,7 +1,17 @@
 @startuml Slet Bane
-title Slet Bane \n SSD 
-skinparam style strictuml
-actor bruger as lene
+title Slet Bane
+legend top
+**Sporbarhed**
+
+|Artefakt| Navn |
+|UC| Se Bane|
+|**SSD**| **Slet Bane** |
+|OC| Slet Bane|
+|SD| Delete Track|
+end legend
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+
+actor "Auth. Bruger" as lene
 participant system as sys
 
 lene -> sys : Tilgår system
