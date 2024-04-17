@@ -16,9 +16,24 @@
     <input id="description" @bind="itemDescription" />
 </div>
 <div>
-    <label for="category">Category:</label>
-    <input id="category" @bind="itemCategory" />
+    <label for="Image">Image:</label>
+    <input id="image" @bind="itemImage" />
 </div>
+<div>
+    <label for="category">Category:</label>
+    <select id="category" @bind="itemCategory">
+        <option value="">-- Select Category --</option>
+        <option value="Beginner">Beginner</option>
+        <option value="Expert">Expert</option>
+        <option value="Champion">Champion</option>
+    </select>
+</div>
+
+
+<label>
+    Skilt?:
+    <input type="checkbox" @bind="itemIsSign" />
+</label>
 <div>
     <button @onclick="CreateItem">Create</button>
 </div>
@@ -36,7 +51,12 @@
 
     private async Task CreateItem()
     {
-       
+        newItem.Name = itemName;
+        newItem.Description = itemDescription;
+        newItem.Image = itemImage;
+        newItem.IsSign = itemIsSign;
+        newItem.Category = itemCategory;
+
         await ItemService.CreateItemAsync(newItem);
 
         // Navigate back to the items page after creating the item

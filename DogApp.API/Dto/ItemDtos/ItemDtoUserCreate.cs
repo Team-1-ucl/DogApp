@@ -7,9 +7,8 @@
         public string? Image { get; set; }
         public bool IsSign { get; set; }
         public string? Category { get; set; }
-        public ICollection<TrackItem> TrackItems { get; set; }
 
-        public ItemDtoUserCreate(string? name, string? description, string? image, bool? isSign, string? category)
+        public ItemDtoUserCreate(string? name, string? description, string? image, bool isSign, string? category)
         {
             Name = name;
             Description = description;

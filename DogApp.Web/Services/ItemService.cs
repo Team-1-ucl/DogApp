@@ -26,9 +26,15 @@ namespace DogApp.Web.Services
 
         }
 
-        public Task<ItemDto> GetItemAsync(int id)
+        public async Task<ItemDto> GetItemAsync(int id)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + "Item/GetItemById/{id}");
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            ItemDto item = JsonConvert.DeserializeObject<ItemDto>(responseBody);
+
+            return item;
         }
 
         public string GetImageForItem(string itemName)
@@ -46,5 +52,6 @@ namespace DogApp.Web.Services
             HttpResponseMessage response = await _httpClient.PostAsync(_httpClient.BaseAddress + "Item/CreateItem", content);
             //response.EnsureSuccessStatusCode();
         }
+
     }
 }

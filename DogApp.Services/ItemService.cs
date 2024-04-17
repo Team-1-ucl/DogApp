@@ -41,5 +41,9 @@ public class ItemService(IItemRepo itemRepo) : IItemService
             throw new ArgumentException("Item not found.");
         }
     }
+    public async Task CreateItemAsync(Item item)
+    {
+        await _itemrepo.AddAsync(item);
+    }
 
 }
