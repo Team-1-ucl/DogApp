@@ -39,6 +39,10 @@ namespace DogApp.Web.Services
 
         public string GetImageForItem(string itemName)
         {
+            if (itemName == null)
+            {
+                 return "/images/default.png";
+            }
             string imageName = itemName.Replace(" ", ""); 
 
             string imagePath = $"/images/{imageName}.png";
