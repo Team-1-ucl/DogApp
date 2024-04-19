@@ -1,4 +1,4 @@
-﻿using DogApp.API.Dto;
+﻿using DogApp.API.Dto.TrackDtos;
 using DogApp.Data.EntityModels;
 using DogApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +24,7 @@ public class TrackController(ITrackService trackService) : Controller
     /// <param name="trackDto"><see cref="TrackDTO"/>'en indeholdende oplysninger om den nye bane.</param>
     /// <returns>En IActionResult, der repræsenterer resultatet af operationen.</returns>
     [HttpPost("[action]")]
-    public async Task<IActionResult> CreateTrack(TrackDtoOnlyName trackDto)
+    public async Task<IActionResult> CreateTrack(TrackDtoUserCreate trackDto)
     {
         // Kontrollerer om trackService-parameteren er null
         if (_trackService == null)
@@ -42,7 +42,10 @@ public class TrackController(ITrackService trackService) : Controller
         // Opretter et nyt Track-objekt og initialiserer dets egenskaber ud fra trackDto
         var track = new Track
         {
-            Name = trackDto.Name
+            Name = trackDto.Name,
+            Height = trackDto.Height,
+            Width = trackDto.Width,
+            Category = trackDto.Category,
         };
 
         try
