@@ -1,4 +1,6 @@
-﻿namespace DogApp.API.Dto.TrackDtos
+﻿using System.Collections.ObjectModel;
+
+namespace DogApp.API.Dto.TrackDtos
 {
     public class TrackDto
     {
@@ -15,6 +17,8 @@
         public int Height { get; set; }
         public int Width { get; set; }
         public string? Category { get; set; }
+
+        
 
         public TrackDtoUserCreate(string? name, int height, int width, string category)
         {

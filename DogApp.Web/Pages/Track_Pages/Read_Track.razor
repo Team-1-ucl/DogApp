@@ -1,0 +1,58 @@
+﻿@using DogApp.Web.Dto.TrackDtos
+@using DogApp.Web.Services.Interfaces
+@inject ITrackService TrackService
+@inject IItemService ItemService
+
+@page "/readTrack"
+
+<h3>Se dine baner</h3>
+
+
+<div class="form-group">
+    <input type="text" class="form-control" @bind="searchTerm" placeholder="Søg efter banenavn">
+    <!-- Inputboks til at søge efter banenavn, der er bundet til searchTerm ejendommen -->
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Navn</th> <!-- Tabeloverskrift for kolonnen med banenavne -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var track in FilteredTracks) // Gennemløber FilteredTracks og viser hver bane i tabellen
+        {
+            <tr>
+                <td>@track.Name</td> <!-- Viser navnet på banen i en tabelrække -->
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    public List<TrackDtoOnlyName> Tracks { get; set; } = new List<TrackDtoOnlyName>(); // Liste over alle baner
+    
+    public string searchTerm { get; set; } = ""; // Søgeterm til at filtrere baner
+
+    public List<TrackDtoOnlyName> FilteredTracks // Liste over baner filtreret efter søgeterm
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm)) // Hvis søgetermen er tom eller kun består af mellemrum
+            {
+                return Tracks; // Returnerer alle baner
+            }
+            else // Hvis der er en søgeterm
+            {
+                return Tracks.Where(t => t.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList(); // Filtrer baner baseret på søgetermen og returnerer resultatet
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync() // Livscyklusmetode, der kaldes ved initialisering af komponenten
+    {
+        Tracks = await TrackService.GetAllTracks(); // Henter alle baner fra TrackService og gemmer dem i Tracks
+    }
+}
+
+
