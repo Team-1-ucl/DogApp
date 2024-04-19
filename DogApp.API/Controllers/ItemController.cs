@@ -26,6 +26,10 @@ public class ItemController(IItemService itemService) : Controller
             {
                 Id = item.Id,
                 Name = item.Name,
+                Description = item.Description,
+                Image = item.Image,
+                IsSign = item.IsSign,
+                Category = item.Category
             }).ToList();
 
             return Ok(itemDtos);
@@ -75,5 +79,25 @@ public class ItemController(IItemService itemService) : Controller
         {
             Console.WriteLine("kunne ikk finde det element");
         }
-    }       
+    }
+    [HttpPost("CreateItem")]
+    public async Task CreateItemAsync(ItemDtoUserCreate itemDto)
+    {
+        try
+        {
+            var item = new Item
+            {
+                Name = itemDto.Name,
+                Description = itemDto.Description,
+                Image = itemDto.Image,
+                IsSign = itemDto.IsSign,
+                Category = itemDto.Category
+            };
+            await _itemService.CreateItem(item);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Eders ærværdige bedrift kunne ikke fuldføres til ypperste tilfredshed");
+        }
+    }
 }

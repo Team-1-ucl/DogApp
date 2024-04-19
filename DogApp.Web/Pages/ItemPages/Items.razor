@@ -16,6 +16,7 @@
                 @foreach (var item in items.Where(i => i.Category == category))
                 {
                     <div style="margin-bottom: 10px;">
+                        <p> @item.Name</p>
                         <img src="@ItemService.GetImageForItem(item.Name)" alt="Item Image" width="50" height="50" />
                         <button @onclick="()=>EditItem(item)">Edit</button>
                     </div>

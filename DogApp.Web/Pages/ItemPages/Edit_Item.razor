@@ -1,7 +1,8 @@
-﻿@page "/edititem{item.id}"
+﻿@page "/edititem/{id}"
 
-<h3>Edit_Item</h3>
+<h3>Edit_Item @id</h3>
 
 @code {
-
+    [Parameter]
+    public string id { get; set; }
 }
