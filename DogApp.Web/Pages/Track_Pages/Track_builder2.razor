@@ -1,0 +1,195 @@
+﻿@page "/trackbuilder"
+
+@using DogApp.Web.Shared
+@using DogApp.Web.Dto.TrackDtos
+@using DogApp.Web.Dto.ItemDtos
+@using DogApp.Web.Dto
+@using DogApp.Web.Services.Interfaces
+@inject IJSRuntime JS
+@inject ITrackService TrackService
+@inject IItemService ItemService
+
+<div class="row">
+    <div class="col-md-6">
+        <label for="name">Navn på bane:</label>
+        <input type="text" @bind="track.Name" id="name" class="form-control" />
+    </div>
+
+</div>
+<div>
+    <label for="height">Længde på banen i meter:</label>
+    <select id="height" @bind="track.Height">
+
+        <option value="12.5">12,5 meter</option>
+        <option value="18">18 meter</option>
+        <option value="20">20 meter</option>
+        <option value="25">25 meter</option>
+        <option value="30">30 meter</option>
+    </select>
+</div>
+
+<div>
+    <label for="width">Bredde på banen i meter:</label>
+    <select id="width" @bind="track.Width">
+
+        <option value="15">15 meter</option>
+        <option value="20">20 meter</option>
+        <option value="25">25 meter</option>
+        <option value="30">30 meter</option>
+    </select>
+</div>
+
+
+
+<div>
+    <label for="category">Klasse:</label>
+    <select id="category" @bind="track.Category">
+        <option value="">-- vælg klasse --</option>
+        <option value="Rally begynder klasse">begynder </option>
+        <option value="Rally øvet klasse">øvet </option>
+        <option value="Rally ekspert klasse">ekspert </option>
+        <option value="Rally champion klasse">champion </option>
+        <option value="Rally åben klasse">åben </option>
+    </select>
+</div>
+
+<div style="display: flex;">
+    <div>
+        <h4>Sorted Items</h4>
+        <SortableList Id="disabledTwo" Group="disabledSorting" Pull="clone" Items="trackItems" Context="trackItem" OnUpdate="SortList">
+            <SortableItemTemplate>
+                @{
+                    var image = ItemService.GetImageForItem(trackItem.Name);                 
+                        <div class="card has-border has-background-white">
+                            <img src="@image" alt="Item Image" width="50" height="50" />
+                        </div>                   
+                }
+            </SortableItemTemplate>
+        </SortableList>
+    </div>
+
+    <div>
+        <h4>Begynder skilte</h4>
+        <SortableList Id="disabledOne" Group="disabledSorting" Pull="clone" Put="false" Sort="false" Items="items" Context="item" OnRemove="ListOneRemove">
+            <SortableItemTemplate>
+                @{
+                    var image = ItemService.GetImageForItem(item.Name);
+                    if (item.Category == "Beginner" && item.IsSign == true)
+                    {
+                        <div class="card has-border has-background-white">
+                            <img src="@image" alt="Item Image" width="50" height="50" />
+                        </div>
+                    }
+                }
+            </SortableItemTemplate>
+        </SortableList>
+    </div>
+    <div>
+        <h4>Expert skilte</h4>
+        <SortableList Id="disabledTwo" Group="disabledSorting" Pull="clone" Put="false" Sort="false" Items="items" Context="item" OnRemove="ListOneRemove">
+            <SortableItemTemplate>
+                @{
+                    var image = ItemService.GetImageForItem(item.Name);
+                    if (item.Category == "Expert" && item.IsSign == true)
+                    {
+                        <div class="card has-border has-background-white">
+                            <img src="@image" alt="Item Image" width="50" height="50" />
+                        </div>
+                    }
+                }
+            </SortableItemTemplate>
+        </SortableList>
+    </div>
+    <div>
+        <h4>Champion skilte</h4>
+        <SortableList Id="disabledthree" Group="disabledSorting" Pull="clone" Put="false" Sort="false" Items="items" Context="item" OnRemove="ListOneRemove">
+            <SortableItemTemplate>
+                @{
+                    var image = ItemService.GetImageForItem(item.Name);
+                    if (item.Category == "Champion" && item.IsSign == true)
+                    {
+                        <div class="card has-border has-background-white">
+                            <img src="@image" alt="Item Image" width="50" height="50" />
+                        </div>
+                    }
+                }
+            </SortableItemTemplate>
+        </SortableList>
+    </div>
+</div>
+
+
+<button @onclick="CreateTrack">Opret bane</button>
+
+@if (isTrackSaved)
+{
+    <p>Banen er blevet gemt.</p>
+}
+
+@code {
+    private TrackDtoTrackBuilder track = new TrackDtoTrackBuilder("", 0, 0, "", []);
+    private bool isTrackSaved = false;
+
+    public List<ItemDto> items = new();
+    public ItemDto item = new ItemDto();
+
+    public List<ItemDto> trackItems = new();
+    public ItemDto trackItem = new ItemDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        items = await ItemService.GetAllItems();
+        StateHasChanged();
+    }
+
+
+    
+    public async Task CreateTrack()
+    {
+        if (string.IsNullOrEmpty(track.Name) || track.Height <= 0 || track.Width <= 0 || string.IsNullOrEmpty(track.Category))
+        {
+            // Tilføj valideringsmeddelelse eller håndter ugyldig input
+            return;
+        }
+
+        await TrackService.CreateTrackAsync(track);
+
+        // Nulstil formularfelter efter oprettelse af banen
+        track = new TrackDtoTrackBuilder("", 0, 0, "", []);
+        isTrackSaved = true;
+    }
+    private void ListOneRemove((int oldIndex, int newIndex) indices)
+    {
+        var item = items[indices.oldIndex];
+        var clone = new ItemDto(); 
+
+        clone.Name = item.Name;
+        clone.Description = item.Description;
+        clone.Image = item.Image;
+        clone.Category = item.Category;
+        clone.IsSign = item.IsSign;
+
+        trackItems.Add(clone); 
+    }
+
+    private void SortList((int oldIndex, int newIndex) indices)
+    {
+        // Deconstruct the tuple
+        var (oldIndex, newIndex) = indices;
+
+        var items = this.trackItems; // Use trackItems instead of items2
+        var itemToMove = items[oldIndex];
+        items.RemoveAt(oldIndex);
+
+        if (newIndex < trackItems.Count)
+        {
+            items.Insert(newIndex, itemToMove);
+        }
+        else
+        {
+            items.Add(itemToMove);
+        }
+
+        StateHasChanged();
+    }
+}

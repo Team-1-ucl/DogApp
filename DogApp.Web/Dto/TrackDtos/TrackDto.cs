@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using DogApp.Web.Dto.ItemDtos;
+using System.Collections.ObjectModel;
 
 namespace DogApp.Web.Dto.TrackDtos
 {
@@ -35,10 +36,22 @@ namespace DogApp.Web.Dto.TrackDtos
             Width = width;
             Category = category;
         }
+    }
+    public class TrackDtoTrackBuilder
+    {
+        public string? Name { get; set; }
+        public int Height { get; set; }
+        public int Width { get; set; }
+        public string? Category { get; set; }
+        public ICollection<TrackItem>? TrackItems { get; set; }
 
-
-
-
-
+        public TrackDtoTrackBuilder(string? name, int height, int width, string category, List<TrackItem> items)
+        {
+            Name = name;
+            Height = height;
+            Width = width;
+            Category = category;
+            TrackItems = new List<TrackItem>();
+        }
     }
 }
