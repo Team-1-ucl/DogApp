@@ -1,0 +1,81 @@
+﻿@using DogApp.Web.Dto.TrackDtos
+@using DogApp.Web.Services.Interfaces
+@inject ITrackService TrackService
+@inject IItemService ItemService
+
+@page "/createNewtrack"
+
+<h1>Opret en ny bane</h1>
+
+
+
+<div class="row">
+    <div class="col-md-6">
+        <label for="name">Navn på bane:</label>
+        <input type="text" @bind="track.Name" id="name" class="form-control" />
+    </div>
+
+    </div>
+    <div>
+        <label for="height">Længde på banen i meter:</label>
+        <select id="height" @bind="track.Height">
+            
+            <option value="12.5">12,5 meter</option>
+            <option value="18">18 meter</option>
+            <option value="20">20 meter</option>
+            <option value="25">25 meter</option>
+            <option value="30">30 meter</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="width">Bredde på banen i meter:</label>
+        <select id="width" @bind="track.Width">
+           
+            <option value="15">15 meter</option>
+            <option value="20">20 meter</option>
+            <option value="25">25 meter</option>
+            <option value="30">30 meter</option>
+        </select>
+    </div>
+
+
+
+<div>
+    <label for="category">Klasse:</label>
+    <select id="category" @bind="track.Category">
+       
+        <option value="Rally begynder klasse">Rally begynder klasse</option>
+        <option value="Rally øvet klasse">Rally øvet klasse</option>
+        <option value="Rally ekspert klasse">Rally ekspert klasse</option>
+        <option value="Rally champion klasse">Rally champion klasse</option>
+        <option value="Rally åben klasse">Rally åben klasse</option>
+    </select>
+</div>
+
+<button @onclick="CreateTrack">Opret bane</button>
+
+ @if (isTrackSaved)
+{
+    <p>Banen er blevet gemt.</p>
+} 
+
+@code {
+    private TrackDtoUserCreate track = new TrackDtoUserCreate("", 0, 0, "");
+    private bool isTrackSaved = false;
+
+    public async Task CreateTrack()
+    {
+        if (string.IsNullOrEmpty(track.Name) || track.Height <= 0 || track.Width <= 0 || string.IsNullOrEmpty(track.Category))
+        {
+            // Tilføj valideringsmeddelelse eller håndter ugyldig input
+            return;
+        }
+
+        await TrackService.CreateTrackAsync(track);
+
+        // Nulstil formularfelter efter oprettelse af banen
+        track = new TrackDtoUserCreate("", 0, 0, "");
+        isTrackSaved = true;
+    }
+}

@@ -8,5 +8,5 @@ public interface ITrackService
     Task<Root> GetTrackAsync(string? name);
     Task<List<TrackDtoOnlyName>> GetAllTracks();
 
-    Task CreateTrackAsync(TrackDtoOnlyName   track);
+    Task CreateTrackAsync(TrackDtoUserCreate track);
 };
