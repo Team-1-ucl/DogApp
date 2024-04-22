@@ -1,5 +1,5 @@
 @startuml SeBane 
-title Se Bane\nSystem Sequence Diagram
+title Se Bane
 legend top
 **Sporbarhed**
 
@@ -11,7 +11,7 @@ legend top
 end legend
 !theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
-actor Bruger
+actor "Auth. Bruger" as Bruger
 participant System 
 $PlainMessage(Bruger, System,Tilgår System)
 $PlainReturnMessage(Bruger, System,Viser inputside(Bane))

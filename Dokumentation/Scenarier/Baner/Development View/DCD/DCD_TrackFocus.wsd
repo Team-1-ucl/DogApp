@@ -1,5 +1,5 @@
 @startuml Trackfocus DCD
-!include Dokumentation\Scenarier\Baner\Development View\DCD\DCD_fokus.wsd
+!include \Dokumentation\Scenarier\Baner\Development View\DCD\DCD_fokusWShared.wsd
 
 remove $Tag_Item
 

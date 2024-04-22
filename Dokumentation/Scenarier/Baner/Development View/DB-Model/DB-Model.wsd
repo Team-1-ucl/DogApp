@@ -1,52 +1,35 @@
 @startuml DB_Model
+title Entity Model
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
-entity Sign{
-    Id : int
-    Number : int
-    Description : string
-    Image : string
-
-}
-
-entity Extra {
-    Id : int
-    Name : string
-    Description : string
-    Image : string
-    Placement : Placement
-
+entity Item{
+    + Id : int <<baseentity>>
+    + name :  string <<baseentity>>
+    + Description : string?
+    + Image : string?
+    + IsSign : bool
+    + TrackItems : ICollection<TrackItem>?
 
 }
-
-entity Rally{
-    Id : int
-    Height : int
-    Width : int
-    ItemList : ItemList
-    Date : date
-    Level : Level
-    --Navigational Properties--
-    RallySign : RallySign
-    Extras : ICollection<Extra>
+entity TrackItem{
+    + Id : int
+    + Item : Item? <<fk>>
+    + ItemId : int
+    + Track : Track? <<fk>>
+    + TrackId : int
+    + X : float?
+    + Y : float?
+    + Order : int?
+}
+entity Track {
+    + Id : int <<baseentity>>
+    + name :  string <<baseentity>>
+    + Category : string?
+    + TrackItems : Collection<TrackItem>?
 }
 
-entity ItemList{
-    --Navigational Properties--
-    Sign : Sign
-    Rally : Rally
-}
-
-entity Placement{
-    Id : int
-    X_Koordinat
-    Y_Koordinat
-
-}
-Rally ||--|{ ItemList 
-ItemList ||--||Sign
-Extra ||--|{ItemList
-Placement ||--|| Extra 
-Placement ||--|| Sign
+Item ||--|{ TrackItem 
+TrackItem ||--||Track
 
 
 @enduml

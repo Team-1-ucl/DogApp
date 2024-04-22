@@ -1,0 +1,21 @@
+@startuml Dele Bane (Brief)
+title Se Alle Baner
+legend top
+**Sporbarhed**
+
+|Artefakt| Navn |
+|UC| Se Alle Baner|
+|**SSD**| **Se Alle Baner** |
+|OC| SeAlleBaner|
+|SD| ViewAllTrack |
+end legend
+!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+
+actor "Auth. Bruger" as Bruger
+participant System
+$PlainMessage(Bruger, System, Tilgår System)
+$PlainReturnMessage(Bruger,System,Viser Alle Baner)
+
+
+
+@enduml

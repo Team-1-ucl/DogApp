@@ -1,15 +1,24 @@
 @startuml Opdater 
-title Opdater Bane \n SDD
+title Opdater Bane 
+legend top
+**Sporbarhed**
+
+|Artefakt| Navn |
+|UC| Opdater Bane|
+|**SSD**| **Opdater Baner** |
+|OC| SeAlleBaner|
+|SD| ViewAllTrack |
+end legend
 !theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
-actor Bruger
+actor "Auth. Bruger" as Bruger
 participant System
 
 $PlainMessage(Bruger, System, Tilgår System)
 $PlainReturnMessage(Bruger, System, Viser inputside)
 $PlainMessage(Bruger, System, Vælg bane)
 $PlainReturnMessage(Bruger, System, Viser bane)
-$PlainMessage(Bruger, System, Opdatere banen)
+$PlainMessage(Bruger, System, Opdaterer banen)
 $PlainReturnMessage(Bruger, System, Viser den opdaterede bane)
 $PlainMessage(Bruger, System, Bekræft opdatering)
 

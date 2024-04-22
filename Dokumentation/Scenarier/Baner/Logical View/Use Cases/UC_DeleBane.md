@@ -11,4 +11,10 @@ Når Lene har valgt en eller flere baner til deling, vælge hun at dele banen el
 Ønsker Lene at fjerne en modtager inden delingen, skal hun igen fjerne markeringen af brugeren, hun ønsker at dele med. 
 Lene kan ikke dele med andre end brugere der er registreret i systemet. Delingen foregår ved at Lene efter hun har valgt banen/banerne vælger de modtagere hun ønsker at dele med fra en liste. Når Lene har truffet sin valg, deler hun ved at bruge knappen del. Lene har rettighederne til delingen, så skulle hun på et tidspunkt ønske at fjerne en bruger for delingen, kan hun gøre dette ved at tilgå sine delte banerog fjerne en bruger fra en deling. 
 
-
+#### Sporbarhed
+|Artefakt| Navn |
+| - | - |
+|**UC**| **Dele Bane**|
+|SSD| Dele Bane |
+|OC| DelerBane|
+|SD| ShareTrack |
