@@ -1,7 +1,17 @@
-﻿namespace DogApp.Web.Dto.TrackDtos
+﻿using System.Collections.ObjectModel;
+
+namespace DogApp.Web.Dto.TrackDtos
 {
     public class TrackDto
     {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public int? Height { get; set; }
+        public int? Width { get; set; }
+        public string? Category { get; set; }
+        public ICollection<TrackItem>? TrackItems { get; set; }
+
+        public TrackDto() { }
     }
 
     public class TrackDtoOnlyName

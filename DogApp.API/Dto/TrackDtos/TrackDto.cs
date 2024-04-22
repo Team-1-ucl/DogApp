@@ -4,6 +4,12 @@ namespace DogApp.API.Dto.TrackDtos
 {
     public class TrackDto
     {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public int? Height { get; set; }
+        public int? Width { get; set; }
+        public string? Category { get; set; }
+        public ICollection<TrackItem>? TrackItems { get; set; }
     }
     public class TrackDtoOnlyName
     {

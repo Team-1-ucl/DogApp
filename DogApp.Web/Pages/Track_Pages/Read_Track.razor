@@ -31,7 +31,7 @@
 
 @code {
     public List<TrackDtoOnlyName> Tracks { get; set; } = new List<TrackDtoOnlyName>(); // Liste over alle baner
-    
+
     public string searchTerm { get; set; } = ""; // Søgeterm til at filtrere baner
 
     public List<TrackDtoOnlyName> FilteredTracks // Liste over baner filtreret efter søgeterm
@@ -50,9 +50,7 @@
     }
 
     protected override async Task OnInitializedAsync() // Livscyklusmetode, der kaldes ved initialisering af komponenten
-    {
-        Tracks = await TrackService.GetAllTracks(); // Henter alle baner fra TrackService og gemmer dem i Tracks
-    }
+    => Tracks = await TrackService.GetAllTracks(); // Henter alle baner fra TrackService og gemmer dem i Tracks
 }
 
 
