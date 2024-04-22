@@ -15,6 +15,10 @@ package "Logical View" {
         component UC_Diagram        $Green
     }
 
+    package "Misbrugstilfælde"{
+        component MBT_OpretterBaner $Red
+    }
+    
     package "Use Cases" as UseCases{
         component UC_OpdaterBane    $Green
         component UC_OpretterBane   $Green
@@ -42,11 +46,11 @@ package "Development View"{
         [DCD] $Yellow
     }
     package "Operation Contracts"{
-        component OC_OpdaterBane    $Yellow
+        component OC_OpdaterBane    $Green
         component OC_Delerbane      $Green
-        component OC_OpretterBane   $Yellow
-        component OC_SletterBane    $Yellow
-        component OC_SeBane         $Yellow
+        component OC_OpretterBane   $Green
+        component OC_SletterBane    $Green
+        component OC_SeBane         $Green
         component OC_SeAlleBaner    $Red
     }
 
@@ -81,14 +85,14 @@ DCDpackage          <-[thickness=3]-    DB                  $Green
 DCDpackage          -[thickness=3]->    DM                  $Green
 DM                  -[thickness=3]->    OM                  $Green
 UC_Diagram          <-[thickness=3]u-   UseCases            $Green
-OC_OpdaterBane      --[thickness=3]->   ssd_OpdaterBane     $Yellow
-OC_SeBane           --[thickness=3]->   ssd_SeBane          $Yellow
+OC_OpdaterBane      --[thickness=3]->   ssd_OpdaterBane     $Green
+OC_SeBane           --[thickness=3]->   ssd_SeBane          $Green
 OC_Delerbane        -[thickness=3]->    ssd_Delebane        $Green
-OC_OpretterBane     --[thickness=3]->   ssd_OpretterBane    $Yellow
-OC_SletterBane      --[thickness=3]u->  ssd_SletBane        $Yellow
+OC_OpretterBane     --[thickness=3]->   ssd_OpretterBane    $Green
+OC_SletterBane      --[thickness=3]u->  ssd_SletBane        $Green
 ssd_Delebane        -[thickness=3]->    UC_DeleBane         $Green
 ssd_OpdaterBane     --[thickness=3]->   UC_OpdaterBane      $Green
-ssd_SletBane        -[thickness=3]->    UC_SletBane         $Yellow
+ssd_SletBane        -[thickness=3]->    UC_SletBane         $Green
 ssd_OpretterBane    -[thickness=3]->    UC_OpretterBane     $Green
 ssd_SeBane          -[thickness=3]->    UC_SeBane           $Green
 SD_ViewOneTrack     -[thickness=3]->    ssd_SeBane          $Green
@@ -105,6 +109,6 @@ SD_DeleteTrack      -[thickness=3]->    OC_SletterBane      $Green
 SD_ShareTrack       -[thickness=3]->    ssd_Delebane        $Red
 SD_UpdateTrack      -[thickness=3]->    ssd_OpdaterBane     $Green
 SD_DeleteTrack      -[thickness=3]->    ssd_SletBane        $Green
-
+MBT_OpretterBaner   -[thickness=3]->    UC_OpretterBane     $Red
 footer Overblik over projektet
 @enduml

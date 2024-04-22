@@ -1,6 +1,14 @@
 @startuml Dele Bane (Brief)
-title Dele bane\n SSD
+title Dele bane
+legend top
+**Sporbarhed**
 
+|Artefakt| Navn |
+|UC| Dele Bane|
+|**SSD**| **Dele Baner** |
+|OC| Dele Baner|
+|SD| Share Track |
+end legend
 !theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
 
 actor "Auth. Bruger" as Bruger

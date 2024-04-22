@@ -350,4 +350,8 @@ skinparam file {
 }
 !endsub
 
+!startsub gantt
+
+!endsub
+
 
