@@ -13,7 +13,7 @@
             Name = name;
             Description = description;
             Image = image;
-            IsSign = IsSign;
+            IsSign = isSign;
             Category = category;
         }
     }
