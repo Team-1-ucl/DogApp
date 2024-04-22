@@ -28,11 +28,11 @@ namespace DogApp.Web.Services
 
         public async Task<ItemDto> GetItemAsync(int id)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + "Item/GetItemById/{id}");
+            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + $"Item/GetItemById?id={id}");
 
             string responseBody = await response.Content.ReadAsStringAsync();
 
-            ItemDto item = JsonConvert.DeserializeObject<ItemDto>(responseBody);
+            ItemDto? item = JsonConvert.DeserializeObject<ItemDto>(responseBody);
 
             return item;
         }
@@ -56,6 +56,15 @@ namespace DogApp.Web.Services
             HttpResponseMessage response = await _httpClient.PostAsync(_httpClient.BaseAddress + "Item/CreateItem", content);
             //response.EnsureSuccessStatusCode();
         }
+
+        public async Task UpdateItem(ItemDto item)
+        {
+            string json = JsonConvert.SerializeObject(item);
+            HttpContent content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync(_httpClient.BaseAddress + "Item/UpdateItemById", content);
+            //response.EnsureSuccessStatusCode();
+        }
+
 
     }
 }

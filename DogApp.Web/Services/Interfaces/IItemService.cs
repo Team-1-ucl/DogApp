@@ -9,4 +9,5 @@ public interface IItemService
 
     Task CreateItemAsync(ItemDtoUserCreate item);
     public string GetImageForItem(string itemName);
+    Task UpdateItem (ItemDto item);
 }

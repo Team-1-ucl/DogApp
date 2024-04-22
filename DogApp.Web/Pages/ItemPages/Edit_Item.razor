@@ -1,8 +1,69 @@
-﻿@page "/edititem/{id}"
+﻿@page "/edititem/{id:int}"
 
-<h3>Edit_Item @id</h3>
+@using DogApp.Web.Dto.ItemDtos
+@using DogApp.Web.Services.Interfaces
+@inject IItemService ItemService
+@inject NavigationManager NavigationManager
+
+<h3>Edit Item</h3>
+
+@if (item != null)
+{
+    <form>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input id="name" class="form-control" @bind="item.Name" />
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input id="description" class="form-control" @bind="item.Description" />
+        </div>
+        <div class="form-group">
+            <label for="image">Image:</label>
+            <input id="image" class="form-control" @bind="item.Image" />
+        </div>
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select id="category" class="form-control" @bind="item.Category">
+                <option value="">-- Select Category --</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Expert">Expert</option>
+                <option value="Champion">Champion</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" @bind="item.IsSign" />
+                Is Sign
+            </label>
+        </div>
+
+        <button type="button" class="btn btn-primary" @onclick="SaveChanges">Save Changes</button>
+    </form>
+}
+else
+{
+    <p>Loading...</p>
+}
 
 @code {
+    ItemDto? item;
+
     [Parameter]
-    public string id { get; set; }
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        item = await ItemService.GetItemAsync(Id);
+    }
+
+    private async Task SaveChanges()
+    {
+        if (item != null)
+        {
+            await ItemService.UpdateItem(item);
+        }
+
+        NavigationManager.NavigateTo("/items");
+    }
 }

@@ -48,6 +48,8 @@ public class ItemController(IItemService itemService) : Controller
         {
             var item = await _itemService.GetItemById(id);
 
+
+
             return Ok(item);
 
         }
@@ -69,7 +71,9 @@ public class ItemController(IItemService itemService) : Controller
             {
                 Name = itemDto.Name,
                 Description = itemDto.Description,
-                Image = itemDto.Image
+                Image = itemDto.Image,
+                IsSign = itemDto.IsSign,
+                Category = itemDto.Category
             };
 
             await _itemService.UpdateItemById(item);
