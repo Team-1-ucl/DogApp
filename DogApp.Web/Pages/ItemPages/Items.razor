@@ -1,6 +1,6 @@
 ﻿@page "/items"
 
-@using DogApp.Web.Dto
+@using DogApp.Web.Dto.ItemDtos
 @using DogApp.Web.Services.Interfaces
 @inject ITrackService TrackService
 @inject IItemService ItemService
@@ -8,7 +8,7 @@
 <h3>Items</h3>
 
 <div style="display: flex;">
-    @foreach (var category in new[] { "Beginner", "champion", "Expert" })
+    @foreach (var category in new[] { "Beginner", "Expert", "Champion" })
     {
         <div style="margin-right: 20px;">
             <h4>@category</h4>
@@ -16,6 +16,7 @@
                 @foreach (var item in items.Where(i => i.Category == category))
                 {
                     <div style="margin-bottom: 10px;">
+                        <p> @item.Name</p>
                         <img src="@ItemService.GetImageForItem(item.Name)" alt="Item Image" width="50" height="50" />
                         <button @onclick="()=>EditItem(item)">Edit</button>
                     </div>

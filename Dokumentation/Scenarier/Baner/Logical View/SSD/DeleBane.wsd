@@ -1,7 +1,9 @@
+
 @startuml Dele Bane (Brief)
 title Dele bane
 legend top
 **Sporbarhed**
+
 
 |Artefakt| Navn |
 |UC| Dele Bane|

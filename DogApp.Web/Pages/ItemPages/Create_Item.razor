@@ -1,6 +1,6 @@
 ﻿@page "/createitem"
 
-@using DogApp.Web.Dto
+@using DogApp.Web.Dto.ItemDtos
 @using DogApp.Web.Services.Interfaces
 @inject IItemService ItemService
 @inject NavigationManager NavigationManager
@@ -16,27 +16,56 @@
     <input id="description" @bind="itemDescription" />
 </div>
 <div>
-    <label for="category">Category:</label>
-    <input id="category" @bind="itemCategory" />
+    <label for="Image">Image:</label>
+    <input id="image" @bind="itemImage" />
 </div>
+<div>
+    <label for="category">Category:</label>
+    <select id="category" @bind="itemCategory">
+        <option value="">-- Select Category --</option>
+        <option value="Beginner">Beginner</option>
+        <option value="Expert">Expert</option>
+        <option value="Champion">Champion</option>
+    </select>
+</div>
+
+<input type="checkbox" @bind="@itemIsSign" />
+<br />
+<button class="btn btn-primary" @onclick="@ToggleCheckbox">skilt?</button>: @val
+<br />
+
+
 <div>
     <button @onclick="CreateItem">Create</button>
 </div>
 
 @code {
-    private string itemName;
-    private string itemDescription;
-    private string itemCategory;
+    public ItemDtoUserCreate newItem = new ItemDtoUserCreate("", "", "", false, "");
+
+    private string? itemName;
+    private string? itemDescription;
+    private string? itemImage;
+    private bool itemIsSign;
+
+    public string val;
+    private void ToggleCheckbox()
+    {
+        itemIsSign = true;
+    }
+
+
+
+
+    private string? itemCategory;
 
     private async Task CreateItem()
     {
-        // Create an ItemDto object using the provided inputs
-        var newItem = new ItemDto
-            {
-                Name = itemName,
-                Description = itemDescription,
-                Category = itemCategory
-            };
+        ToggleCheckbox();
+        newItem.Name = itemName;
+        newItem.Description = itemDescription;
+        newItem.Image = itemImage;
+        newItem.IsSign = itemIsSign;
+        newItem.Category = itemCategory;
 
         await ItemService.CreateItemAsync(newItem);
 

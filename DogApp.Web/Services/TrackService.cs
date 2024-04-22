@@ -1,4 +1,5 @@
 ﻿using DogApp.Web.Dto;
+using DogApp.Web.Dto.TrackDtos;
 using DogApp.Web.Services.Interfaces;
 using Newtonsoft.Json;
 
@@ -50,7 +51,7 @@ public class TrackService : ITrackService
 
     }
 
-    public async Task CreateTrackAsync(TrackDtoOnlyName trackDto)
+    public async Task CreateTrackAsync(TrackDtoUserCreate trackDto)
     {
         string json = JsonConvert.SerializeObject(trackDto);
         HttpContent content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");

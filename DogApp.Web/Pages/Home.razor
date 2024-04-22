@@ -11,8 +11,8 @@
 
 Welcome to your new app.
 
-<button @onclick="HENTMINEDATA">Get Data</button>
-
+@* <button @onclick="HENTMINEDATA">Get Data</button> *@
+@* 
 @if (tracks != null)
 {
     <h2>Tracks</h2>
@@ -50,5 +50,5 @@ Welcome to your new app.
         await TrackService.CreateTrackAsync(newTrack);
         await HENTMINEDATA(); // Opdater listen over spor efter oprettelse
         //newTrack = new TrackDto(); // Nulstil formularen
-    }
+    } *@
 }

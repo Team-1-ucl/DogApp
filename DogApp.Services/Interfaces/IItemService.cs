@@ -9,4 +9,5 @@ public interface IItemService
     Task<List<Item>> GetAllItems();
     Task<Item> GetItemById(int id);
     Task UpdateItemById(Item item);
+    Task CreateItemAsync(Item item);
 }
