@@ -51,7 +51,7 @@ public class TrackService : ITrackService
 
     }
 
-    public async Task CreateTrackAsync(TrackDtoUserCreate trackDto)
+    public async Task CreateTrackAsync(TrackDtoTrackBuilder trackDto)
     {
         string json = JsonConvert.SerializeObject(trackDto);
         HttpContent content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");

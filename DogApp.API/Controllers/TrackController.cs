@@ -24,7 +24,7 @@ public class TrackController(ITrackService trackService) : Controller
     /// <param name="trackDto"><see cref="TrackDTO"/>'en indeholdende oplysninger om den nye bane.</param>
     /// <returns>En IActionResult, der repræsenterer resultatet af operationen.</returns>
     [HttpPost("[action]")]
-    public async Task<IActionResult> CreateTrack(TrackDtoUserCreate trackDto)
+    public async Task<IActionResult> CreateTrack(TrackDtoTrackBuilder trackDto)
     {
         // Kontrollerer om trackService-parameteren er null
         if (_trackService == null)
@@ -46,6 +46,8 @@ public class TrackController(ITrackService trackService) : Controller
             Height = trackDto.Height,
             Width = trackDto.Width,
             Category = trackDto.Category,
+
+            //TrackItems = track.TrackItems
         };
 
         try

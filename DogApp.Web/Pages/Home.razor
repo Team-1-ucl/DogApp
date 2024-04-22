@@ -1,5 +1,8 @@
 ﻿@using DogApp.Web.Dto
 @using DogApp.Web.Services.Interfaces
+@using DogApp.Web.Shared
+@using DogApp.Web.Dto.ItemDtos
+@inject IJSRuntime JS
 @inject ITrackService TrackService
 @inject IItemService ItemService
 
@@ -9,46 +12,24 @@
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
-
-@* <button @onclick="HENTMINEDATA">Get Data</button> *@
-@* 
-@if (tracks != null)
-{
-    <h2>Tracks</h2>
-    @foreach (var track in tracks)
-    {
+<SortableList Items="items" Context="item">
+    <SortableItemTemplate>
         <div>
-            <h3>Title @track.Name</h3>
+            <p>@item.Name</p>
         </div>
-    }
-}
+    </SortableItemTemplate>
+</SortableList>
 
-
-
-<h2>Create New Track</h2>
-<form @onsubmit="CreateTrack">
-    <input type="text" @bind="newTrack.Name" placeholder="Track Name" />
-    <button type="submit">Create</button>
-</form>
 
 @code {
 
-    public List<TrackDto> tracks = new();
-    public List<TrackDtoOnlyName> tracks = new();
-    public TrackDtoOnlyName newTrack = new TrackDtoOnlyName("");
+    public List<ItemDto> items = new();
+    public ItemDto item = new ItemDto();
 
-    public async Task HENTMINEDATA()
+
+    protected override async Task OnInitializedAsync()
     {
-        tracks = await TrackService.GetAllTracks();
+        items = await ItemService.GetAllItems();
+        StateHasChanged();
     }
-
-    public async Task CreateTrack()
-    {
-        
-        
-        await TrackService.CreateTrackAsync(newTrack);
-        await HENTMINEDATA(); // Opdater listen over spor efter oprettelse
-        //newTrack = new TrackDto(); // Nulstil formularen
-    } *@
 }
