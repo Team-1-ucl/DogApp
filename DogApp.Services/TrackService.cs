@@ -1,4 +1,4 @@
-﻿using DogApp.Data.EntityModels;
+﻿using DogApp.Shared.EntityModels;
 using DogApp.Repository;
 using DogApp.Services.Interfaces;
 

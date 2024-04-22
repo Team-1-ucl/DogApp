@@ -1,4 +1,4 @@
-﻿
+﻿using DogApp.Shared.EntityModels;
 namespace DogApp.Repository;
 
 

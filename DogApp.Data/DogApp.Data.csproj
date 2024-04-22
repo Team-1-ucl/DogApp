@@ -23,4 +23,8 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DogApp.Shared\DogApp.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

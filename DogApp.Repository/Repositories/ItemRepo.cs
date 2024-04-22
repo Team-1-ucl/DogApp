@@ -1,5 +1,5 @@
 using DogApp.Data;
-using DogApp.Data.EntityModels;
+using DogApp.Shared.EntityModels;
 
 
 namespace DogApp.Repository;

@@ -1,5 +1,5 @@
 ﻿using DogApp.API.Dto.TrackDtos;
-using DogApp.Data.EntityModels;
+using DogApp.Shared.EntityModels;
 using DogApp.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
