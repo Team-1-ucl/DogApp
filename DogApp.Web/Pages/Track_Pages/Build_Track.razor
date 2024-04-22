@@ -1,0 +1,60 @@
+﻿@page "/trackbuilder"
+@using DogApp.Web.Dto.TrackDtos
+@using DogApp.Web.Dto.ItemDtos
+@using DogApp.Web.Services.Interfaces
+@inject ITrackService TrackService
+@inject IItemService ItemService
+
+<h1>Track Builder</h1>
+
+@if (track != null)
+{
+    <h2>@track.Name</h2>
+
+    <p>Height: @track.Height, Width: @track.Width</p>
+
+    <h3>Add Item</h3>
+    <input type="text" @bind="@newItemName" placeholder="Item Name" />
+    <button @onclick="AddItem">Add Item</button>
+
+    <ul>
+        @foreach (var item in track.Items)
+        {
+            <li>@item.Name</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No track selected</p>
+}
+
+@code {
+    private TrackDto track;
+    
+    private string newItemName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Fetch track data from service
+        track = await TrackService.GetTrackAsync("polle"); // Implement this method in your service
+    }
+
+    private async Task AddItem()
+    {
+        if (!string.IsNullOrWhiteSpace(newItemName))
+        {
+            // Create new item
+            ItemDto newItem = new ItemDto { Name = newItemName };
+
+            // Add item to track
+            track.Items.Add(newItem);
+
+            // Save changes to the database
+            await TrackService.UpdateTrackAsync(track); // Implement this method in your service
+
+            // Clear input field
+            newItemName = string.Empty;
+        }
+    }
+}

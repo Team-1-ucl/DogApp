@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using DogApp.Web;
+using System.Collections.ObjectModel;
+using DogApp.Web.Dto.ItemDtos;
 
 namespace DogApp.Web.Dto.TrackDtos
 {
@@ -9,7 +11,7 @@ namespace DogApp.Web.Dto.TrackDtos
         public int? Height { get; set; }
         public int? Width { get; set; }
         public string? Category { get; set; }
-        public ICollection<TrackItem>? TrackItems { get; set; }
+        public ICollection<ItemDto> Items { get; set; } = new List<ItemDto>();
 
         public TrackDto() { }
     }

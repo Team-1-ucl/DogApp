@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 
 namespace DogApp.Web.Services
 {
+
     public class ItemService : IItemService
     {
         private readonly HttpClient _httpClient;
@@ -12,6 +13,17 @@ namespace DogApp.Web.Services
         public ItemService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+        }
+        public async Task AddItemToTrack(int trackId, ItemDto newItem)
+        {
+            string json = JsonConvert.SerializeObject(newItem);
+            HttpContent content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+            // Send an HTTP request to the API to add the item to the track
+            HttpResponseMessage response = await _httpClient.PostAsync($"api/track/{trackId}/items", content);
+
+            // Optionally, handle response (check for success status code, etc.)
+            response.EnsureSuccessStatusCode();
         }
         public async Task<List<ItemDto>> GetAllItems()
         {
