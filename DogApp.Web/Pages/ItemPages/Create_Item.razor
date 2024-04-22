@@ -40,7 +40,7 @@
 </div>
 
 @code {
-    public ItemDtoUserCreate newItem = new ItemDtoUserCreate("", "", "", true, "");
+    public ItemDtoUserCreate newItem = new ItemDtoUserCreate("", "", "", false, "");
 
     private string? itemName;
     private string? itemDescription;
@@ -50,7 +50,7 @@
     public string val;
     private void ToggleCheckbox()
     {
-        itemIsSign = !itemIsSign;
+        itemIsSign = true;
     }
 
 
