@@ -1,5 +1,5 @@
 
-using DogApp.Data;
+using DogApp.Shared;
 using DogApp.Repository;
 using DogApp.Services;
 using DogApp.Services.Interfaces;

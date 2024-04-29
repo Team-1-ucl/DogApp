@@ -1,5 +1,5 @@
 using DogApp.Data;
-using DogApp.Data.EntityModels;
+using DogApp.Shared.EntityModels;
 using DogApp.Repository;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
@@ -46,7 +46,7 @@ namespace DogApp.xUnitTest
         {
             //MARK: CreateItem
             // Arrange
-            var track = new DogApp.Data.EntityModels.Track { Name = trackName, Height = height, Width = width, Category = category };
+            var track = new DogApp.Shared.EntityModels.Track { Name = trackName, Height = height, Width = width, Category = category };
 
             // Act
             await _trackRepository.AddAsync(track);
