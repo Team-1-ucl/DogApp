@@ -1,6 +1,6 @@
 # OC Deler Bane
 ## UC Deler Bane
-|OC|OC_DelerBane
+|OC|OC _Share Track
 |----|----|
 |Operation|ShareTrack(Track ID : int)
 Cross-Reference| SSD_Deler Bane.

@@ -4,6 +4,7 @@ using DogApp.Repository;
 using DogApp.Services;
 using DogApp.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using DogApp.Data;
 
 namespace DogApp.API;
 
