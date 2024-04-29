@@ -1,6 +1,6 @@
 # OC Sletter Bane
 ## UC Sletter Bane
-|OC|OC_SletterBane
+|OC|OC_Delete Track
 |----|----|
 |Operation|Delete Track(Track ID : int)
 Cross-Reference| SSD_SletterBane.

@@ -1,6 +1,6 @@
 # OC Se Bane
 ## UC Se Bane
-|OC|OC_SeBane
+|OC|OC_Read Track
 |----|----|
 |Operation|GetTrackById( TrackID : int ).
 Cross-Reference| SSD_SeBane.

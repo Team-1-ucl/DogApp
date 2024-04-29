@@ -1,6 +1,6 @@
 # OC Opretter Bane
 ## UC Opretter Bane
-|OC|OC_OpretterBane
+|OC|OC_Create Track
 |----|----|
 |Operation|Create Track(Name : string: Height : int; Width : int; Collection<TrackItem>TrackItems; Category : string).
 Cross-Reference| SSD_OpretterBane.

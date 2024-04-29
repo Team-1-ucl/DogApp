@@ -1,10 +1,10 @@
 # OC Opdater Bane
 ## UC Opdater Bane
-|OC|OC_OpdaterBane
+|OC|OC_Update Track
 |----|----|
 |Operation|Update Track( TrackID : int ).
 Cross-Reference| SSD_OpdaterBane.
-Preconditions| Track exists, TrackItem exists.
+Preconditions| Track exists, TrackItem exists, Item exist.
 Post-Conditions| A track was updated (attribute value was changed)
 
 |Artefakt| Navn |
