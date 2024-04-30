@@ -1,4 +1,5 @@
 ﻿using DogApp.Shared.EntityModels;
+using DogApp.Shared.EntityModelsTrack;
 using System;
 using System.Collections.Generic;
 using System.Linq;

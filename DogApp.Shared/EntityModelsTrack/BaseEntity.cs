@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DogApp.Shared.EntityModels
+namespace DogApp.Shared.EntityModelsTrack
 {
     public abstract class BaseEntity
     {
