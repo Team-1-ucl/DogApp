@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogApp.xUnitTest", "DogApp.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogApp.Web", "DogApp.Web\DogApp.Web.csproj", "{159C7779-80E7-4378-ABFA-979926B8AF38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogApp.Shared", "DogApp.Shared\DogApp.Shared.csproj", "{F91E196F-161A-4F7D-A491-B2FB739E9680}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DogApp.Shared", "DogApp.Shared\DogApp.Shared.csproj", "{F91E196F-161A-4F7D-A491-B2FB739E9680}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DogApp.User.API", "DogApp.User.API\DogApp.User.API.csproj", "{F81966C3-03F0-4851-8D8F-72778B815A49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{F91E196F-161A-4F7D-A491-B2FB739E9680}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F91E196F-161A-4F7D-A491-B2FB739E9680}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F91E196F-161A-4F7D-A491-B2FB739E9680}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F81966C3-03F0-4851-8D8F-72778B815A49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F81966C3-03F0-4851-8D8F-72778B815A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F81966C3-03F0-4851-8D8F-72778B815A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F81966C3-03F0-4851-8D8F-72778B815A49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

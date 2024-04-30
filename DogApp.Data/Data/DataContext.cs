@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DogApp.Shared.EntityModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 
 namespace DogApp.Data
 {
+
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options)
@@ -20,6 +23,7 @@ namespace DogApp.Data
 
 
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
         }
@@ -29,13 +33,13 @@ namespace DogApp.Data
 
 
             modelBuilder.Entity<Item>().HasData(
-                new Item { Id = 1, Name = "højre sving", Description = "", Image = "/images/hojresving", IsSign= true, Category = "Øvet"},
+                new Item { Id = 1, Name = "højre sving", Description = "", Image = "/images/hojresving", IsSign = true, Category = "Øvet" },
                 new Item { Id = 2, Name = "venstre sving", Description = "", Image = "/images/venstresving", IsSign = true, Category = "Øvet" },
                 new Item { Id = 3, Name = "højre rundt", Description = "", Image = "/images/hojrerundt", IsSign = true, Category = "Øvet" },
                 new Item { Id = 4, Name = "venstre rundt", Description = "", Image = "/images/venstrerundt", IsSign = true, Category = "Øvet" },
                 new Item { Id = 5, Name = "diagonalt højre", Description = "", Image = "/images/diagonalthojre", IsSign = true, Category = "Øvet" },
 
-                new Item { Id = 6, Name = "Slalom med rundtur", Description = "", Image = "/images/Slalommedrundtur", IsSign = true, Category = "Expert"},
+                new Item { Id = 6, Name = "Slalom med rundtur", Description = "", Image = "/images/Slalommedrundtur", IsSign = true, Category = "Expert" },
                 new Item { Id = 7, Name = "Fristende otte tal", Description = "", Image = "/images/Fristendeottetal", IsSign = true, Category = "Expert" },
                 new Item { Id = 8, Name = "Kløverbladet", Description = "", Image = "/images/Kløverbladet", IsSign = true, Category = "Expert" },
                 new Item { Id = 9, Name = "Send over spring", Description = "", Image = "/images/sendoverspring", IsSign = true, Category = "Expert" },
@@ -50,3 +54,4 @@ namespace DogApp.Data
         }
     }
 }
+

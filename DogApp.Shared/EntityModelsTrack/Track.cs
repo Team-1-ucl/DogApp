@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DogApp.Shared.EntityModelsTrack;
 
 namespace DogApp.Shared.EntityModels
 {
