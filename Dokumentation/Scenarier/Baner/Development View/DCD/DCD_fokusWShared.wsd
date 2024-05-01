@@ -17,6 +17,14 @@ rectangle "Blazor" as front{
         $Method(-,GetTrackAsync,string? : name,Task<Root>)
         $Method(-,GetAllTracks, ,List<TrackDto>)
     }
+    interface "IItemService" as IItemServiceBlazor{
+        $Method(-,GetTrackAsync,string? : id : int ,Task<ItemDto>) 
+        $Method(-,GetTrackAsync,string? :  ,Task<List<ItemDto>>) 
+        $Method(-,GetTrackAsync,string? : item : ItemDtoUserCreate ,Task) 
+        $Method(-,GetTrackAsync,string? : itemName : string ,string) 
+        $Method(-,GetTrackAsync,string? : item : itemDto ,Task) 
+
+    }
     
     class "TrackService" as TrackServiceBlazor {
         --Properties--
@@ -27,7 +35,19 @@ rectangle "Blazor" as front{
         --Constructors--
         $Constructor(+,TrackService, httpClient : HttpClient)
     }
-    package "DTO" as DTOBlazor{
+
+    class "ItemService" as ItemServiceBlazor{
+        --Properties--
+        $Property(-, <<readonly>>, _httpClient, HttpClient)
+        --Methods--
+        $Method(+,GetTrackAsync,string? : id : int ,Task<ItemDto>) 
+        $Method(+,GetTrackAsync,string? :  ,Task<List<ItemDto>>) 
+        $Method(+,GetTrackAsync,string? : item : ItemDtoUserCreate ,Task) 
+        $Method(+,GetTrackAsync,string? : itemName : string ,string) 
+        $Method(+,GetTrackAsync,string? : item : itemDto ,Task) 
+
+    }
+    package "Data Transfer Objects" as DTOBlazor{
         class "ItemDto" as ItemDTOBlazor{
             --Properties--
             $Property(+, , Id, int)
@@ -36,50 +56,88 @@ rectangle "Blazor" as front{
             $Property(+, , Image, string)
             $Property(+, , TrackItems, TrackItem[1..*])
         }
+
+        class "ItemDtoUserCreate" as ItemDtoUserCreateBlazor{
+            --Properties--
+            $Property(+, , Name, string?)
+            $Property(+, , Description, string?)
+            $Property(+, , Image, string?)
+            $Property(+, , IsSign, bool)
+            $Property(+, , Category, string?)
+            --Constructor--
+            $Constructor(+, ItemDtoUserCreate, )
+            $Constructor(+, ItemDtoUserCreate, name : string?; description : string?; image : string?; category : string?)
+
+        }
         class "TrackDto" as TrackDtoBlazor{
             --Properties--
             $Property(+, , Id, int)
+            $Property(+, , Name, string?)
+            $Property(+, , Height, int?)
+            $Property(+, , Width, int?)
+            $Property(+, , Category, string?)
+            $Property(+, , TrackItems, TrackItem[1..*]?)
+            --Constructor--
+            $Constructor(+, TrackDto, )
+
+        }
+        class "TrackDtoOnlyName" as TrackDtoOnlyNameBlazor{
+            --Properties--
             $Property(+, , Name, string)
+            --Constructor--
+            $Constructor(+, TrackDtoOnlyName, name : string)
+            
+        }
+        class "TrackDtoUserCreate" as TrackDtoUserCreateBlazor{
+            --Properties--
+            $Property(+, , Name, string?)
             $Property(+, , Height, int)
             $Property(+, , Width, int)
-            $Property(+, , TrackItems, TrackItem[1..*])
-            $Property(+, , Category, string)
+            $Property(+, , Category, string?)
+            --Constructor--
+            $Constructor(+, TrackDtoUserCreate, name : string?; height : int; width : int; category : string?)
+            
         }
-        class "TrackItemDto" as TrackItemDtoBlazor{
+        class "TrackDtoTrackBuilder" as TrackDtoTrackBuilderBlazor{
             --Properties--
-            $Property(+, , Id, int)
-            $Property(+, , Item, ItemDto)
-            $Property(+, , ItemId, int)
-            $Property(+, , Track, TrackDto)
-            $Property(+, , TrackId, int)
-            $Property(+, , X, float)
-            $Property(+, , Y, float)
-            $Property(+, , Order, int)
+            $Property(+, , Name, string?)
+            $Property(+, , Height, int)
+            $Property(+, , Width, int)
+            $Property(+, , Category, string?)
+            $Property(+, , TrackItems, ICollection<TrackItem>?)
+            --Constructor--
+            $Constructor(+, TrackDtoTrackBuilder, name : string?; height : int; width : int; category : string?)
+            
         }
     }
+    
 }
 rectangle "Application Programming Interface" as API {
     class TrackController{
         --Properties--
-        - trackService : ITrackService 
+        $Property(-,readonly,_trackService, ITrackService)        
         --Methods--
-        $Method(+,CreateTrack, trackDto : TrackDTO, Task<IActionResult)
-        $Method(+,GetAllTracks, , Task<IActionResult)
-        --Constructors--
-        $Constructor(+, TrackController, trackService : ITrackService )
+        $Method(+,CreateTrack, trackDto : TrackDtoTrackBuilder, Task<IActionResult)
+        $Method(+,GetAllTracks, , Task<IActionResult>)
+        $Method(+,GetTrackById, id : int, Task<IActionResult>)
+        --Constructor--
+        $Constructor(+, TrackController,trackService : ITrackService)
+
+
     }
     class ItemController $Tag_Item{
-        --Fields--
-        $Property(-, ,_itemService, IItemService)        
+        --Properties--
+        $Property(-,readonly,_itemService, IItemService?)        
         --Methods--
         $Method(+, GetAllItems, , Task<IActionResult>)
         $Method(+,GetItemByIdAsync, id : int, Task<IActionResult>)
         $Method(+,UpdateItemByAsync, itemDto: ItemDto, Task)
+        $Method(+,CreateItemAsync, itemDto: ItemDtoUserCreate, Task)
         --Constructor--
         $Constructor(+, ItemController,itemSerivce : IItemSerice)
     }
     
-    package DTO{
+    package "Data Transfer Objects" as DTOAPI{
          class "ItemDto" as ItemDTOAPI{
             --Properties--
             $Property(+, , Id, int)
@@ -88,25 +146,58 @@ rectangle "Application Programming Interface" as API {
             $Property(+, , Image, string)
             $Property(+, , TrackItems, TrackItem[1..*])
         }
+
+        class "ItemDtoUserCreate" as ItemDtoUserCreateAPI{
+            --Properties--
+            $Property(+, , Name, string?)
+            $Property(+, , Description, string?)
+            $Property(+, , Image, string?)
+            $Property(+, , IsSign, bool)
+            $Property(+, , Category, string?)
+            --Constructor--
+            $Constructor(+, ItemDtoUserCreate, )
+            $Constructor(+, ItemDtoUserCreate, name : string?; description : string?; image : string?; category : string?)
+
+        }
         class "TrackDto" as TrackDtoAPI{
             --Properties--
             $Property(+, , Id, int)
+            $Property(+, , Name, string?)
+            $Property(+, , Height, int?)
+            $Property(+, , Width, int?)
+            $Property(+, , Category, string?)
+            $Property(+, , TrackItems, TrackItem[1..*]?)
+            --Constructor--
+            $Constructor(+, TrackDto, )
+
+        }
+        class "TrackDtoOnlyName" as TrackDtoOnlyNameAPI{
+            --Properties--
             $Property(+, , Name, string)
+            --Constructor--
+            $Constructor(+, TrackDtoOnlyName, name : string)
+            
+        }
+        class "TrackDtoUserCreate" as TrackDtoUserCreateAPI{
+            --Properties--
+            $Property(+, , Name, string?)
             $Property(+, , Height, int)
             $Property(+, , Width, int)
-            $Property(+, , TrackItems, TrackItem[1..*])
-            $Property(+, , Category, string)
+            $Property(+, , Category, string?)
+            --Constructor--
+            $Constructor(+, TrackDtoUserCreate, name : string?; height : int; width : int; category : string?)
+            
         }
-        class "TrackItemDto" as TrackItemDtoAPI{
+        class "TrackDtoTrackBuilder" as TrackDtoTrackBuilderAPI{
             --Properties--
-            $Property(+, , Id, int)
-            $Property(+, , Item, ItemDto)
-            $Property(+, , ItemId, int)
-            $Property(+, , Track, TrackDto)
-            $Property(+, , TrackId, int)
-            $Property(+, , X, float)
-            $Property(+, , Y, float)
-            $Property(+, , Order, int)
+            $Property(+, , Name, string?)
+            $Property(+, , Height, int)
+            $Property(+, , Width, int)
+            $Property(+, , Category, string?)
+            $Property(+, , TrackItems, ICollection<TrackItem>?)
+            --Constructor--
+            $Constructor(+, TrackDtoTrackBuilder, name : string?; height : int; width : int; category : string?)
+            
         }
     }
 }
@@ -116,7 +207,7 @@ rectangle "Services" as Service{
         --Methods--
         $Method(-,CreateTrack, track : Track, Task)
         $Method(-,GetAllTracksAsync, ,Task<IEnumerable<Track>>)
-        
+        $Method(-,GetTrackById,id : int,Task<Track>)
     }
     interface IItemService $Tag_Item{
         --Methods--
@@ -124,40 +215,33 @@ rectangle "Services" as Service{
         $Method(-, GetAllItems, , Task<List<Item>>)
         $Method(-, GetItemById,id: int, Task<Item>)
         $Method(-, UpdateItemById,item: Item, Task)
-       
+        $Method(-, CreateItemAsync,item: Item, Task)
     }
     class TrackService{
         --Properties--
-        $Property(-, , _trackRepository, ITrackRepo)
+        $Property(-,readonly, _trackRepository, ITrackRepo)
         -- Methods --
         $Method(+,CreateTrack, track : Track, Task)
-        $Method(+,GetAllTracksAsync, ,Task<IEnumerable<Track>>) 
+        $Method(+,GetAllTracksAsync, ,Task<IEnumerable<Track>>)
+        $Method(+,GetTrackById,id : int,Task<Track>) 
         -- Contructor --
         $Constructor(+,TrackService, trackRepository: ITrackRepo)
     }   
     class ItemService $Tag_Item{
         --Properties--
-        $Property(-, , _itemrepo, IItemRepo)
+        $Property(-,readonly, _itemrepo, IItemRepo)
         -- Methods --
         $Method(+, CreateItem, item: Item, Task)
         $Method(+, GetAllItems, , Task<List<Item>>)
         $Method(+, GetItemById,id: int, Task<Item>)
         $Method(+, UpdateItemById,item: Item, Task)
+        $Method(+, CreateItemAsync,item: Item, Task)
         -- Constructors --
         $Constructor(+,ItemService, itemRepo: IItemRepo)
     }
 }
 rectangle "Repositories" as Repositories{
-    class "GenericRepository"{
-            --Methods--
-            $Method(+, Get, , IReadOnlyList<T>)
-            $Method(+, GetById,int : id, <T>)
-            $Method(+, Create,T : entity, )
-            $Method(+, Update,T : entity, )
-            $Method(+, Delete,T : entity, )
-        }
-
-        interface "IGenericRepository"{
+        interface "IGenericRepository" as IGenericRepository{
             --Methods--
             $Method(-, Get, , IReadOnlyList<T>)
             $Method(-, GetById,int : id, <T>)
@@ -166,6 +250,17 @@ rectangle "Repositories" as Repositories{
             $Method(-, Delete,T : entity, )
 
         }
+        class "GenericRepository" as GenericRepository{
+            --Methods--
+            $Method(+, Get, , IReadOnlyList<T>)
+            $Method(+, GetById,int : id, <T>)
+            $Method(+, Create,T : entity, )
+            $Method(+, Update,T : entity, )
+            $Method(+, Delete,T : entity, )
+            -- Constructor --
+            $Constructor(+, GenericRepository<T>, context : DataContext)
+        }
+
         interface IItemRepo $Tag_Item
         interface ITrackRepo 
         class "ItemRepo" $Tag_Item{
@@ -235,24 +330,25 @@ $ObjectDependency(IGenericRepository,DataContext)
 $ObjectDependency(TrackService,ITrackRepo)
 $InherritsFromConcrete(IItemRepo,GenericRepository)
 $InherritsFromConcrete(ITrackRepo,GenericRepository)
+$InherritsFromAbstraction(ItemServiceBlazor, IItemServiceBlazor)
 
 $InherritsFromAbstraction(ItemService, IItemService)
 $InherritsFromAbstraction(TrackServiceBlazor,ITrackServiceBlazor)
 $InherritsFromAbstraction(GenericRepository,IGenericRepository)
 $InherritsFromAbstraction(TrackRepo,ITrackRepo)
 $InherritsFromAbstraction(ItemRepo,IItemRepo)
+$InherritsFromConcrete(ItemRepo,GenericRepository)
+$InherritsFromConcrete(TrackRepo,GenericRepository)
+
 $InherritsFromAbstraction(Item, BaseEntity)
 $InherritsFromAbstraction(Track, BaseEntity)
 $InherritsFromAbstraction(TrackService, ITrackService)
 
+$ObjectAssociation(IItemServiceBlazor,DTOBlazor)
 $ObjectAssociation(front,API)
-$ObjectAssociation(TrackDtoBlazor,TrackItemDtoBlazor)
-$ObjectAssociation(TrackItemDtoBlazor,ItemDTOBlazor)
-$ObjectAssociation(TrackController,TrackDtoAPI)
-$ObjectAssociation(ItemDTOAPI,TrackItemDtoAPI)
-$ObjectAssociation(TrackServiceBlazor,DTOBlazor)
-$ObjectAssociation(TrackItemDtoAPI,TrackDtoAPI)
-$ObjectAssociation(ItemController,ItemDTOAPI)
+$ObjectAssociation(TrackController,DTOAPI)
+$ObjectAssociation(ITrackServiceBlazor,DTOBlazor)
+$ObjectAssociation(ItemController,DTOAPI)
 $ObjectAssociation(Track,TrackItem)
 $ObjectAssociation(TrackItem,Item)
 $ObjectAssociation(DataContext,Shared)
