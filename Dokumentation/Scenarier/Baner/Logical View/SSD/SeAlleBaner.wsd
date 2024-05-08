@@ -9,7 +9,7 @@ legend top
 |OC| SeAlleBaner|
 |SD| ViewAllTrack |
 end legend
-!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+!theme Dracula from Dokumentation\Scenarier\Baner\DevelopmentView\DCD\
 
 actor "Auth. Bruger" as Bruger
 participant System

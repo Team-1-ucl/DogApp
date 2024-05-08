@@ -1,6 +1,6 @@
 @startuml Overblik
 title **Baner Scenariet**
-!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+!theme Dracula from Dokumentation\Scenarier\Baner\DevelopmentView\DCD\
 
 
 !$Green = '#50fa7b'

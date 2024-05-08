@@ -1,7 +1,7 @@
 @startuml UseCase Diagram
 Title UseCase Diagram
 
-!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+!theme Dracula from Dokumentation\Scenarier\Baner\DevelopmentView\DCD\
 
 skinparam actorStyle awesome
 left to right direction

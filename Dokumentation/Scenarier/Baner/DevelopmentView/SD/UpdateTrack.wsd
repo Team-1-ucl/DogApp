@@ -1,14 +1,14 @@
-@startuml Create Track
+@startuml LavBane
 
-title Create Track
+title  Create Track
 legend top
 |Artefakt| Navn |
-|UC| Opretter Bane|
-|SSD| Opretter Bane |
-|OC| Opretter Bane|
-|**SD**| **Create Track** |
+|UC| Opdater Bane|
+|SSD| Opdater Bane |
+|OC| Opdater Bane|
+|**SD**| **Update Track** |
 end legend
-!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+!theme Dracula from Dokumentation\Scenarier\Baner\DevelopmentView\DCD\
 
 actor User
 box "DogApp.Web"
@@ -24,14 +24,13 @@ box "DogApp.Repositories"
 participant "Track Repository" as Tr
 end box
 box "DogApp.Data"
-participant "Track" as Track
 participant "DataContext" as Dc
 end box
 box "Database"
 database "Database" as Db
 end box
 
-$Message(User, UI, CreateTrack, Height : int; Width : int; Collection<TrackItem>TrackItems; Category : string)
+$Message(User, UI, CreateTrack, Id int; Height : int; Width : int; Collection<TrackItem>TrackItems; Category : string)
 activate UI
 $Message(UI, Ap, CreateTask, TrackDto)
 activate Ap
@@ -43,38 +42,35 @@ $ReturnMessage(UI,Ap, BadRequest, Error Message)
 end
 $PlainMessage(Ap, Ap, Create TrackDto object)
 alt if Trackserice exists
-$Message(Ap, Ts, CreateTrack, track)
+$Message(Ap, Ts, UpdateTrack, track)
 deactivate Ap
 activate Ts
-$Message(Ts, Tr, AddAsync, track)
+$Message(Ts, Tr, UpdateAsync, track)
 deactivate Ts
 activate Tr
-$PlainMessage(Tr, Track, Creates Track Object)
 
-activate Track 
-$PlainReturnMessage(Tr, Track, return Track Object)
-deactivate Track
+
 
 $PlainMessage(Tr,Dc,Database call)
 deactivate Tr
 activate Dc
-$PlainMessage(Dc,Db,DbSet Track)
+$PlainMessage(Dc,Db,Updates Track)
 deactivate Dc
 activate Db
-$PlainReturnMessage(Dc,Db, Track Created)
+$PlainReturnMessage(Dc,Db, Track Updated)
 deactivate Db
 activate Dc
-$PlainReturnMessage(Tr,Dc, Track Created)
+$PlainReturnMessage(Tr,Dc, Track Updated)
 deactivate Dc
 activate Tr
-$PlainReturnMessage(Ts,Tr, Track Created)
+$PlainReturnMessage(Ts,Tr, Track Updated)
 deactivate Tr
 activate Ts
-$PlainReturnMessage(Ap,Ts, Track Created)
+$PlainReturnMessage(Ap,Ts, Track Updated)
 deactivate Ts
 activate Ap
-$ReturnMessage(UI,Ap, Ok, Bane oprettet)
-$PlainReturnMessage(User,UI, Bane oprettet successfully.)
+$ReturnMessage(UI,Ap, Ok, Bane Opdateret)
+$PlainReturnMessage(User,UI,Success: Bane opdateret.)
 else if trackService is Null
 $ReturnMessage(UI,Ap, Statuscode, 500)
 deactivate Ap

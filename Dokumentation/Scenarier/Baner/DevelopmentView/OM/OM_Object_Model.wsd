@@ -1,6 +1,6 @@
 @startuml Objekt model
 title Objekt Model
-!theme Dracula from Dokumentation\Scenarier\Baner\Development View\DCD\
+!theme Dracula from Dokumentation\Scenarier\Baner\DevelopmentView\DCD\
 
 top to bottom direction
 
