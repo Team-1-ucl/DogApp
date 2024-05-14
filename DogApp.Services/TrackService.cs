@@ -9,6 +9,7 @@ namespace DogApp.Services;
 /// <param name="trackRepository">Repositoriet til banedata.</param>
 public class TrackService(ITrackRepo trackRepository) : ITrackService
 {
+
     /// <summary>
     /// Initialiserer en ny instans af <see cref="ITrackRepo"/>-klassen.
     /// </summary>
